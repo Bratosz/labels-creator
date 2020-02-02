@@ -29,12 +29,6 @@ public class FileController {
         this.fileStorageService = fileStorageService;
     }
 
-    @PostMapping("/create_labels")
-    public UploadFileResponse createLabels(
-            @RequestParam("file") MultipartFile employeesToLoad) {
-        
-    }
-
     @PostMapping("/uploadFile")
     public UploadFileResponse uploadFile(@RequestParam("file") MultipartFile file) {
         String fileName = fileStorageService.storeFile(file);
@@ -48,7 +42,7 @@ public class FileController {
                 file.getContentType(), file.getSize());
     }
 
-    @GetMapping("/downloadFile/{fileName:.+}")
+    @GetMapping("/download/{fileName:.+}")
     public ResponseEntity<Resource> downloadFile(@PathVariable String fileName, HttpServletRequest request) {
         // Load file as Resource
         Resource resource = fileStorageService.loadFileAsResource(fileName);
