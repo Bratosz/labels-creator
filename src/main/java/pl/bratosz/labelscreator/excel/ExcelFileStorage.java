@@ -1,5 +1,6 @@
 package pl.bratosz.labelscreator.excel;
 
+import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import pl.bratosz.labelscreator.date.CurrentDate;
@@ -7,18 +8,23 @@ import pl.bratosz.labelscreator.payload.UploadFileResponse;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
 
 public class ExcelFileStorage {
-    private final Path fileStorageLocation;
+    private Path fileStorageLocation;
     private String fileName;
     private XSSFWorkbook workbook;
     private UploadFileResponse uploadFileResponse;
 
     public ExcelFileStorage() {
-        fileStorageLocation = Paths.get("C:/uploads");
+        try {
+            fileStorageLocation = Files.createTempDirectory("temp");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 
@@ -35,6 +41,7 @@ public class ExcelFileStorage {
 
     private void saveWorkbook() throws IOException {
         Path targetLocation = fileStorageLocation.resolve(fileName);
+
         FileOutputStream fileOut =
                 new FileOutputStream(targetLocation.toAbsolutePath().toString());
         workbook.write(fileOut);
