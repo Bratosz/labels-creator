@@ -9,6 +9,7 @@ import org.springframework.web.multipart.MultipartFile;
 import pl.bratosz.labelscreator.exception.FileStorageException;
 import pl.bratosz.labelscreator.exception.WrongFileFormatException;
 import pl.bratosz.labelscreator.payload.UploadFileResponse;
+import pl.bratosz.labelscreator.s3.S3Services;
 import pl.bratosz.labelscreator.service.LabelsService;
 
 import java.io.IOException;
@@ -18,12 +19,16 @@ import java.io.IOException;
 public class LabelsController {
     private LabelsService labelsService;
     private FileController fileController;
+    private S3Services s3Services;
 
 
     public LabelsController(
-            LabelsService labelsService, FileController fileController) {
+            LabelsService labelsService,
+            FileController fileController,
+            S3Services s3Services) {
         this.labelsService = labelsService;
         this.fileController = fileController;
+        this.s3Services = s3Services;
     }
 
     @PostMapping("/create")

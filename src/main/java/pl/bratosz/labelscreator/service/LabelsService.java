@@ -25,6 +25,7 @@ public class LabelsService {
 
         loadedEmployees = employeeReader.loadEmployees();
         XSSFWorkbook labels = labelsCreator.create(loadedEmployees);
+
         return fileStorage.storeFile(labels);
     }
 }
