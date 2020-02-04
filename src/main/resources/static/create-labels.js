@@ -10,7 +10,7 @@ function uploadSingleFile(file) {
     formData.append("file", file);
 
     var xhr = new XMLHttpRequest();
-    xhr.open("POST", "https://labels-creator.herokuapp.com/labels/create");
+    xhr.open("POST", "https://naklejki.herokuapp.com/labels/create");
 
     xhr.onload = function() {
         console.log(xhr.responseText);
