@@ -18,8 +18,8 @@ function uploadSingleFile(file) {
         if(xhr.status == 200) {
             singleFileUploadError.style.display = "none";
             singleFileUploadSuccess.innerHTML =
-                "<p>Etykiety zostały utworzone. Kliknij link poniżej aby je pobrać (:</p>" +
-                "<p>Etykiety : <a href='" + response.fileDownloadUri + "' target='_blank'>"
+                "<p>Naklejki zostały utworzone i są gotowe do druku. Kliknij w poniższy link aby je pobrać (:</p>" +
+                "<p><a href='" + response.fileDownloadUri + "' target='_blank'>"
                 + response.fileDownloadUri + "</a></p>";
             singleFileUploadSuccess.style.display = "block";
         } else {
