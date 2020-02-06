@@ -47,7 +47,7 @@ public class LabelsCreator {
         return "\n"
                 + sf.capitalizeFirstLetter(firstName) + " "
                 + sf.capitalizeFirstLetter(lastName)
-                + "\n"
+                + "\r\n"
                 + "                               " + fullBoxNumber;
     }
 }

@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+import pl.bratosz.labelscreator.excel.ExcelExtractor;
 import pl.bratosz.labelscreator.exception.FileStorageException;
 import pl.bratosz.labelscreator.exception.WrongFileFormatException;
 import pl.bratosz.labelscreator.payload.UploadFileResponse;
@@ -20,6 +21,7 @@ public class LabelsController {
     private LabelsService labelsService;
     private FileController fileController;
     private S3Services s3Services;
+
 
 
     public LabelsController(
@@ -43,15 +45,36 @@ public class LabelsController {
     }
 
     private XSSFWorkbook extractWorkbookFromFile(MultipartFile file) throws IOException {
-        if(isFileFormatXLSX(file) && file.getSize() > 0) {
-            return new XSSFWorkbook(file.getInputStream());
+        if(isFileFormatCorrect(file) && file.getSize() > 0) {
+            return getXSSFWorkbook(file);
         } else {
             throw new WrongFileFormatException(getFileExtension(file));
         }
     }
 
-    private boolean isFileFormatXLSX(MultipartFile file) {
-       return file.getOriginalFilename().endsWith(".xlsx");
+    private XSSFWorkbook getXSSFWorkbook(MultipartFile file) throws IOException {
+        if(getFileExtension(file).equals(".xlsx")) {
+            return new XSSFWorkbook(file.getInputStream());
+        } else {
+            throw new IOException();
+        }
+    }
+
+
+    private boolean isFileFormatCorrect(MultipartFile file) {
+        String fileName = file.getOriginalFilename();
+        if(isFileFormatXLSX(fileName) || isFileFormatXLS(fileName)){
+            return true;
+        }
+        else return false;
+    }
+
+    private boolean isFileFormatXLS(String fileName) {
+        return fileName.endsWith(".xls");
+    }
+
+    private boolean isFileFormatXLSX(String fileName) {
+       return fileName.endsWith(".xlsx");
     }
 
     private String getFileExtension(MultipartFile file) {
