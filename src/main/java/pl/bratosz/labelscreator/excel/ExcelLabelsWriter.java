@@ -63,6 +63,7 @@ public class ExcelLabelsWriter {
 
     private void createLabelsStyle() {
         cellStyle = workbook.createCellStyle();
+        cellStyle.setWrapText(true);
         cellStyle.setAlignment(HorizontalAlignment.CENTER);
         cellStyle.setVerticalAlignment(VerticalAlignment.CENTER);
         cellStyle.setFont(font);
@@ -94,6 +95,7 @@ public class ExcelLabelsWriter {
                 Cell cell = row.createCell(j);
                 cell.setCellValue(label);
                 cell.setCellStyle(cellStyle);
+
             }
         }
     }
