@@ -39,7 +39,11 @@ public class LabelsController {
         try {
             XSSFWorkbook workbook = extractWorkbookFromFile(file);
             return labelsService.create(workbook);
-        } catch (IOException e) {
+        } catch (WrongFileFormatException e) {
+            String message = e.getMessage();
+            throw new FileStorageException("Niewłaściwy format pliku: " + message);
+        }
+        catch (IOException e) {
             throw new FileStorageException("Coś nie pykło");
         }
     }
@@ -56,7 +60,7 @@ public class LabelsController {
         if(getFileExtension(file).equals(".xlsx")) {
             return new XSSFWorkbook(file.getInputStream());
         } else {
-            throw new IOException();
+            throw new WrongFileFormatException(getFileExtension(file));
         }
     }
 

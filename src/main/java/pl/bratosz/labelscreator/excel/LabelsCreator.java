@@ -44,10 +44,10 @@ public class LabelsCreator {
             String firstName, String lastName, int lockerNumber, int boxNumber) {
         String fullBoxNumber = lockerNumber + "/" + boxNumber;
         StringFormater sf = new StringFormater();
-        return "\n"
+        return "\r\n"
                 + sf.capitalizeFirstLetter(firstName) + " "
                 + sf.capitalizeFirstLetter(lastName)
-                + "\r\n \r\n"
+                + "\r\n"
                 + "                               " + fullBoxNumber;
     }
 }
