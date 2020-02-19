@@ -5,12 +5,12 @@ var singleFileUploadInput = document.querySelector('#singleFileUploadInput');
 var singleFileUploadError = document.querySelector('#singleFileUploadError');
 var singleFileUploadSuccess = document.querySelector('#singleFileUploadSuccess');
 
-function uploadSingleFile(file) {
+function uploadSingleFile(file, labelsFormat) {
     var formData = new FormData();
     formData.append("file", file);
 
     var xhr = new XMLHttpRequest();
-    xhr.open("POST", "https://naklejkomat.herokuapp.com/labels/create");
+    xhr.open("POST", "http://localhost:8080/labels/create/" + labelsFormat);
 
     xhr.onload = function() {
         console.log(xhr.responseText);
@@ -33,10 +33,12 @@ function uploadSingleFile(file) {
 
 singleUploadForm.addEventListener('submit', function(event){
     var files = singleFileUploadInput.files;
+    var e = document.getElementById("labelsFormat");
+    var labelsFormat = e.options[e.selectedIndex].value;
     if(files.length === 0) {
         singleFileUploadError.innerHTML = "Please select a file";
         singleFileUploadError.style.display = "block";
     }
-    uploadSingleFile(files[0]);
+    uploadSingleFile(files[0], labelsFormat);
     event.preventDefault();
 }, true);

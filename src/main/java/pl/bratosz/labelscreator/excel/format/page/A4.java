@@ -1,4 +1,6 @@
-package pl.bratosz.labelscreator.excel.format;
+package pl.bratosz.labelscreator.excel.format.page;
+
+import pl.bratosz.labelscreator.excel.format.page.PageFormat;
 
 public class A4 implements PageFormat {
     private static final int HEIGHT = 297;

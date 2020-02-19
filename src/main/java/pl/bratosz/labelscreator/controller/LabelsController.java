@@ -1,12 +1,10 @@
 package pl.bratosz.labelscreator.controller;
 
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import pl.bratosz.labelscreator.excel.ExcelExtractor;
+import pl.bratosz.labelscreator.excel.format.labels.LabelsFormat;
 import pl.bratosz.labelscreator.exception.FileStorageException;
 import pl.bratosz.labelscreator.exception.WrongFileFormatException;
 import pl.bratosz.labelscreator.payload.UploadFileResponse;
@@ -33,12 +31,13 @@ public class LabelsController {
         this.s3Services = s3Services;
     }
 
-    @PostMapping("/create")
+    @PostMapping("/create/{labelsFormat}")
     public UploadFileResponse create(
+            @PathVariable LabelsFormat labelsFormat,
             @RequestParam("file")MultipartFile file) {
         try {
             XSSFWorkbook workbook = extractWorkbookFromFile(file);
-            return labelsService.create(workbook);
+            return labelsService.create(workbook, labelsFormat);
         } catch (WrongFileFormatException e) {
             String message = e.getMessage();
             throw new FileStorageException("Niewłaściwy format pliku: " + message);

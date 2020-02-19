@@ -4,9 +4,7 @@ import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFPrintSetup;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import pl.bratosz.labelscreator.excel.format.A4;
-import pl.bratosz.labelscreator.excel.format.PageFormat;
-import pl.bratosz.labelscreator.model.Employee;
+import pl.bratosz.labelscreator.excel.format.page.PageFormat;
 
 import java.util.List;
 

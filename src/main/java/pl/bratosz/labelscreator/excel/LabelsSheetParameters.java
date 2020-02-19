@@ -1,7 +1,8 @@
 package pl.bratosz.labelscreator.excel;
 
-import pl.bratosz.labelscreator.excel.format.A4;
-import pl.bratosz.labelscreator.excel.format.PageFormat;
+import pl.bratosz.labelscreator.excel.format.labels.LabelsFormat;
+import pl.bratosz.labelscreator.excel.format.page.A4;
+import pl.bratosz.labelscreator.excel.format.page.PageFormat;
 
 public class LabelsSheetParameters {
     private int fontSize;
@@ -11,13 +12,17 @@ public class LabelsSheetParameters {
     private int labelsInRow;
     private int labelsInColumn;
 
-    public LabelsSheetParameters() {
-        fontSize = 16;
+    public LabelsSheetParameters(LabelsFormat labelsFormat) {
         fontName = "Times New Roman";
         sheetName = "Etykiety";
         pageFormat = new A4();
         labelsInRow = 3;
         labelsInColumn = 8;
+        if(labelsFormat.equals(LabelsFormat.NUMBERS_ONLY)){
+            fontSize = 40;
+        } else {
+            fontSize = 16;
+        }
     }
 
     public int getFontSize() {
