@@ -11,14 +11,12 @@ import java.util.List;
 public class LabelsCreator {
     private List<String> labels;
     private ExcelLabelsWriter excelLabelsWriter;
-    private String fileName;
     private LabelsFormat labelsFormat;
 
     public LabelsCreator(LabelsFormat labelsFormat) {
         labels = new LinkedList<>();
         this.labelsFormat = labelsFormat;
         excelLabelsWriter = new ExcelLabelsWriter(new LabelsSheetParameters(labelsFormat));
-        fileName = "Etykiety";
     }
 
     public XSSFWorkbook create(List<Employee> employees) {

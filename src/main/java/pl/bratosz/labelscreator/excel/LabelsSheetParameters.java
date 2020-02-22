@@ -12,6 +12,15 @@ public class LabelsSheetParameters {
     private int labelsInRow;
     private int labelsInColumn;
 
+    public LabelsSheetParameters() {
+        fontName = "Times New Roman";
+        sheetName = "Etykiety";
+        pageFormat = new A4();
+        labelsInRow = 3;
+        labelsInColumn = 8;
+        fontSize = 16;
+    }
+
     public LabelsSheetParameters(LabelsFormat labelsFormat) {
         fontName = "Times New Roman";
         sheetName = "Etykiety";
@@ -47,5 +56,15 @@ public class LabelsSheetParameters {
 
     public int getLabelsInColumn() {
         return labelsInColumn;
+    }
+
+    public void setFontSize(int fontSize) {
+        if(fontSize == 0) {
+            this.fontSize = 16;
+        } else if(fontSize < 0) {
+            this.fontSize = Math.abs(fontSize);
+        } else {
+            this.fontSize = fontSize;
+        }
     }
 }

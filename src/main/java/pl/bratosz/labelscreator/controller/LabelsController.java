@@ -3,7 +3,6 @@ package pl.bratosz.labelscreator.controller;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import pl.bratosz.labelscreator.excel.ExcelExtractor;
 import pl.bratosz.labelscreator.excel.format.labels.LabelsFormat;
 import pl.bratosz.labelscreator.exception.FileStorageException;
 import pl.bratosz.labelscreator.exception.WrongFileFormatException;
