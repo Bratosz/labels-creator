@@ -1,18 +1,10 @@
 package pl.bratosz.labelscreator.excel;
 
-
-
-
-
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
-
+import pl.bratosz.labelscreator.excel.format.Font;
 import static org.assertj.core.api.Assertions.*;
-import static org.junit.Assert.*;
-
 
 
 @SpringBootTest
@@ -62,5 +54,18 @@ class LabelsSheetParametersTest {
         actualFontSize = labelsSheetParameters.getFontSize();
         //then
         assertThat(actualFontSize).isEqualTo(expectedFontSize);
+    }
+
+    @Test
+    void whenFontIsCorrectShouldSetThatValue(){
+        //given
+        Font font = Font.TIMES_NEW_ROMAN;
+        String expectedFont = "Times New Roman";
+        String actualFont;
+        //when
+        labelsSheetParameters.setFontName(font);
+        actualFont = labelsSheetParameters.getFontName();
+        //then
+        assertThat(actualFont).isEqualTo(expectedFont);
     }
 }

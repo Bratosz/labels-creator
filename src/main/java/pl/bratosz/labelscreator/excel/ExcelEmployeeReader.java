@@ -24,6 +24,10 @@ public class ExcelEmployeeReader {
         employees = new LinkedList<>();
     }
 
+    public static ExcelEmployeeReader create(XSSFWorkbook workbook) {
+        return new ExcelEmployeeReader(workbook);
+    }
+
     public List<Employee> loadEmployees() {
         assignColumnsToDataType();
         loadEmployeesFromAllRows();
@@ -34,7 +38,7 @@ public class ExcelEmployeeReader {
         for (int i = 1; i < sheet.getPhysicalNumberOfRows(); i++) {
             Row row = sheet.getRow(i);
             if(isRowEmpty(row)){
-                break;
+                continue;
             }
             Employee employee = loadEmployeeFromRow(row);
             employees.add(employee);
@@ -51,7 +55,7 @@ public class ExcelEmployeeReader {
     }
 
     private boolean isRowEmpty(Row row) {
-        if(row.getCell(firstNameIndex).equals(null)) {
+        if(null == row.getCell(firstNameIndex)) {
             return true;
         } else {
             return false;
@@ -93,5 +97,25 @@ public class ExcelEmployeeReader {
 
     private XSSFSheet getSheet(XSSFWorkbook workbook) {
         return workbook.getSheetAt(0);
+    }
+
+    public int getFirstNameIndex() {
+        return firstNameIndex;
+    }
+
+    public int getLastNameIndex() {
+        return lastNameIndex;
+    }
+
+    public int getLockerNumberIndex() {
+        return lockerNumberIndex;
+    }
+
+    public int getBoxNumberIndex() {
+        return boxNumberIndex;
+    }
+
+    public List<Employee> getEmployees() {
+        return employees;
     }
 }

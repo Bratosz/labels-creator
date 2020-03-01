@@ -22,9 +22,7 @@ public class LabelsController {
 
 
     public LabelsController(
-            LabelsService labelsService,
-            FileController fileController,
-            S3Services s3Services) {
+            LabelsService labelsService, FileController fileController, S3Services s3Services) {
         this.labelsService = labelsService;
         this.fileController = fileController;
         this.s3Services = s3Services;
@@ -32,16 +30,14 @@ public class LabelsController {
 
     @PostMapping("/create/{labelsFormat}")
     public UploadFileResponse create(
-            @PathVariable LabelsFormat labelsFormat,
-            @RequestParam("file")MultipartFile file) {
+            @PathVariable LabelsFormat labelsFormat, @RequestParam("file")MultipartFile file) {
         try {
             XSSFWorkbook workbook = extractWorkbookFromFile(file);
             return labelsService.create(workbook, labelsFormat);
         } catch (WrongFileFormatException e) {
             String message = e.getMessage();
             throw new FileStorageException("Niewłaściwy format pliku: " + message);
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             throw new FileStorageException("Coś nie pykło");
         }
     }
