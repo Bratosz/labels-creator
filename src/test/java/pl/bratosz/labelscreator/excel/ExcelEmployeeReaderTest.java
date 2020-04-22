@@ -1,17 +1,13 @@
 package pl.bratosz.labelscreator.excel;
 
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
-import pl.bratosz.labelscreator.excel.format.Font;
 import pl.bratosz.labelscreator.model.Employee;
 
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 class ExcelEmployeeReaderTest {
