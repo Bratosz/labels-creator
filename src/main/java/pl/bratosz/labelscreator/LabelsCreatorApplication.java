@@ -17,5 +17,4 @@ public class LabelsCreatorApplication {
         SSLMailNotificator ssl = new SSLMailNotificator();
         ssl.message();
     }
-
 }
