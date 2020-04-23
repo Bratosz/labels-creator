@@ -10,7 +10,7 @@ function uploadSingleFile(file, labelsFormat) {
     formData.append("file", file);
 
     var xhr = new XMLHttpRequest();
-    xhr.open("POST", "https://naklejkomat.herokuapp.com/labels/create/" + labelsFormat);
+    xhr.open("POST", "http://naklejkomat.herokuapp.com/labels/create/" + labelsFormat);
 
     xhr.onload = function() {
         console.log(xhr.responseText);
@@ -27,7 +27,6 @@ function uploadSingleFile(file, labelsFormat) {
             singleFileUploadError.innerHTML = (response && response.message) || "Some Error Occurred";
         }
     }
-
     xhr.send(formData);
 }
 
