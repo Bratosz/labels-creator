@@ -33,12 +33,16 @@ public class LabelsController {
             @PathVariable LabelsFormat labelsFormat, @RequestParam("file")MultipartFile file) {
         try {
             XSSFWorkbook workbook = extractWorkbookFromFile(file);
-            return labelsService.create(workbook, labelsFormat);
+//            return labelsService.create(workbook, labelsFormat);
+            throw new FileStorageException("Błąd");
+
         } catch (WrongFileFormatException e) {
             String message = e.getMessage();
-            throw new FileStorageException("Niewłaściwy format pliku: " + message);
+//            throw new FileStorageException("Niewłaściwy format pliku: " + message);
+            throw new FileStorageException("Błąd");
         } catch (IOException e) {
-            throw new FileStorageException("Coś nie pykło");
+            throw new FileStorageException("Błąd");
+//            throw new FileStorageException("Coś nie pykło");
         }
     }
 

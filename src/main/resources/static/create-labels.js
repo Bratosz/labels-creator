@@ -24,7 +24,7 @@ function uploadSingleFile(file, labelsFormat) {
             singleFileUploadSuccess.style.display = "block";
         } else {
             singleFileUploadSuccess.style.display = "none";
-            singleFileUploadError.innerHTML = (response && response.message) || "Some Error Occurred";
+            singleFileUploadError.innerHTML = ("Coś poszło nie tak, skontaktuj się z dostawcą oprogramoawania");
         }
     }
     xhr.send(formData);
