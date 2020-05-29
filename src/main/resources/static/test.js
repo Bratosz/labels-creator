@@ -43,7 +43,7 @@ $("#button-generate-labels").click(function () {
     }
     console.log(employees);
     $.ajax({
-        url: `http://localhost:8080/labels/create/from_list/${labelsFormat}`,
+        url: `http://naklejkomat.herokuapp.com/labels/create/from_list/${labelsFormat}`,
         method: "post",
         data: JSON.stringify(employees),
         contentType: "application/json",
