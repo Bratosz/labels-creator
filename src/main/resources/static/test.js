@@ -65,10 +65,7 @@ $(document).ready(function () {
             console.log(values);
 
             var currentColIndex = $txt.parent().index();
-            totalRows = (values.length / 4) + currentRowIndex;
-            if(totalRows == 2){
-                totalRows = 1;
-            }
+            totalRows = (values.length / 4);
             totalCols = 4;
             var count = 0;
             var firstCellValue = values[0].toUpperCase();
@@ -86,7 +83,6 @@ $(document).ready(function () {
                     count++;
                 }
             }
-            currentRowIndex = totalRows;
         }, 0);
     });
 });
