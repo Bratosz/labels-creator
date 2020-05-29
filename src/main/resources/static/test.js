@@ -68,6 +68,13 @@ $(document).ready(function () {
             totalRows = values.length / 4;
             totalCols = 4;
             var count = 0;
+            var firstCellValue = values[0].toUpperCase();
+            if((firstCellValue == "IMIĘ") ||
+                (firstCellValue == "IMIE") ||
+                (firstCellValue == "NAME") ||
+                (firstCellValue == "FIRSTNAME")) {
+                count = 4;
+            }
             for(let i = currentRowIndex; i < totalRows; i++) {
                 for(let j = 0; j < totalCols; j++) {
                     let value = values[count];
