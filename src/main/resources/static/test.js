@@ -1,6 +1,7 @@
 var tableSize = 150;
 var totalRows = 0;
 var totalCols = 4;
+var currentRowIndex = 1;
 
 
 function displayTable() {
@@ -62,10 +63,12 @@ $(document).ready(function () {
         setTimeout(function () {
             var values = $txt.val().split(/\s+/);
             console.log(values);
-            var currentRowIndex = 1;
-            var currentColIndex = $txt.parent().index();
 
-            totalRows = values.length / 4;
+            var currentColIndex = $txt.parent().index();
+            totalRows = (values.length / 4) + currentRowIndex;
+            if(totalRows == 2){
+                totalRows = 1;
+            }
             totalCols = 4;
             var count = 0;
             var firstCellValue = values[0].toUpperCase();
@@ -83,6 +86,7 @@ $(document).ready(function () {
                     count++;
                 }
             }
+            currentRowIndex = totalRows;
         }, 0);
     });
 });
