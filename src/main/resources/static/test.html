@@ -1,0 +1,48 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="jquery-3.3.1.min.js"></script>
+    <script src="test.js" defer></script>
+
+</head>
+
+<body>
+<form>
+    <br/>
+    <select class="form-control" id="labels-format-input">
+        <option value="STANDARD">Format naklejek</option>
+        <option value="STANDARD">Imię, Nazwisko, Nr szafki</option>
+        <option value="FIRST_NAME_LETTER">I., Nazwisko, Nr szafki</option>
+        <option value="NUMBERS_ONLY">Nr szafki</option>
+    </select>
+    <button type="button" id="button-generate-labels">Utwórz i pobierz naklejki</button>
+    <br/>
+    <br/>
+<table id="example" class="display" cellspacing="0" width="100%">
+    <thead>
+    <tr>
+        <th>Imie</th>
+        <th>Nazwisko</th>
+        <th>Szafa</th>
+        <th>Box</th>
+    </tr>
+    </thead>
+    <tbody id="table-rows">
+    <tr id="row-template" style="display: none">
+        <td class="cell-first-name"><input type="text"></td>
+        <td class="cell-last-name"><input type="text"></td>
+        <td class="cell-locker-number"><input type="text"></td>
+        <td class="cell-box-number"><input type="text"></td>
+        <td><input type="button" value="Usuń" class="button-delete-row"></td>
+    </tr>
+    </tbody>
+</table>
+</form>
+
+
+
+</body>
+</html>

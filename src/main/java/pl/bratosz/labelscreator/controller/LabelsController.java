@@ -6,11 +6,13 @@ import org.springframework.web.multipart.MultipartFile;
 import pl.bratosz.labelscreator.excel.format.labels.LabelsFormat;
 import pl.bratosz.labelscreator.exception.FileStorageException;
 import pl.bratosz.labelscreator.exception.WrongFileFormatException;
+import pl.bratosz.labelscreator.model.Employee;
 import pl.bratosz.labelscreator.payload.UploadFileResponse;
 import pl.bratosz.labelscreator.s3.S3Services;
 import pl.bratosz.labelscreator.service.LabelsService;
 
 import java.io.IOException;
+import java.util.List;
 
 @RestController
 @RequestMapping("/labels")
@@ -41,6 +43,12 @@ public class LabelsController {
         } catch (IOException e) {
             throw new FileStorageException("Coś nie pykło");
         }
+    }
+
+    @PostMapping("/create/from_list/{labelsFormat}")
+    public UploadFileResponse createFromList(
+            @PathVariable LabelsFormat labelsFormat, @RequestBody List<Employee> employees) {
+        return labelsService.createFromList(employees, labelsFormat);
     }
 
     private XSSFWorkbook extractWorkbookFromFile(MultipartFile file) throws IOException {

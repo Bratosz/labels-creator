@@ -12,6 +12,7 @@ import pl.bratosz.labelscreator.notification.SSLMailNotificator;
 import pl.bratosz.labelscreator.payload.UploadFileResponse;
 
 
+import java.awt.*;
 import java.util.List;
 
 @Service
@@ -29,7 +30,14 @@ public class LabelsService {
         loadedEmployees = employeeReader.loadEmployees();
         XSSFWorkbook labels = labelsCreator.create(loadedEmployees);
 
+        return fileStorage.storeFile(labels);
+    }
 
+    public UploadFileResponse createFromList(List<Employee> employees, LabelsFormat labelsFormat) {
+        LabelsCreator labelsCreator = new LabelsCreator(labelsFormat);
+        ExcelFileStorage fileStorage = new ExcelFileStorage();
+
+        XSSFWorkbook labels = labelsCreator.create(employees);
 
         return fileStorage.storeFile(labels);
     }
