@@ -1,7 +1,5 @@
-var tableSize = 150;
+var tableSize = 24;
 var totalRows = 0;
-var totalCols = 4;
-var currentRowIndex = 1;
 
 
 function displayTable() {
@@ -11,8 +9,16 @@ function displayTable() {
         const $row = $rowTemplate.clone();
         $row.css("display", "table-row");
         $("#table-rows").append($row);
+        totalRows++;
+        if(totalRows > 3000) {
+            alert("Maksymalny rozmiar tabeli to 3000 wierszy");
+            return;
+        }
     }
-};
+}
+$("#button-get-filled-rows").click(function () {
+    getFilledRows();
+});
 
 function displayTableInSize(size) {
     tableSize = size;
@@ -20,28 +26,13 @@ function displayTableInSize(size) {
 }
 
 $("#button-generate-table").click(function () {
-    let tableSize = $("#table-size-input").val;
+    let tableSize = $("#input-table-size").val();
     displayTableInSize(tableSize);
-})
+});
 
 $("#button-generate-labels").click(function () {
     let labelsFormat = $("#labels-format-input").val();
-    let employees = [];
-    for(let i = 1; i < totalRows; i++) {
-        let row = $('#example tbody tr').eq(i);
-        let firstName = row.find('.cell-first-name input').val();
-        let lastName = row.find('.cell-last-name input').val();
-        let lockerNumber = row.find('.cell-locker-number input').val();
-        let boxNumber = row.find('.cell-box-number input').val();
-
-        let employee = {
-            firstName: firstName,
-            lastName: lastName,
-            lockerNumber: lockerNumber,
-            boxNumber: boxNumber
-        };
-        employees.push(employee);
-    }
+    let employees = getEmployees();
     console.log(employees);
     $.ajax({
         url: `http://naklejkomat.herokuapp.com/labels/create/from_list/${labelsFormat}`,
@@ -57,34 +48,77 @@ $("#button-generate-labels").click(function () {
     })
 });
 
-$(document).ready(function () {
-    $('td input').bind('paste', null, function (e) {
-        $txt = $(this);
-        setTimeout(function () {
-            var values = $txt.val().split(/\s+/);
-            console.log(values);
+$(document).ready(function() {
+    $('input').on('paste', function(e){
+        let $this = $(this);
+        $.each(e.originalEvent.clipboardData.items, function(index, value){
+            if (value.type === 'text/plain'){
+                value.getAsString(function(text){
+                    let x = $this.closest('td').index();
+                    let y = $this.closest('tr').index() + 1;
+                    text = text.trim('\r\n');
+                    $.each(text.split('\r\n'), function(i2, v2){
+                            $.each(v2.split('\t'), function(i3, v3){
+                                let cellNameValue = v3.trim().toUpperCase();
+                                if(isItHeaderRow(cellNameValue)) {
+                                y -= 1;
+                                return false;
+                            }
+                                let row = y + i2;
+                                let col = x + i3;
+                                $this.closest('table').find('tr:eq('+row+') td:eq('+col+') input').val(v3);
+                        });
 
-            var currentColIndex = $txt.parent().index();
-            totalRows = (values.length / 4);
-            totalCols = 4;
-            var count = 0;
-            var firstCellValue = values[0].toUpperCase();
-            if((firstCellValue == "IMIĘ") ||
-                (firstCellValue == "IMIE") ||
-                (firstCellValue == "NAME") ||
-                (firstCellValue == "FIRSTNAME")) {
-                count = 4;
+                    });
+                });
             }
-            for(let i = currentRowIndex; i < totalRows; i++) {
-                for(let j = 0; j < totalCols; j++) {
-                    let value = values[count];
-                    let input = $('#example tbody tr').eq(i).find('td').eq(j).find('input');
-                    input.val(value);
-                    count++;
-                }
-            }
-        }, 0);
+        });
+        return false;
     });
 });
+
+function isItHeaderRow(cellNameValue) {
+    if((cellNameValue == "IMIE") ||
+        (cellNameValue == "IMIĘ") ||
+        (cellNameValue == "NAME") ||
+        (cellNameValue == "FIRSTNAME")) {
+        return true;
+    } else {
+        return false;
+    }
+};
+
+function getEmployees() {
+    let employees = [];
+    $(".table-row").each(function (index) {
+        $this = $(this);
+        if(isRowFilled($this)){
+            let firstName = $this.find("#cell-first-name").val();
+            let lastName = $this.find("#cell-last-name").val();
+            let lockerNumber = $this.find("#cell-locker-number").val();
+            let boxNumber = $this.find("#cell-box-number").val();
+
+            employee = {
+                firstName: firstName,
+                lastName: lastName,
+                lockerNumber: lockerNumber,
+                boxNumber: boxNumber
+            };
+
+            employees.push(employee);
+        }
+    });
+    return employees;
+};
+
+function isRowFilled(row) {
+    let firstCell = row.find("#cell-first-name").val();
+    if(firstCell.length > 1) {
+        return true;
+    } else {
+        return false;
+    }
+};
+
 
 displayTable();

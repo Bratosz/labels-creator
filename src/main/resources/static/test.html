@@ -7,41 +7,101 @@
     <script src="jquery-3.3.1.min.js"></script>
     <script src="test.js" defer></script>
 
+    <link rel="stylesheet" href="style.css" type="text/css" />
+
+    <link rel="stylesheet"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+          crossorigin="anonymous">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+            integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+            crossorigin="anonymous"></script>
+
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+            integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+            crossorigin="anonymous"></script>
+
 </head>
 
 <body>
-<form>
-    <br/>
-    <select class="form-control" id="labels-format-input">
-        <option value="STANDARD">Format naklejek</option>
-        <option value="STANDARD">Imię, Nazwisko, Nr szafki</option>
-        <option value="FIRST_NAME_LETTER">I., Nazwisko, Nr szafki</option>
-        <option value="NUMBERS_ONLY">Nr szafki</option>
-    </select>
-    <button type="button" id="button-generate-labels">Utwórz i pobierz naklejki</button>
-    <br/>
-    <br/>
-<table id="example" class="display" cellspacing="0" width="100%">
-    <thead>
-    <tr>
-        <th>Imie</th>
-        <th>Nazwisko</th>
-        <th>Szafa</th>
-        <th>Box</th>
-    </tr>
-    </thead>
-    <tbody id="table-rows">
-    <tr id="row-template" style="display: none">
-        <td class="cell-first-name"><input type="text"></td>
-        <td class="cell-last-name"><input type="text"></td>
-        <td class="cell-locker-number"><input type="text"></td>
-        <td class="cell-box-number"><input type="text"></td>
-        <td><input type="button" value="Usuń" class="button-delete-row"></td>
-    </tr>
-    </tbody>
-</table>
-</form>
 
+<div class="container">
+    <div class="row mx-lg-n5">
+        <div class="col-lg-2">
+            <a href="index.html"><img src="images/kls_logo.jpg" class="img-fluid" alt="Responsive image"></a>
+        </div>
+        <div class="col-lg-6"></div>
+        <div class="col py-3 px-lg-2">
+            <h3>Naklejkomat</h3>
+        </div>
+        <div class="col py-3 px-lg-2">
+            <button type="button" class="btn btn-secondary">Wyloguj</button>
+        </div>
+    </div>
+    <br>
+
+    <!--Navbar-->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText"
+                aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarText">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="index.html">Strona główna <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="test.html">Naklejki <span class="sr-only"></span></a>
+                </li>
+            </ul>
+            <span class="navbar-text"></span>
+        </div>
+    </nav>
+
+
+    <form>
+        <div id="side-bar">
+            <br/>
+            <select class="form-control" id="labels-format-input">
+                <option value="STANDARD">Format naklejek</option>
+                <option value="STANDARD">Imię, Nazwisko, Nr szafki</option>
+                <option value="FIRST_NAME_LETTER">I., Nazwisko, Nr szafki</option>
+                <option value="LAST_NAME_LETTER">N., Imię, Nr szafki</option>
+                <option value="NUMBERS_ONLY">Nr szafki</option>
+            </select>
+            <button type="button" id="button-generate-labels">Utwórz i pobierz naklejki</button>
+            <br/>
+            <button type="button" id="button-get-filled-rows">Zbierz wypełnione wiersze</button>
+            <br/>
+            <input type="number" id="input-table-size" min="24" max="2400" step="24">
+            <button type="button" id="button-generate-table">Powiększ tabelę</button>
+            <br/>
+            <br/>
+        </div>
+
+        <div class="table-box">
+            <table   id="table">
+                <thead class="thead-light">
+                <tr>
+                    <th scope="col">Imię</th>
+                    <th scope="col">Nazwisko</th>
+                    <th scope="col">Szafa</th>
+                    <th scope="col">Box</th>
+                </tr>
+                </thead>
+                <tbody id="table-rows">
+                <tr id="row-template" class="table-row" style="display: none">
+                    <td><input id="cell-first-name" type="text"/></td>
+                    <td><input id="cell-last-name" type="text"/></td>
+                    <td><input id="cell-locker-number" type="text"/></td>
+                    <td><input id="cell-box-number" type="text"/></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </form>
+</div>
 
 
 </body>

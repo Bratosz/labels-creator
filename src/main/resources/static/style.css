@@ -1,0 +1,49 @@
+
+.table-box
+{
+    width: 800px;
+    height: 500px;
+    overflow-y: scroll;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.5);
+    border-radius: 5px;
+    padding: 6px;
+    padding-top: 3px;
+    padding-bottom: 3px;
+}
+table
+{
+    width: 100%;
+}
+table, th, td
+{
+    border: 1px solid #ffa902;
+    border-collapse: collapse;
+    padding: 12px;
+}
+table
+{
+    border-radius: 25px;
+    padding: 20px;
+}
+th
+{
+    position: sticky;
+    top: 0;
+    padding-left: 32px;
+    background: 	#E0E0E0;
+    height: 53px;
+}
+tr th:nth-child(3)
+{
+    width: 90px;
+    text-align: left;
+}
+#cell-box-number, #cell-locker-number
+{
+    width: 80px;
+    text-align: center;
+}
+#cell-first-name, #cell-last-name
+{
+    width: 247px;
+}
