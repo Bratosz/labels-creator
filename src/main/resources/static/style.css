@@ -16,7 +16,7 @@ table
 }
 table, th, td
 {
-    border: 1px solid #ffa902;
+    border: 1px solid #000;
     border-collapse: collapse;
     padding: 12px;
 }

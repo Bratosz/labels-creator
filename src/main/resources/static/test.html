@@ -17,6 +17,7 @@
             integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
             crossorigin="anonymous"></script>
 
+
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
             integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
             crossorigin="anonymous"></script>
@@ -62,17 +63,22 @@
 
     <form>
         <div id="side-bar">
-            <br/>
-            <select class="form-control" id="labels-format-input">
-                <option value="STANDARD">Format naklejek</option>
-                <option value="STANDARD">Imię, Nazwisko, Nr szafki</option>
-                <option value="FIRST_NAME_LETTER">I., Nazwisko, Nr szafki</option>
-                <option value="LAST_NAME_LETTER">N., Imię, Nr szafki</option>
-                <option value="NUMBERS_ONLY">Nr szafki</option>
-            </select>
+            <div class="select-option">
+                <select id="labels-format-input">
+                    <option value="STANDARD">Format naklejek</option>
+                    <option value="STANDARD">Imię, Nazwisko, Nr szafki</option>
+                    <option value="FIRST_NAME_LETTER">I., Nazwisko, Nr szafki</option>
+                    <option value="LAST_NAME_LETTER">N., Imię, Nr szafki</option>
+                    <option value="NUMBERS_ONLY">Nr szafki</option>
+                </select>
+            </div>
+            <div class="select-radio">
+                <input type="radio" id="editor-1" name="ss-editor" value="EXCEL" checked>
+                <label for="editor-1">Excel</label>
+                <input type="radio" id="editor-2" name="ss-editor" value="LIBRE_OFFICE">
+                <label for="editor-2">Liber Office</label>
+            </div>
             <button type="button" id="button-generate-labels">Utwórz i pobierz naklejki</button>
-            <br/>
-            <button type="button" id="button-get-filled-rows">Zbierz wypełnione wiersze</button>
             <br/>
             <input type="number" id="input-table-size" min="24" max="2400" step="24">
             <button type="button" id="button-generate-table">Powiększ tabelę</button>

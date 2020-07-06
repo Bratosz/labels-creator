@@ -10,7 +10,8 @@ import java.util.List;
 
 public class ExcelLabelsWriter {
     private static final float CONVERSION_RATE_FOR_WIDTH = 0.00765613f;
-    private static final float CONVERSION_RATE_FOR_HEIGHT = 0.35266666f;
+    private static final float CONVERSION_RATE_FOR_HEIGHT_LIBRE_OFFICE = 0.35266666f;
+    private static final float CONVERSION_RATE_FOR_HEIGHT_EXCEL = 0.33147321f;
     private String sheetName;
     private CellStyle cellStyle;
     private Font font;
@@ -130,6 +131,6 @@ public class ExcelLabelsWriter {
     }
 
     private float convertMillimetersToPointsForHeight(float height) {
-        return height / CONVERSION_RATE_FOR_HEIGHT;
+        return height / CONVERSION_RATE_FOR_HEIGHT_EXCEL;
     }
 }

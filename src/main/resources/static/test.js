@@ -4,9 +4,9 @@ var totalRows = 0;
 
 function displayTable() {
     // $("#table-rows > tr:not (#row-template)").remove();
-    const $rowTemplate = $("#row-template");
+    var $rowTemplate = $("#row-template");
     for(let i = 0; i < tableSize; i++) {
-        const $row = $rowTemplate.clone();
+        var $row = $rowTemplate.clone();
         $row.css("display", "table-row");
         $("#table-rows").append($row);
         totalRows++;
@@ -16,9 +16,7 @@ function displayTable() {
         }
     }
 }
-$("#button-get-filled-rows").click(function () {
-    getFilledRows();
-});
+
 
 function displayTableInSize(size) {
     tableSize = size;
