@@ -3,13 +3,13 @@ package pl.bratosz.labelscreator.excel;
 import pl.bratosz.labelscreator.excel.format.Font;
 import pl.bratosz.labelscreator.excel.format.labels.LabelsFormat;
 import pl.bratosz.labelscreator.excel.format.page.A4;
-import pl.bratosz.labelscreator.excel.format.page.PageFormat;
+import pl.bratosz.labelscreator.excel.format.page.PageSize;
 
 public class LabelsSheetParameters {
     private int fontSize;
     private String fontName;
     private String sheetName;
-    private PageFormat pageFormat;
+    private PageSize pageSize;
     private int labelsInRow;
     private int labelsInColumn;
 
@@ -17,7 +17,7 @@ public class LabelsSheetParameters {
 
     public LabelsSheetParameters() {
         sheetName = "Etykiety";
-        pageFormat = new A4();
+        pageSize = new A4();
         labelsInRow = 3;
         labelsInColumn = 8;
         setFontName(Font.TIMES_NEW_ROMAN);
@@ -27,7 +27,7 @@ public class LabelsSheetParameters {
     public LabelsSheetParameters(LabelsFormat labelsFormat) {
         setFontName(Font.TIMES_NEW_ROMAN);
         sheetName = "Etykiety";
-        pageFormat = new A4();
+        pageSize = new A4();
         labelsInRow = 3;
         labelsInColumn = 8;
         if(labelsFormat.equals(LabelsFormat.NUMBERS_ONLY)){
@@ -49,8 +49,8 @@ public class LabelsSheetParameters {
         return sheetName;
     }
 
-    public PageFormat getPageFormat() {
-        return pageFormat;
+    public PageSize getPageSize() {
+        return pageSize;
     }
 
     public int getLabelsInRow() {

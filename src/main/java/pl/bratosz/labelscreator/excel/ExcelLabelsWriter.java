@@ -4,32 +4,35 @@ import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFPrintSetup;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import pl.bratosz.labelscreator.excel.format.page.PageFormat;
+import pl.bratosz.labelscreator.excel.format.EditorSpreadSheetType;
+import pl.bratosz.labelscreator.excel.format.page.PageSize;
 
 import java.util.List;
 
 public class ExcelLabelsWriter {
-    private static final float CONVERSION_RATE_FOR_WIDTH = 0.00765613f;
-    private static final float CONVERSION_RATE_FOR_HEIGHT_LIBRE_OFFICE = 0.35266666f;
-    private static final float CONVERSION_RATE_FOR_HEIGHT_EXCEL = 0.33147321f;
+    private static final float CONVERSION_RATE_FOR_COLUMN_WIDTH = 0.00765613f;
+    private static final float CONVERSION_RATE_FOR_ROW_HEIGHT_LIBRE_OFFICE = 0.35266666f;
+    private static final float CONVERSION_RATE_FOR_ROW_HEIGHT_EXCEL = 0.33147321f;
     private String sheetName;
     private CellStyle cellStyle;
     private Font font;
     private XSSFWorkbook workbook;
     private XSSFSheet sheet;
-    private PageFormat format;
+    private PageSize pageSize;
     private int labelsInRow;
     private int labelsInColumn;
     private int numberOfRows;
+    private EditorSpreadSheetType editorSpreadSheetType;
 
-    public ExcelLabelsWriter(LabelsSheetParameters parameters) {
+    public ExcelLabelsWriter(LabelsSheetParameters parameters, EditorSpreadSheetType editorSpreadSheetType) {
         createFont(parameters);
-        format = parameters.getPageFormat();
+        pageSize = parameters.getPageSize();
         labelsInRow = parameters.getLabelsInRow();
         labelsInColumn = parameters.getLabelsInColumn();
         sheetName = parameters.getSheetName();
         sheet = workbook.createSheet(sheetName);
         setPrintParameters();
+        this.editorSpreadSheetType = editorSpreadSheetType;
     }
 
     private void createFont(LabelsSheetParameters parameters) {
@@ -69,8 +72,8 @@ public class ExcelLabelsWriter {
     }
 
     private void setColumnsAndRowsSize() {
-        int pageWidth = format.getWidth();
-        int pageHeight = format.getHeight();
+        int pageWidth = pageSize.getWidth();
+        int pageHeight = pageSize.getHeight();
         setColumnsWidth(pageWidth);
         setRowsHeight(pageHeight);
     }
@@ -127,10 +130,14 @@ public class ExcelLabelsWriter {
     }
 
     private float convertMillimetersToPointsForWidth(float width) {
-        return width / CONVERSION_RATE_FOR_WIDTH;
+        return width / CONVERSION_RATE_FOR_COLUMN_WIDTH;
     }
 
     private float convertMillimetersToPointsForHeight(float height) {
-        return height / CONVERSION_RATE_FOR_HEIGHT_EXCEL;
+        if(editorSpreadSheetType.equals(EditorSpreadSheetType.EXCEL)) {
+            return height / CONVERSION_RATE_FOR_ROW_HEIGHT_EXCEL;
+        } else {
+            return height / CONVERSION_RATE_FOR_ROW_HEIGHT_LIBRE_OFFICE;
+        }
     }
 }

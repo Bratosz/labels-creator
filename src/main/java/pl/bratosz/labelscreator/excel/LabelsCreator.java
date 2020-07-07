@@ -1,6 +1,7 @@
 package pl.bratosz.labelscreator.excel;
 
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import pl.bratosz.labelscreator.excel.format.EditorSpreadSheetType;
 import pl.bratosz.labelscreator.excel.format.labels.LabelsFormat;
 import pl.bratosz.labelscreator.formater.StringFormater;
 import pl.bratosz.labelscreator.model.Employee;
@@ -13,10 +14,10 @@ public class LabelsCreator {
     private ExcelLabelsWriter excelLabelsWriter;
     private LabelsFormat labelsFormat;
 
-    public LabelsCreator(LabelsFormat labelsFormat) {
+    public LabelsCreator(LabelsFormat labelsFormat, EditorSpreadSheetType editorSpreadSheetType) {
         labels = new LinkedList<>();
         this.labelsFormat = labelsFormat;
-        excelLabelsWriter = new ExcelLabelsWriter(new LabelsSheetParameters(labelsFormat));
+        excelLabelsWriter = new ExcelLabelsWriter(new LabelsSheetParameters(labelsFormat), editorSpreadSheetType);
     }
 
     public XSSFWorkbook create(List<Employee> employees) {
@@ -51,6 +52,10 @@ public class LabelsCreator {
                 String firstLetterFromName = firstName.substring(0,1) + ".";
                 return createStandardContent(firstLetterFromName, lastName, lockerNumber, boxNumber);
             }
+            case LAST_NAME_LETTER: {
+                String firstLetterFromLastName = lastName.substring(0,1) + ".";
+                return createStandardContent(firstLetterFromLastName, firstName, lockerNumber, boxNumber);
+            }
             case NUMBERS_ONLY: {
                 return createFullBoxNumber(lockerNumber, boxNumber);
             }
@@ -62,12 +67,12 @@ public class LabelsCreator {
     }
 
     private String createStandardContent(
-            String firstName, String lastName, int lockerNumber, int boxNumber) {
+            String firstName, String secondName, int lockerNumber, int boxNumber) {
         String fullBoxNumber = createFullBoxNumber(lockerNumber, boxNumber);
         StringFormater sf = new StringFormater();
         return "\r\n"
-                + sf.capitalizeFirstLetter(firstName) + " "
-                + sf.capitalizeFirstLetter(lastName)
+                + sf.capitalizeFirstLetters(firstName) + " "
+                + sf.capitalizeFirstLetters(secondName)
                 + "\r\n"
                 + "                               " + fullBoxNumber;
     }

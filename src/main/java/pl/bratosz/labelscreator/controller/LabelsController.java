@@ -3,6 +3,7 @@ package pl.bratosz.labelscreator.controller;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import pl.bratosz.labelscreator.excel.format.EditorSpreadSheetType;
 import pl.bratosz.labelscreator.excel.format.labels.LabelsFormat;
 import pl.bratosz.labelscreator.exception.FileStorageException;
 import pl.bratosz.labelscreator.exception.WrongFileFormatException;
@@ -30,12 +31,13 @@ public class LabelsController {
         this.s3Services = s3Services;
     }
 
-    @PostMapping("/create/{labelsFormat}")
+    @PostMapping("/create/{labelsFormat}/{editorSpreadSheetType}")
     public UploadFileResponse create(
-            @PathVariable LabelsFormat labelsFormat, @RequestParam("file")MultipartFile file) {
+            @PathVariable LabelsFormat labelsFormat, @PathVariable EditorSpreadSheetType editorSpreadSheetType,
+            @RequestParam("file")MultipartFile file) {
         try {
             XSSFWorkbook workbook = extractWorkbookFromFile(file);
-            return labelsService.create(workbook, labelsFormat);
+            return labelsService.create(workbook, labelsFormat, editorSpreadSheetType);
 
         } catch (WrongFileFormatException e) {
             String message = e.getMessage();
@@ -45,10 +47,11 @@ public class LabelsController {
         }
     }
 
-    @PostMapping("/create/from_list/{labelsFormat}")
+    @PostMapping("/create/from_table/{labelsFormat}/{editorSpreadSheetType}")
     public UploadFileResponse createFromList(
-            @PathVariable LabelsFormat labelsFormat, @RequestBody List<Employee> employees) {
-        return labelsService.createFromList(employees, labelsFormat);
+            @PathVariable LabelsFormat labelsFormat, @PathVariable EditorSpreadSheetType editorSpreadSheetType,
+            @RequestBody List<Employee> employees) {
+        return labelsService.createFromList(employees, labelsFormat, editorSpreadSheetType);
     }
 
     private XSSFWorkbook extractWorkbookFromFile(MultipartFile file) throws IOException {

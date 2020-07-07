@@ -1,6 +1,6 @@
 package pl.bratosz.labelscreator.excel.format.page;
 
-public interface PageFormat {
+public interface PageSize {
     int getWidth();
     int getHeight();
 }

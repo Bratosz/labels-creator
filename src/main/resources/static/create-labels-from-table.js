@@ -1,12 +1,12 @@
-var tableSize = 24;
-var totalRows = 0;
+let tableSize = 96;
+let totalRows = 0;
 
 
 function displayTable() {
     // $("#table-rows > tr:not (#row-template)").remove();
-    var $rowTemplate = $("#row-template");
+    let $rowTemplate = $("#row-template");
     for(let i = 0; i < tableSize; i++) {
-        var $row = $rowTemplate.clone();
+        let $row = $rowTemplate.clone();
         $row.css("display", "table-row");
         $("#table-rows").append($row);
         totalRows++;
@@ -31,9 +31,10 @@ $("#button-generate-table").click(function () {
 $("#button-generate-labels").click(function () {
     let labelsFormat = $("#labels-format-input").val();
     let employees = getEmployees();
+    let editorType = $('input[name="editor-type"]:checked').val();
     console.log(employees);
     $.ajax({
-        url: `http://naklejkomat.herokuapp.com/labels/create/from_list/${labelsFormat}`,
+        url: `http://naklejkomat.herokuapp.com/labels/create/from_table/${labelsFormat}/${editorType}`,
         method: "post",
         data: JSON.stringify(employees),
         contentType: "application/json",
