@@ -1,11 +1,12 @@
 package pl.bratosz.labelscreator.excel;
 
 import org.apache.poi.ss.usermodel.*;
-import org.apache.poi.xssf.usermodel.XSSFPrintSetup;
-import org.apache.poi.xssf.usermodel.XSSFSheet;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.apache.poi.xssf.usermodel.*;
 import pl.bratosz.labelscreator.excel.format.EditorSpreadSheetType;
+import pl.bratosz.labelscreator.excel.format.FontName;
+import pl.bratosz.labelscreator.excel.format.labels.LabelsFormat;
 import pl.bratosz.labelscreator.excel.format.page.PageSize;
+import pl.bratosz.labelscreator.model.Label;
 
 import java.util.List;
 
@@ -23,13 +24,16 @@ public class ExcelLabelsWriter {
     private int labelsInColumn;
     private int numberOfRows;
     private EditorSpreadSheetType editorSpreadSheetType;
+    private LabelsFormat labelsFormat;
 
-    public ExcelLabelsWriter(LabelsSheetParameters parameters, EditorSpreadSheetType editorSpreadSheetType) {
-        createFont(parameters);
-        pageSize = parameters.getPageSize();
-        labelsInRow = parameters.getLabelsInRow();
-        labelsInColumn = parameters.getLabelsInColumn();
-        sheetName = parameters.getSheetName();
+
+    public ExcelLabelsWriter(LabelsSheetParameters sheetParameters, EditorSpreadSheetType editorSpreadSheetType) {
+        labelsFormat = sheetParameters.getLabelsFormat();
+        createFont(sheetParameters);
+        pageSize = sheetParameters.getPageSize();
+        labelsInRow = sheetParameters.getLabelsInRow();
+        labelsInColumn = sheetParameters.getLabelsInColumn();
+        sheetName = sheetParameters.getSheetName();
         sheet = workbook.createSheet(sheetName);
         setPrintParameters();
         this.editorSpreadSheetType = editorSpreadSheetType;
@@ -42,7 +46,7 @@ public class ExcelLabelsWriter {
         font.setFontName(parameters.getFontName());
     }
 
-    public XSSFWorkbook createLabels(List<String> labels) {
+    public XSSFWorkbook createLabels(List<Label> labels) {
         createLabelsStyle();
         setColumnsAndRowsSize();
         createRequiredNumberOfRows(labels.size());
@@ -85,18 +89,40 @@ public class ExcelLabelsWriter {
         }
     }
 
-    private void writeLabelsInCells(List<String> labels) {
+    private void writeLabelsInCells(List<Label> labels) {
         int labelPointer = 0;
+        XSSFFont fontForName = workbook.createFont();
+        XSSFFont fontForBoxNumber = workbook.createFont();
+        fontForName.setFontName(FontName.ARIAL.getName());
+        fontForName.setFontHeightInPoints((short) 16);
+        fontForBoxNumber = workbook.createFont();
+        fontForBoxNumber.setFontName(FontName.ARIAL.getName());
+        fontForBoxNumber.setFontHeightInPoints((short) 18);
+        fontForBoxNumber.setBold(true);
         for (int i = 0; i < labels.size(); i++) {
             Row row = sheet.getRow(i);
             for (int j = 0; j < labelsInRow; j++) {
                 if (labelPointer >= labels.size()) {
                     return;
                 }
-                String label = labels.get(labelPointer++);
-                Cell cell = row.createCell(j);
-                cell.setCellValue(label);
-                cell.setCellStyle(cellStyle);
+                if(labelsFormat == LabelsFormat.NUMBERS_ONLY) {
+                    String number = labels.get(labelPointer++).getFullBoxNumber();
+                    Cell cell = row.createCell(j);
+                    cell.setCellValue(number);
+                    cell.setCellStyle(cellStyle);
+                } else {
+                    Label label = labels.get(labelPointer++);
+                    XSSFRichTextString content = new XSSFRichTextString(
+                            "\r\n" +
+                            label.getFirstName() + " " + label.getSecondName()
+                            + "\r\n\r\n");
+                    content.applyFont(fontForName);
+                    content.append("                        " + label.getFullBoxNumber(), fontForBoxNumber);
+                    Cell cell = row.createCell(j);
+                    cell.setCellStyle(cellStyle);
+                    cell.setCellValue(content);
+                }
+
 
             }
         }

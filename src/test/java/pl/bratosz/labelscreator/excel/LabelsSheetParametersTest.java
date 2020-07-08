@@ -3,7 +3,7 @@ package pl.bratosz.labelscreator.excel;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
-import pl.bratosz.labelscreator.excel.format.Font;
+import pl.bratosz.labelscreator.excel.format.FontName;
 import static org.assertj.core.api.Assertions.*;
 
 
@@ -59,11 +59,11 @@ class LabelsSheetParametersTest {
     @Test
     void whenFontIsCorrectShouldSetThatValue(){
         //given
-        Font font = Font.TIMES_NEW_ROMAN;
+        FontName fontName = FontName.TIMES_NEW_ROMAN;
         String expectedFont = "Times New Roman";
         String actualFont;
         //when
-        labelsSheetParameters.setFontName(font);
+        labelsSheetParameters.setFontName(fontName);
         actualFont = labelsSheetParameters.getFontName();
         //then
         assertThat(actualFont).isEqualTo(expectedFont);

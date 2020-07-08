@@ -34,7 +34,7 @@ $("#button-generate-labels").click(function () {
     let editorType = $('input[name="editor-type"]:checked').val();
     console.log(employees);
     $.ajax({
-        url: `http://naklejkomat.herokuapp.com/labels/create/from_table/${labelsFormat}/${editorType}`,
+        url: `http://localhost:8080/labels/create/from_table/${labelsFormat}/${editorType}`,
         method: "post",
         data: JSON.stringify(employees),
         contentType: "application/json",

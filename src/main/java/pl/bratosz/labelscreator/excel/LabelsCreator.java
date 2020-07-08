@@ -5,12 +5,13 @@ import pl.bratosz.labelscreator.excel.format.EditorSpreadSheetType;
 import pl.bratosz.labelscreator.excel.format.labels.LabelsFormat;
 import pl.bratosz.labelscreator.formater.StringFormater;
 import pl.bratosz.labelscreator.model.Employee;
+import pl.bratosz.labelscreator.model.Label;
 
 import java.util.LinkedList;
 import java.util.List;
 
 public class LabelsCreator {
-    private List<String> labels;
+    private List<Label> labels;
     private ExcelLabelsWriter excelLabelsWriter;
     private LabelsFormat labelsFormat;
 
@@ -31,7 +32,7 @@ public class LabelsCreator {
         }
     }
 
-    private String createLabel(Employee employee) {
+    private Label createLabel(Employee employee) {
         String firstName = employee.getFirstName();
         String lastName = employee.getLastName();
         int lockerNumber = employee.getLockerNumber();
@@ -42,7 +43,7 @@ public class LabelsCreator {
 
     }
 
-    private String formatContent(
+    private Label formatContent(
             String firstName, String lastName, int lockerNumber, int boxNumber) {
         switch(labelsFormat){
             case STANDARD: {
@@ -57,7 +58,7 @@ public class LabelsCreator {
                 return createStandardContent(firstLetterFromLastName, firstName, lockerNumber, boxNumber);
             }
             case NUMBERS_ONLY: {
-                return createFullBoxNumber(lockerNumber, boxNumber);
+                return new Label(createFullBoxNumber(lockerNumber, boxNumber));
             }
             default: {
                 return createStandardContent(firstName, lastName, lockerNumber, boxNumber);
@@ -66,15 +67,15 @@ public class LabelsCreator {
 
     }
 
-    private String createStandardContent(
+    private Label createStandardContent(
             String firstName, String secondName, int lockerNumber, int boxNumber) {
         String fullBoxNumber = createFullBoxNumber(lockerNumber, boxNumber);
         StringFormater sf = new StringFormater();
-        return "\r\n"
-                + sf.capitalizeFirstLetters(firstName) + " "
-                + sf.capitalizeFirstLetters(secondName)
-                + "\r\n"
-                + "                               " + fullBoxNumber;
+        return new Label(
+                sf.capitalizeFirstLetters(firstName),
+                sf.capitalizeFirstLetters(secondName),
+                fullBoxNumber
+        );
     }
 
     private String createFullBoxNumber(int lockerNumber, int boxNumber) {

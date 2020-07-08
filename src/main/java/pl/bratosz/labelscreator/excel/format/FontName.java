@@ -1,12 +1,13 @@
 package pl.bratosz.labelscreator.excel.format;
 
-public enum Font {
+public enum FontName {
     TIMES_NEW_ROMAN("Times New Roman"),
+    ARIAL("Arial"),
     TAHOMA("Tahoma");
 
     private String name;
 
-    Font(String name){
+    FontName(String name){
         this.name = name;
     }
 
