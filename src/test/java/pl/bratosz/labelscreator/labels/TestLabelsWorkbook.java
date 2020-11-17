@@ -1,4 +1,4 @@
-package pl.bratosz.labelscreator.excel;
+package pl.bratosz.labelscreator.labels;
 
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;

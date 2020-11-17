@@ -1,7 +1,7 @@
 package pl.bratosz.labelscreator.converter;
 
 import org.springframework.stereotype.Component;
-import pl.bratosz.labelscreator.excel.format.EditorSpreadSheetType;
+import pl.bratosz.labelscreator.labels.format.EditorSpreadSheetType;
 
 @Component
 public class EditorTypeConverter extends EnumConverter<EditorSpreadSheetType> {

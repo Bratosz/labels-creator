@@ -1,4 +1,4 @@
-package pl.bratosz.labelscreator.excel.format;
+package pl.bratosz.labelscreator.labels.format;
 
 public enum FontName {
     TIMES_NEW_ROMAN("Times New Roman"),

@@ -1,9 +1,9 @@
-package pl.bratosz.labelscreator.excel;
+package pl.bratosz.labelscreator.labels;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
-import pl.bratosz.labelscreator.excel.format.FontName;
+import pl.bratosz.labelscreator.labels.format.FontName;
 import static org.assertj.core.api.Assertions.*;
 
 

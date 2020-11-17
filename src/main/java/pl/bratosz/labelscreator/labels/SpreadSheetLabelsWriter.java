@@ -1,16 +1,16 @@
-package pl.bratosz.labelscreator.excel;
+package pl.bratosz.labelscreator.labels;
 
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.*;
-import pl.bratosz.labelscreator.excel.format.EditorSpreadSheetType;
-import pl.bratosz.labelscreator.excel.format.FontName;
-import pl.bratosz.labelscreator.excel.format.labels.LabelsFormat;
-import pl.bratosz.labelscreator.excel.format.page.PageSize;
+import pl.bratosz.labelscreator.labels.format.EditorSpreadSheetType;
+import pl.bratosz.labelscreator.labels.format.FontName;
+import pl.bratosz.labelscreator.labels.format.labels.LabelsFormat;
+import pl.bratosz.labelscreator.labels.format.page.PageSize;
 import pl.bratosz.labelscreator.model.Label;
 
 import java.util.List;
 
-public class ExcelLabelsWriter {
+public class SpreadSheetLabelsWriter {
     private static final float CONVERSION_RATE_FOR_COLUMN_WIDTH = 0.00765613f;
     private static final float CONVERSION_RATE_FOR_ROW_HEIGHT_LIBRE_OFFICE = 0.35266666f;
     private static final float CONVERSION_RATE_FOR_ROW_HEIGHT_EXCEL = 0.33147321f;
@@ -27,7 +27,7 @@ public class ExcelLabelsWriter {
     private LabelsFormat labelsFormat;
 
 
-    public ExcelLabelsWriter(LabelsSheetParameters sheetParameters, EditorSpreadSheetType editorSpreadSheetType) {
+    public SpreadSheetLabelsWriter(LabelsSheetParameters sheetParameters, EditorSpreadSheetType editorSpreadSheetType) {
         labelsFormat = sheetParameters.getLabelsFormat();
         createFont(sheetParameters);
         pageSize = sheetParameters.getPageSize();
@@ -46,7 +46,7 @@ public class ExcelLabelsWriter {
         font.setFontName(parameters.getFontName());
     }
 
-    public XSSFWorkbook createLabels(List<Label> labels) {
+    public XSSFWorkbook create(List<Label> labels) {
         createLabelsStyle();
         setColumnsAndRowsSize();
         createRequiredNumberOfRows(labels.size());
@@ -114,7 +114,7 @@ public class ExcelLabelsWriter {
                     Label label = labels.get(labelPointer++);
                     XSSFRichTextString content = new XSSFRichTextString(
                             "\r\n" +
-                            label.getFirstName() + " " + label.getSecondName()
+                            label.getFirstName() + " " + label.getLastName()
                             + "\r\n\r\n");
                     content.applyFont(fontForName);
                     content.append("                        " + label.getFullBoxNumber(), fontForBoxNumber);

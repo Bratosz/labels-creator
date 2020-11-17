@@ -1,9 +1,9 @@
-package pl.bratosz.labelscreator.excel;
+package pl.bratosz.labelscreator.labels;
 
-import pl.bratosz.labelscreator.excel.format.FontName;
-import pl.bratosz.labelscreator.excel.format.labels.LabelsFormat;
-import pl.bratosz.labelscreator.excel.format.page.A4;
-import pl.bratosz.labelscreator.excel.format.page.PageSize;
+import pl.bratosz.labelscreator.labels.format.FontName;
+import pl.bratosz.labelscreator.labels.format.labels.LabelsFormat;
+import pl.bratosz.labelscreator.labels.format.page.A4;
+import pl.bratosz.labelscreator.labels.format.page.PageSize;
 
 public class LabelsSheetParameters {
     private int fontSize;

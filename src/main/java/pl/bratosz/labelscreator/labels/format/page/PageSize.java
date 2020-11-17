@@ -1,4 +1,4 @@
-package pl.bratosz.labelscreator.excel.format.page;
+package pl.bratosz.labelscreator.labels.format.page;
 
 public interface PageSize {
     int getWidth();

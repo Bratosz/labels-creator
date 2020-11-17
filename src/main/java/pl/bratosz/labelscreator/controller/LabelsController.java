@@ -3,8 +3,8 @@ package pl.bratosz.labelscreator.controller;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import pl.bratosz.labelscreator.excel.format.EditorSpreadSheetType;
-import pl.bratosz.labelscreator.excel.format.labels.LabelsFormat;
+import pl.bratosz.labelscreator.labels.format.EditorSpreadSheetType;
+import pl.bratosz.labelscreator.labels.format.labels.LabelsFormat;
 import pl.bratosz.labelscreator.exception.FileStorageException;
 import pl.bratosz.labelscreator.exception.WrongFileFormatException;
 import pl.bratosz.labelscreator.model.Employee;
@@ -46,6 +46,13 @@ public class LabelsController {
             throw new FileStorageException("Coś nie pykło");
         }
     }
+
+    @PostMapping("/generate_in_zpl2/{labelsFormat}")
+    public String generateInZPL2(@PathVariable LabelsFormat labelsFormat,
+                                 @RequestBody List<Employee> employees) {
+        return labelsService.generateInZPL2(labelsFormat, employees);
+    }
+
 
     @PostMapping("/create/from_table/{labelsFormat}/{editorSpreadSheetType}")
     public UploadFileResponse createFromList(

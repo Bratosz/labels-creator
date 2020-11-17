@@ -1,7 +1,7 @@
 package pl.bratosz.labelscreator.converter;
 
 import org.springframework.stereotype.Component;
-import pl.bratosz.labelscreator.excel.format.labels.LabelsFormat;
+import pl.bratosz.labelscreator.labels.format.labels.LabelsFormat;
 
 @Component
 public class LabelsFormatConverter extends EnumConverter<LabelsFormat> {

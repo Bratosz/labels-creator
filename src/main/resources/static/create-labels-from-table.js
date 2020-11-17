@@ -1,5 +1,8 @@
 let tableSize = 96;
 let totalRows = 0;
+const printerIp = "192.168.0.89";
+const printerPort = 9100;
+
 
 
 function displayTable() {
@@ -28,12 +31,21 @@ $("#button-generate-table").click(function () {
     displayTableInSize(tableSize);
 });
 
-$("#button-generate-labels").click(function () {
+$("#button-print-labels").click(function () {
     let labelsFormat = $("#labels-format-input").val();
     let employees = getEmployees();
     let editorType = $('input[name="editor-type"]:checked').val();
     console.log(employees);
+    if(editorType == "PRINTER") {
+        generateLabelsInZPL2AndPrint(labelsFormat, employees);
+    } else {
+        generateSpreadSheetFile(labelsFormat, editorType, employees);
+    }
+});
+
+function generateSpreadSheetFile(labelsFormat, editorType, employees) {
     $.ajax({
+        // url: `http://localhost:8080/labels/create/from_table/${labelsFormat}/${editorType}`,
         url: `http://naklejkomat.herokuapp.com/labels/create/from_table/${labelsFormat}/${editorType}`,
         method: "post",
         data: JSON.stringify(employees),
@@ -44,8 +56,34 @@ $("#button-generate-labels").click(function () {
             alert("Plik z najklejkami został pobrany i jest gotowy do druku");
             window.open(response.fileDownloadUri);
         }
-    })
-});
+    });
+}
+
+function generateLabelsInZPL2AndPrint(labelsFormat, employees) {
+    $.ajax({
+        url: `http://naklejkomat.herokuapp.com/labels/generate_in_zpl2/${labelsFormat}`,
+        // url: `http://localhost:8080/labels/generate_in_zpl2/${labelsFormat}`,
+        method: "post",
+        data: JSON.stringify(employees),
+        contentType: "application/json",
+        success: function (ZPLGeneratedExpression) {
+            sendLabelsToPrinter(ZPLGeneratedExpression);
+        }
+    });
+};
+
+function sendLabelsToPrinter(labelsInZPL2){
+    if(labelsInZPL2.length == 0){
+        return 0;
+    } else {
+        $.ajax({
+            url: `http://` + printerIp + `:` + printerPort,
+            method: "post",
+            data: labelsInZPL2.toString(),
+        });
+    }
+    location.reload();
+};
 
 $(document).ready(function() {
     $('input').on('paste', function(e){

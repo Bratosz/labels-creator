@@ -1,9 +1,10 @@
-package pl.bratosz.labelscreator.excel;
+package pl.bratosz.labelscreator.labels;
 
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import pl.bratosz.labelscreator.excel.format.EditorSpreadSheetType;
-import pl.bratosz.labelscreator.excel.format.labels.LabelsFormat;
+import pl.bratosz.labelscreator.labels.format.EditorSpreadSheetType;
+import pl.bratosz.labelscreator.labels.format.labels.LabelsFormat;
 import pl.bratosz.labelscreator.formater.StringFormater;
+import pl.bratosz.labelscreator.labels.zpl.ZPL2LabelsWriter;
 import pl.bratosz.labelscreator.model.Employee;
 import pl.bratosz.labelscreator.model.Label;
 
@@ -11,25 +12,29 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class LabelsCreator {
-    private List<Label> labels;
-    private ExcelLabelsWriter excelLabelsWriter;
+
     private LabelsFormat labelsFormat;
 
-    public LabelsCreator(LabelsFormat labelsFormat, EditorSpreadSheetType editorSpreadSheetType) {
-        labels = new LinkedList<>();
+    public LabelsCreator(LabelsFormat labelsFormat) {
         this.labelsFormat = labelsFormat;
-        excelLabelsWriter = new ExcelLabelsWriter(new LabelsSheetParameters(labelsFormat), editorSpreadSheetType);
     }
 
-    public XSSFWorkbook create(List<Employee> employees) {
-        prepareLabels(employees);
-        return excelLabelsWriter.createLabels(labels);
+    public List<Label> create(List<Employee> employees) {
+        return prepareLabels(employees);
     }
 
-    private void prepareLabels(List<Employee> employees) {
+    public XSSFWorkbook generateSpreadSheetFile(List<Label> labels, EditorSpreadSheetType editorSpreadSheetType) {
+        SpreadSheetLabelsWriter spreadSheetLabelsWriter =
+                new SpreadSheetLabelsWriter(new LabelsSheetParameters(labelsFormat), editorSpreadSheetType);
+        return spreadSheetLabelsWriter.create(labels);
+    }
+
+    private List<Label> prepareLabels(List<Employee> employees) {
+        List<Label> labels = new LinkedList<>();
         for(Employee employee : employees) {
             labels.add(createLabel(employee));
         }
+        return labels;
     }
 
     private Label createLabel(Employee employee) {
@@ -80,5 +85,11 @@ public class LabelsCreator {
 
     private String createFullBoxNumber(int lockerNumber, int boxNumber) {
         return lockerNumber + "/" + boxNumber;
+    }
+
+
+    public String generateInZPL2(List<Label> labels) {
+        ZPL2LabelsWriter zplLW = ZPL2LabelsWriter.createWithStandardFormat();
+        return zplLW.generate(labelsFormat, labels);
     }
 }

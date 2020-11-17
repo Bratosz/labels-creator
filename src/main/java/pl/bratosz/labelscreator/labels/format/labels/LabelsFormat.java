@@ -1,4 +1,4 @@
-package pl.bratosz.labelscreator.excel.format.labels;
+package pl.bratosz.labelscreator.labels.format.labels;
 
 public enum LabelsFormat {
     STANDARD,
