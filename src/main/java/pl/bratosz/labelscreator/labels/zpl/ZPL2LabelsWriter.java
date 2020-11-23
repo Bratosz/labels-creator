@@ -56,6 +56,7 @@ public class ZPL2LabelsWriter {
 
     private String addStandardLabel(Label l) {
         String s;
+
         s = openLabel
                 + stdNamePrefix
                 + l.getFirstName() + " " + l.getLastName()
