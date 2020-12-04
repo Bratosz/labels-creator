@@ -99,6 +99,10 @@ tr th:nth-child(3)
     color: #E20015;
 }
 
+.label-std {
+    margin-right: 7px;
+}
+
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
     -webkit-appearance: none;
