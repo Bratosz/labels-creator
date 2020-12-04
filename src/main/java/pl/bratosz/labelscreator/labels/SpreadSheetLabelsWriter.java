@@ -105,7 +105,7 @@ public class SpreadSheetLabelsWriter {
                 if (labelPointer >= labels.size()) {
                     return;
                 }
-                if(labelsFormat == LabelsFormat.NUMBERS_ONLY) {
+                if(labelsFormat == LabelsFormat.DOUBLE_NUMBER) {
                     String number = labels.get(labelPointer++).getFullBoxNumber();
                     Cell cell = row.createCell(j);
                     cell.setCellValue(number);

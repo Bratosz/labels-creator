@@ -5,7 +5,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import pl.bratosz.labelscreator.labels.format.EditorSpreadSheetType;
 import pl.bratosz.labelscreator.labels.format.labels.LabelsFormat;
-import pl.bratosz.labelscreator.exception.FileStorageException;
 import pl.bratosz.labelscreator.exception.WrongFileFormatException;
 import pl.bratosz.labelscreator.model.Employee;
 import pl.bratosz.labelscreator.payload.UploadFileResponse;
@@ -31,34 +30,32 @@ public class LabelsController {
         this.s3Services = s3Services;
     }
 
-    @PostMapping("/create/{labelsFormat}/{editorSpreadSheetType}")
-    public UploadFileResponse create(
-            @PathVariable LabelsFormat labelsFormat, @PathVariable EditorSpreadSheetType editorSpreadSheetType,
-            @RequestParam("file")MultipartFile file) {
-        try {
-            XSSFWorkbook workbook = extractWorkbookFromFile(file);
-            return labelsService.create(workbook, labelsFormat, editorSpreadSheetType);
-
-        } catch (WrongFileFormatException e) {
-            String message = e.getMessage();
-            throw new FileStorageException("Niewłaściwy format pliku: " + message);
-        } catch (IOException e) {
-            throw new FileStorageException("Coś nie pykło");
-        }
+    @PostMapping("/create_from_table/zpl2/{labelsFormat}/{plantNumber}")
+    public String createLabelsInZPL2(@PathVariable LabelsFormat labelsFormat,
+                               @PathVariable String plantNumber,
+                               @RequestBody List<Employee> employees) {
+        return labelsService.createLabelsAsZPL2(labelsFormat, employees, plantNumber);
     }
 
-    @PostMapping("/generate_in_zpl2/{labelsFormat}")
-    public String generateInZPL2(@PathVariable LabelsFormat labelsFormat,
-                                 @RequestBody List<Employee> employees) {
-        return labelsService.generateInZPL2(labelsFormat, employees);
+    @PostMapping("/create_from_range/zpl2/" +
+            "{beginNumber}/{endNumber}/{capacity}/{labelsFormat}")
+    public String createNumericLabelsInZPL2(
+            @PathVariable int beginNumber,
+            @PathVariable int endNumber,
+            @PathVariable int capacity,
+            @PathVariable LabelsFormat labelsFormat) {
+     return labelsService.createNumericLabelsAsZPL2(
+             beginNumber, endNumber, capacity, labelsFormat);
     }
 
 
-    @PostMapping("/create/from_table/{labelsFormat}/{editorSpreadSheetType}")
-    public UploadFileResponse createFromList(
-            @PathVariable LabelsFormat labelsFormat, @PathVariable EditorSpreadSheetType editorSpreadSheetType,
+    @PostMapping("/create_from_table/spread_sheet/{labelsFormat}/{editorSpreadSheetType}/{plantNumber}")
+    public UploadFileResponse createSpreadSheet(
+            @PathVariable LabelsFormat labelsFormat,
+            @PathVariable EditorSpreadSheetType editorSpreadSheetType,
+            @PathVariable int plantNumber,
             @RequestBody List<Employee> employees) {
-        return labelsService.createFromList(employees, labelsFormat, editorSpreadSheetType);
+        return labelsService.createSpreadSheet(employees, labelsFormat, editorSpreadSheetType);
     }
 
     private XSSFWorkbook extractWorkbookFromFile(MultipartFile file) throws IOException {

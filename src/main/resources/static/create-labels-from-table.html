@@ -7,7 +7,7 @@
     <script src="jquery-3.3.1.min.js"></script>
     <script src="create-labels-from-table.js" defer></script>
 
-    <link rel="stylesheet" href="style.css" type="text/css" />
+    <link rel="stylesheet" href="style.css" type="text/css"/>
 
     <link rel="stylesheet"
           href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
@@ -60,34 +60,110 @@
         </div>
     </nav>
 
-    <form>
-        <div id="side-bar">
-            <div class="select-option">
-                <select id="labels-format-input">
-                    <option value="STANDARD">Nazwisko, Imię, Nr szafki</option>
-                    <option value="FIRST_NAME_LETTER">I., Nazwisko, Nr szafki</option>
-                    <option value="LAST_NAME_LETTER">N., Imię, Nr szafki</option>
-                    <option value="NUMBERS_ONLY">Nr szafki</option>
-                </select>
+    <div>
+        <div>
+            <div class="basic-field">
+                <div class="gap-vertical-5"></div>
+                <span>Drukuj z tabeli:</span>
+                <div class="gap-vertical-5"></div>
+                <div class="select-option">
+                    <select id="input-labels-format">
+                        <option value="STANDARD">Nazwisko, Imię, Nr szafki</option>
+                        <option value="FIRST_NAME_LETTER">Nazwisko, I., Nr szafki</option>
+                        <option value="LAST_NAME_LETTER">Imię, N. Nr szafki</option>
+                        <option value="NUMBERS_ONLY">Nr szafki</option>
+                    </select>
+                </div>
+                <div class="gap-vertical-5"></div>
+                <div class="select-radio">
+                    <input type="radio" id="editor-1" name="editor-type"
+                           value="PRINTER" checked>
+                    <label for="editor-1">Naklejkomat</label>
+                    <input type="radio" id="editor-2" name="editor-type" value="EXCEL">
+                    <label for="editor-2">Excel</label>
+                    <input type="radio" id="editor-3" name="editor-type" value="LIBRE_OFFICE">
+                    <label for="editor-3">Libre Office</label>
+                </div>
+                <div class="gap-vertical-5"></div>
+                <div class="input-bar">
+                    <div class="option">
+                        <input class="input-std"
+                               placeholder="000"
+                               type="number"
+                               id="input-plant-number">
+                    </div>
+                    <div class="option">
+                        <button class="button"
+                                type="button"
+                                id="button-print-from-table">Drukuj
+                        </button>
+                    </div>
+                    <div class="option">
+                        <div id="alert-input-plant-number"></div>
+                    </div>
+                </div>
+                <div class="gap-vertical-20"></div>
             </div>
-            <div class="select-radio">
-                <input type="radio" id="editor-1" name="editor-type" value="PRINTER" checked>
-                <label for="editor-1">Naklejkomat</label>
-                <input type="radio" id="editor-2" name="editor-type" value="EXCEL">
-                <label for="editor-2">Excel</label>
-                <input type="radio" id="editor-3" name="editor-type" value="LIBRE_OFFICE">
-                <label for="editor-3">Libre Office</label>
-            </div>
-            <button type="button" id="button-print-labels">Drukuj</button>
-            <br/>
-            <input type="number" id="input-table-size" min="24" max="2400" step="24">
-            <button type="button" id="button-generate-table">Powiększ tabelę</button>
-            <br/>
-            <br/>
-        </div>
 
+            <!--PRINT NUMBERS FROM RANGE-->
+
+            <div class="basic-field">
+                <div class="gap-vertical-5"></div>
+                <span>Drukuj numery:</span>
+                <div class="select-radio">
+                    <input type="radio" id="number-format-1" name="numbers-format" value="DOUBLE_NUMBER"
+                           checked>
+                    <label for="number-format-1">Szafa/Box</label>
+                    <input type="radio" id="number-format-2" name="numbers-format" value="SINGLE_NUMBER">
+                    <label for="number-format-2">Box</label>
+                </div>
+                <div class="select-radio">
+                    <input type="radio" id="cap-10" name="locker-capacity" value="10" checked>
+                    <label for="cap-10">10</label>
+                    <input type="radio" id="cap-20" name="locker-capacity" value="20">
+                    <label for="cap-20">20</label>
+                </div>
+                <div class="input-bar">
+                    <!--<div class="option">-->
+                        <!--<input id="radio-numbers-from-range" type="radio" name="radio-input-numbers-type"-->
+                               <!--value="NUMBERS_FROM_RANGE" checked>-->
+                    <!--</div>-->
+                    <div class="option">Od:</div>
+                    <div class="option">
+                        <input type="number" id="input-begin-number"
+                               class="input-std">
+                    </div>
+                    <div class="option">Do:</div>
+                    <div class="option">
+                        <input id="input-end-number"
+                               class="input-std" type="number">
+                    </div>
+                    <div class="option">
+                        <button id="button-print-numbers-from-range" class="button">
+                            Drukuj
+                        </button>
+                    </div>
+                    <div class="option">
+                        <div id="alert-numbers-range"></div>
+                    </div>
+                    <!--<div class="option">-->
+                        <!--<input id="radio-numbers-particular" type="radio" name="radio-input-numbers-type"-->
+                        <!--value="NUMBERS_PARTICULAR">-->
+                    <!--</div>-->
+                    <!--<div class="option">-->
+                        <!--Konkretne liczby:-->
+                    <!--</div>-->
+                    <!--<div class="option">-->
+                        <!--<input type="text" id="input-numbers-particular"-->
+                               <!--class="input-wide" placeholder="2,3,5...7">-->
+                    <!--</div>-->
+
+                </div>
+
+            </div>
+        </div>
         <div class="table-box">
-            <table   id="table">
+            <table id="table">
                 <thead class="thead-light">
                 <tr>
                     <th scope="col">Imię</th>
@@ -106,7 +182,12 @@
                 </tbody>
             </table>
         </div>
-    </form>
+        <div class="gap-vertical-20"></div>
+        <div>
+            <input class="input-std" type="number" id="input-table-size" min="24" max="2400" step="24">
+            <button class="button" type="button" id="button-generate-table">Powiększ tabelę</button>
+        </div>
+    </div>
 
     <div class="gap-vertical-100"></div>
     <div class="gap-vertical-100"></div>
@@ -114,11 +195,9 @@
 
     <div>
         <input type="text" id="input-ip">
-        <button type="button" id="button-change-ip">Zmień</button>
+        <button class="button" type="button" id="button-change-ip">Zmień ip</button>
     </div>
 </div>
-
-
 
 
 </body>

@@ -7,23 +7,29 @@ import java.util.List;
 
 public class ZPL2LabelsWriter {
     private String openLabel;
-    private String stdNamePrefix;
+    private String positionFullNameInOneLine;
+    private String positionName1stLine;
+    private String positionName2ndLine;
     private String close;
-    private String stdNumberPrefix;
-    private String centeredNumberPrefix;
+    private String positionSTDBoxNumber;
+    private String positionCenteredBoxNumber;
+    private String positionPlantNumber;
     private String endLabel;
 
     private ZPL2LabelsWriter() {
 
     }
 
-    public static ZPL2LabelsWriter createWithStandardFormat() {
+    public static ZPL2LabelsWriter createWithStandardLabelSize() {
         ZPL2LabelsWriter zplLW = new ZPL2LabelsWriter();
         zplLW.openLabel = "^XA";
-        zplLW.stdNamePrefix = "^CW0,E:CEARIALBD.FNT^FS^CI28^FO16,96^FB448,2,8,C^A0,45,45^FD";
+        zplLW.positionFullNameInOneLine = "^FS^CI28^FO16,96^FB448,2,0,C^A0,45,45^FD";
+        zplLW.positionName1stLine = "^FS^CI28^FO16,96^FB448,1,0,C^A0,55,55^FD";
+        zplLW.positionName2ndLine = "^FS^CI28^FO16,144^FB448,1,0,C^A0,55,55^FD";
         zplLW.close = "^FS";
-        zplLW.stdNumberPrefix = "^CI28^FO16,216^FB448,1,0,R^A0,70,70^FD";
-        zplLW.centeredNumberPrefix = "^CW0,E:CEARIALBD.FNT^FS^CI28^FO16,140^FB448,2,8,C^A0,120,120^FD";
+        zplLW.positionSTDBoxNumber = "^CI28^FO16,216^FB448,1,0,R^A0,70,70^FD";
+        zplLW.positionCenteredBoxNumber = "^FS^CI28^FO16,140^FB448,2,8,C^A0,120,120^FD";
+        zplLW.positionPlantNumber = "^FO16,300^A0N,28,28,^FD";
         zplLW.endLabel = "^XZ";
         return zplLW;
     }
@@ -31,9 +37,10 @@ public class ZPL2LabelsWriter {
     public String generate(LabelsFormat labelsFormat, List<Label> labels) {
         String labelsToPrint = "";
         switch (labelsFormat) {
-            case NUMBERS_ONLY:
+            case DOUBLE_NUMBER:
+            case SINGLE_NUMBER:
                 for (Label l : labels) {
-                    labelsToPrint += addNumberOnlyLabel(l);
+                    labelsToPrint += addLabelWithBoxNumberOnly(l);
                 }
                 return labelsToPrint;
             default:
@@ -44,12 +51,17 @@ public class ZPL2LabelsWriter {
         }
     }
 
-    private String addNumberOnlyLabel(Label l) {
+    private String addLabelWithBoxNumberOnly(Label l) {
         String s;
         s = openLabel
-                + centeredNumberPrefix
+                + positionCenteredBoxNumber
                 + l.getFullBoxNumber()
                 + close
+
+                + positionPlantNumber
+                + l.getPlantNumber()
+                + close
+
                 + endLabel;
         return s;
     }
@@ -58,12 +70,22 @@ public class ZPL2LabelsWriter {
         String s;
 
         s = openLabel
-                + stdNamePrefix
-                + l.getFirstName() + " " + l.getLastName()
+                + positionName1stLine
+                + l.getLastName()
                 + close
-                + stdNumberPrefix
+
+                + positionName2ndLine
+                + l.getFirstName()
+                + close
+
+                + positionSTDBoxNumber
                 + l.getFullBoxNumber()
                 + close
+
+                + positionPlantNumber
+                + l.getPlantNumber()
+                + close
+
                 + endLabel;
         return s;
     }

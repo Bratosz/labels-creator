@@ -14,6 +14,12 @@ import java.util.List;
 public class LabelsCreator {
 
     private LabelsFormat labelsFormat;
+    private String plantNumber;
+
+    public LabelsCreator(LabelsFormat labelsFormat, String plantNumber) {
+        this.labelsFormat = labelsFormat;
+        this.plantNumber = plantNumber;
+    }
 
     public LabelsCreator(LabelsFormat labelsFormat) {
         this.labelsFormat = labelsFormat;
@@ -31,7 +37,7 @@ public class LabelsCreator {
 
     private List<Label> prepareLabels(List<Employee> employees) {
         List<Label> labels = new LinkedList<>();
-        for(Employee employee : employees) {
+        for (Employee employee : employees) {
             labels.add(createLabel(employee));
         }
         return labels;
@@ -50,20 +56,20 @@ public class LabelsCreator {
 
     private Label formatContent(
             String firstName, String lastName, int lockerNumber, int boxNumber) {
-        switch(labelsFormat){
+        switch (labelsFormat) {
             case STANDARD: {
                 return createStandardContent(firstName, lastName, lockerNumber, boxNumber);
             }
             case FIRST_NAME_LETTER: {
-                String firstLetterFromName = firstName.substring(0,1) + ".";
+                String firstLetterFromName = firstName.substring(0, 1) + ".";
                 return createStandardContent(firstLetterFromName, lastName, lockerNumber, boxNumber);
             }
             case LAST_NAME_LETTER: {
-                String firstLetterFromLastName = lastName.substring(0,1) + ".";
+                String firstLetterFromLastName = lastName.substring(0, 1) + ".";
                 return createStandardContent(firstLetterFromLastName, firstName, lockerNumber, boxNumber);
             }
-            case NUMBERS_ONLY: {
-                return new Label(createFullBoxNumber(lockerNumber, boxNumber));
+            case DOUBLE_NUMBER: {
+                return new Label(createFullBoxNumber(lockerNumber, boxNumber), plantNumber);
             }
             default: {
                 return createStandardContent(firstName, lastName, lockerNumber, boxNumber);
@@ -79,7 +85,8 @@ public class LabelsCreator {
         return new Label(
                 sf.capitalizeFirstLetters(firstName),
                 sf.capitalizeFirstLetters(secondName),
-                fullBoxNumber
+                fullBoxNumber,
+                plantNumber
         );
     }
 
@@ -88,8 +95,47 @@ public class LabelsCreator {
     }
 
 
-    public String generateInZPL2(List<Label> labels) {
-        ZPL2LabelsWriter zplLW = ZPL2LabelsWriter.createWithStandardFormat();
+    public String createInZPL2(List<Label> labels) {
+        ZPL2LabelsWriter zplLW = ZPL2LabelsWriter.createWithStandardLabelSize();
         return zplLW.generate(labelsFormat, labels);
+    }
+
+    public List<Label> create(int beginNumber, int endNumber, int capacity) {
+        List<Label> labels = new LinkedList<>();
+        switch (labelsFormat) {
+            case SINGLE_NUMBER:
+                return createLabelsWithSingleNumber(beginNumber, endNumber);
+            case DOUBLE_NUMBER:
+                return createLabelsWithDoubleNumber(
+                        beginNumber, endNumber, capacity);
+            default:
+                return labels;
+        }
+    }
+
+    private List<Label> createLabelsWithDoubleNumber(
+            int beginNumber, int endNumber, int capacity) {
+        List<Label> labels = new LinkedList<>();
+        do {
+            for (int i = 1; i <= capacity; i++) {
+                String fullBoxNumber = beginNumber + "/" + i;
+                Label l = new Label(fullBoxNumber);
+                labels.add(l);
+            }
+            beginNumber++;
+        } while (beginNumber <= endNumber);
+        return labels;
+    }
+
+
+    private List<Label> createLabelsWithSingleNumber(
+            Integer beginNumber, int endNumber) {
+        List<Label> labels = new LinkedList<>();
+        do {
+            Label l = new Label(beginNumber.toString());
+            labels.add(l);
+            beginNumber++;
+        } while (beginNumber <= endNumber);
+        return labels;
     }
 }

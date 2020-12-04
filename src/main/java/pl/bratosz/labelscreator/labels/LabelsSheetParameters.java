@@ -32,7 +32,7 @@ public class LabelsSheetParameters {
         pageSize = new A4();
         labelsInRow = 3;
         labelsInColumn = 8;
-        if(labelsFormat.equals(LabelsFormat.NUMBERS_ONLY)){
+        if(labelsFormat.equals(LabelsFormat.DOUBLE_NUMBER)){
             setDefaultFontSizeForFormatWithNumbersOnly();
         } else {
             setDefaultFontSize();

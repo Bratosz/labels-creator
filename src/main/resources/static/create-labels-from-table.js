@@ -3,12 +3,100 @@ let totalRows = 0;
 let printerIp = "192.168.0.96";
 const printerPort = 9100;
 
+displayTable();
+
+$("#button-print-from-table").click(function () {
+    let labelsFormat = $("#input-labels-format").val();
+    let employees = getEmployees();
+    let editorType = $('input[name="editor-type"]:checked').val();
+
+    let inputPlantNumber = $("#input-plant-number");
+    let alertPlantNumber = $("#alert-input-plant-number");
+    let plantNumber = inputPlantNumber.val();
+    if (isPlantNumberCorrect(plantNumber)) {
+        snuffInput(inputPlantNumber);
+        hideAlert(alertPlantNumber);
+        // console.log(employees);
+        if (editorType == "PRINTER") {
+            generateLabelsInZPL2AndPrint(labelsFormat, employees, plantNumber);
+        } else {
+            generateSpreadSheetFile(labelsFormat, editorType, employees, plantNumber);
+        }
+    } else {
+        highlightInput(inputPlantNumber);
+        displayAlert(alertPlantNumber, "Błędny nr zakładu.");
+    }
+});
+
+$("#button-print-numbers-from-range").click(function () {
+    let inputBeginNumber = $('#input-begin-number');
+    let inputEndNumber = $('#input-end-number');
+    let alertNumbersRange = $('#alert-numbers-range');
+
+    let numbersFormat = $('input[name="numbers-format"]:checked').val();
+    let lockersCapacity = $('input[name="locker-capacity"]:checked').val();
+    let beginNumber = inputBeginNumber.val();
+    let endNumber = inputEndNumber.val();
+
+    if (isPassedNumbersCorrect(beginNumber, endNumber)) {
+        snuffInput(inputBeginNumber);
+        snuffInput(inputEndNumber);
+        hideAlert(alertNumbersRange);
+        generateAndPrintLabelsWithNumbersFromRangeInZPL2(
+            beginNumber, endNumber, lockersCapacity, numbersFormat);
+    } else {
+        highlightInput(inputBeginNumber);
+        highlightInput(inputEndNumber);
+        displayAlert(alertNumbersRange, "Niewłaściwe numery szaf.")
+    }
+});
 
 $("#button-change-ip").click(function () {
     let ip = $("#input-ip").val();
     changeIP(ip);
     alert("Ustawiono nowe IP: " + printerIp + " port: " + printerPort);
 });
+
+function isPassedNumbersCorrect(beginNumber, endNumber) {
+    if(beginNumber == "") {
+        return false;
+    } else if ((beginNumber >= 0) && (endNumber == "")) {
+        return true;
+    } else if (beginNumber <= endNumber) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+function hideAlert(a) {
+    a.empty();
+}
+
+function displayAlert(alert, content) {
+    alert.css("color", "#E20015");
+    alert.css("font-weight", "700");
+    alert.empty();
+    alert.append(content);
+}
+
+function isPlantNumberCorrect(plantNumber) {
+    if ((plantNumber > 99)
+        && (plantNumber < 1000)) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+function highlightInput(b) {
+    b.css("border-color", "#E20015")
+}
+
+function snuffInput(b) {
+    b.css("border-color", "black");
+}
+
 
 function changeIP(ip) {
     printerIp = ip;
@@ -40,22 +128,11 @@ $("#button-generate-table").click(function () {
     displayTableInSize(tableSize);
 });
 
-$("#button-print-labels").click(function () {
-    let labelsFormat = $("#labels-format-input").val();
-    let employees = getEmployees();
-    let editorType = $('input[name="editor-type"]:checked').val();
-    console.log(employees);
-    if (editorType == "PRINTER") {
-        generateLabelsInZPL2AndPrint(labelsFormat, employees);
-    } else {
-        generateSpreadSheetFile(labelsFormat, editorType, employees);
-    }
-});
 
-function generateSpreadSheetFile(labelsFormat, editorType, employees) {
+function generateSpreadSheetFile(labelsFormat, editorType, employees, plantNumber) {
     $.ajax({
-        // url: `http://localhost:8080/labels/create/from_table/${labelsFormat}/${editorType}`,
-        url: `http://naklejkomat.herokuapp.com/labels/create/from_table/${labelsFormat}/${editorType}`,
+        // url: `http://localhost:8080/labels/create_from_table/spread_sheet/${labelsFormat}/${editorType}/${plantNumber}`,
+        url: `http://naklejkomat.herokuapp.com/labels/create_from_table/spread_sheet/${labelsFormat}/${editorType}/${plantNumber}`,
         method: "post",
         data: JSON.stringify(employees),
         contentType: "application/json",
@@ -68,18 +145,39 @@ function generateSpreadSheetFile(labelsFormat, editorType, employees) {
     });
 }
 
-function generateLabelsInZPL2AndPrint(labelsFormat, employees) {
+function generateLabelsInZPL2AndPrint(labelsFormat, employees, plantNumber) {
     $.ajax({
-        url: `http://naklejkomat.herokuapp.com/labels/generate_in_zpl2/${labelsFormat}`,
-        // url: `http://localhost:8080/labels/generate_in_zpl2/${labelsFormat}`,
+        url: `http://naklejkomat.herokuapp.com/labels/create_from_table/zpl2/
+        ${labelsFormat}/${plantNumber}`,
+        // url: `http://localhost:8080/labels/create_from_table/zpl2/${labelsFormat}/${plantNumber}`,
         method: "post",
         data: JSON.stringify(employees),
         contentType: "application/json",
         success: function (ZPLGeneratedExpression) {
             sendLabelsToPrinter(ZPLGeneratedExpression);
+            console.log(ZPLGeneratedExpression);
+            alert("Etykiety wysłano do drukarki.");
         }
     });
 };
+
+function generateAndPrintLabelsWithNumbersFromRangeInZPL2(beginNumber, endNumber, capacity, numbersFormat) {
+    if(endNumber === "") {
+        endNumber = 0;
+    }
+    $.ajax({
+        url: `http://naklejkomat.herokuapp.com/labels/create_from_range/zpl2/
+        ${numbersFormat}/${beginNumber}/${endNumber}/${capacity}`,
+        // url: `http://localhost:8080/labels/create_from_range/zpl2/
+        // ${beginNumber}/${endNumber}/${capacity}/${numbersFormat}`,
+        method: "post",
+        success: function (ZPLGeneratedExpression) {
+            sendLabelsToPrinter(ZPLGeneratedExpression);
+            console.log(ZPLGeneratedExpression);
+            alert("Etykiety wysłano do drukarki.");
+        }
+    })
+}
 
 
 function sendLabelsToPrinter(labelsInZPL2) {
@@ -92,7 +190,8 @@ function sendLabelsToPrinter(labelsInZPL2) {
             data: labelsInZPL2.toString(),
         });
     }
-    location.reload();
+    // location.reload();
+
 };
 
 $(document).ready(function () {
@@ -126,7 +225,11 @@ $(document).ready(function () {
 
 function isItHeaderRow(cellNameValue) {
     if ((cellNameValue == "IMIE") ||
+        (cellNameValue == "IMIE:") ||
+        (cellNameValue == "IMIE :") ||
         (cellNameValue == "IMIĘ") ||
+        (cellNameValue == "IMIĘ:") ||
+        (cellNameValue == "IMIĘ :") ||
         (cellNameValue == "NAME") ||
         (cellNameValue == "FIRSTNAME")) {
         return true;
@@ -168,4 +271,4 @@ function isRowFilled(row) {
 };
 
 
-displayTable();
+

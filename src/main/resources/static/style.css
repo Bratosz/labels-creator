@@ -13,16 +13,15 @@
 table
 {
     width: 100%;
+
 }
 table, th, td
 {
     border: 1px solid #000;
-    border-collapse: collapse;
     padding: 12px;
 }
 table
 {
-    border-radius: 25px;
     padding: 20px;
 }
 th
@@ -48,6 +47,66 @@ tr th:nth-child(3)
     width: 247px;
 }
 
+.basic-field {
+    display: inline-block;
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
 .gap-vertical-100 {
     height: 100px;
+}
+
+.gap-vertical-50 {
+    height: 50px;
+}
+
+.gap-vertical-20 {
+    height: 20px;
+}
+.gap-vertical-5 {
+    height: 5px;
+}
+
+.option {
+    display: inline-block;
+}
+
+.input-std {
+    width: 42px;
+    margin: 2px;
+    text-align: center;
+    font-weight: 900;
+    border: 1px solid black;
+    border-radius: 3px;
+}
+
+.input-wide {
+
+}
+
+#input-plant-number {
+}
+
+.button {
+    background: white;
+    border: 1px solid black;
+    border-radius: 3px;
+    color: black;
+}
+
+.button:hover {
+    color: #E20015;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+    color: black;
+    font-weight: 400;
+    opacity: 1; /* Firefox */
 }

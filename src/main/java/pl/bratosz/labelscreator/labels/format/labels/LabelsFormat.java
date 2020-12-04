@@ -4,5 +4,7 @@ public enum LabelsFormat {
     STANDARD,
     FIRST_NAME_LETTER,
     LAST_NAME_LETTER,
-    NUMBERS_ONLY,
+    DOUBLE_NUMBER,
+    SINGLE_NUMBER,
+
 }

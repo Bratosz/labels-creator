@@ -35,19 +35,29 @@ public class LabelsService {
         return fileStorage.storeFile(fileToPrint);
     }
 
-    public UploadFileResponse createFromList(List<Employee> employees, LabelsFormat labelsFormat, EditorSpreadSheetType editorSpreadSheetType) {
+    public UploadFileResponse createSpreadSheet(List<Employee> employees, LabelsFormat labelsFormat, EditorSpreadSheetType editorSpreadSheetType) {
         LabelsCreator labelsCreator = new LabelsCreator(labelsFormat);
         ExcelFileStorage fileStorage = new ExcelFileStorage();
 
         List<Label> labels = labelsCreator.create(employees);
-        XSSFWorkbook fileToPrint = labelsCreator.generateSpreadSheetFile(labels,editorSpreadSheetType);
+        XSSFWorkbook fileToPrint = labelsCreator.generateSpreadSheetFile(labels, editorSpreadSheetType);
 
         return fileStorage.storeFile(fileToPrint);
     }
 
-    public String generateInZPL2(LabelsFormat labelsFormat, List<Employee> employees) {
-        LabelsCreator lc = new LabelsCreator(labelsFormat);
+    public String createLabelsAsZPL2(LabelsFormat labelsFormat, List<Employee> employees, String plantNumber) {
+        LabelsCreator lc = new LabelsCreator(labelsFormat, plantNumber);
         List<Label> labels = lc.create(employees);
-        return lc.generateInZPL2(labels);
+        return lc.createInZPL2(labels);
     }
+
+    public String createNumericLabelsAsZPL2(
+            int beginNumber, int endNubmer, int capacity, LabelsFormat labelsFormat) {
+        LabelsCreator lc = new LabelsCreator(labelsFormat);
+        List<Label> labels = lc.create(beginNumber, endNubmer, capacity);
+        return lc.createInZPL2(labels);
+    }
+
+
 }
+
