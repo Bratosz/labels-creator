@@ -147,8 +147,7 @@ function generateSpreadSheetFile(labelsFormat, editorType, employees, plantNumbe
 
 function generateLabelsInZPL2AndPrint(labelsFormat, employees, plantNumber) {
     $.ajax({
-        url: `http://naklejkomat.herokuapp.com/labels/create_from_table/zpl2/
-        ${labelsFormat}/${plantNumber}`,
+        url: `http://naklejkomat.herokuapp.com/labels/create_from_table/zpl2/${labelsFormat}/${plantNumber}`,
         // url: `http://localhost:8080/labels/create_from_table/zpl2/${labelsFormat}/${plantNumber}`,
         method: "post",
         data: JSON.stringify(employees),
@@ -166,8 +165,7 @@ function generateAndPrintLabelsWithNumbersFromRangeInZPL2(beginNumber, endNumber
         endNumber = 0;
     }
     $.ajax({
-        url: `http://naklejkomat.herokuapp.com/labels/create_from_range/zpl2/
-        ${numbersFormat}/${beginNumber}/${endNumber}/${capacity}`,
+        url: `http://naklejkomat.herokuapp.com/labels/create_from_range/zpl2/${numbersFormat}/${beginNumber}/${endNumber}/${capacity}`,
         // url: `http://localhost:8080/labels/create_from_range/zpl2/
         // ${beginNumber}/${endNumber}/${capacity}/${numbersFormat}`,
         method: "post",
