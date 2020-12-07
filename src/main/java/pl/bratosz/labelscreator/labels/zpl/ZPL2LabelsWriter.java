@@ -29,7 +29,7 @@ public class ZPL2LabelsWriter {
         zplLW.close = "^FS";
         zplLW.positionSTDBoxNumber = "^CI28^FO16,216^FB448,1,0,R^A0,70,70^FD";
         zplLW.positionCenteredBoxNumber = "^FS^CI28^FO16,140^FB448,2,8,C^A0,120,120^FD";
-        zplLW.positionPlantNumber = "^FO16,300^A0N,28,28,^FD";
+        zplLW.positionPlantNumber = "^FO16,290^A0N,28,28,^FD";
         zplLW.endLabel = "^XZ";
         return zplLW;
     }
