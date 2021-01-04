@@ -60,11 +60,16 @@
         </div>
     </nav>
 
+
+
     <div>
         <div>
+            <!--PRINT NUMBERS FROM TABLE-->
             <div class="basic-field">
                 <div class="gap-vertical-5"></div>
-                <span>Drukuj z tabeli:</span>
+                <div class="option-header">
+                    <span>Drukuj z tabeli:</span>
+                </div>
                 <div class="gap-vertical-5"></div>
                 <div class="select-option">
                     <select id="input-labels-format">
@@ -82,7 +87,7 @@
                     <input type="radio" id="editor-2" name="editor-type" value="EXCEL">
                     <label for="editor-2">Excel</label>
                     <input type="radio" id="editor-3" name="editor-type" value="LIBRE_OFFICE">
-                    <label for="editor-3">Libre Office</label>
+                    <label for="editor-3">Calc</label>
                 </div>
                 <div class="gap-vertical-5"></div>
                 <div class="input-bar">
@@ -102,31 +107,29 @@
                         <div id="alert-input-plant-number"></div>
                     </div>
                 </div>
-                <div class="gap-vertical-20"></div>
             </div>
-
             <!--PRINT NUMBERS FROM RANGE-->
-
             <div class="basic-field">
                 <div class="gap-vertical-5"></div>
-                <span>Drukuj numery:</span>
+                <div class="option-header">
+                    <span>Drukuj numery:</span>
+                </div>
                 <div class="select-radio">
                     <input type="radio" id="number-format-2" name="numbers-format" value="SINGLE_NUMBER" checked>
-                    <label class="label-std" for="number-format-2">Box</label>
+                    <label class="label-std" for="number-format-2">Pojedyncze numery</label>
                     <input type="radio" id="number-format-1" name="numbers-format" value="DOUBLE_NUMBER">
                     <label class="label-std" for="number-format-1">Szafa/Box</label>
                 </div>
                 <div class="select-radio">
+                    <span>Pojemność szaf: </span>
                     <input type="radio" id="cap-10" name="locker-capacity" value="10" checked>
                     <label class="label-std" for="cap-10">10</label>
                     <input type="radio" id="cap-20" name="locker-capacity" value="20">
                     <label class="label-std" for="cap-20">20</label>
                 </div>
+                <div class="gap-vertical-5"></div>
+                <div class="gap-vertical-3"></div>
                 <div class="input-bar">
-                    <!--<div class="option">-->
-                        <!--<input id="radio-numbers-from-range" type="radio" name="radio-input-numbers-type"-->
-                               <!--value="NUMBERS_FROM_RANGE" checked>-->
-                    <!--</div>-->
                     <div class="option">Od:</div>
                     <div class="option">
                         <input type="number" id="input-begin-number"
@@ -142,25 +145,49 @@
                             Drukuj
                         </button>
                     </div>
-                    <div class="option">
+                    <div class="alert">
                         <div id="alert-numbers-range"></div>
                     </div>
-                    <!--<div class="option">-->
-                        <!--<input id="radio-numbers-particular" type="radio" name="radio-input-numbers-type"-->
-                        <!--value="NUMBERS_PARTICULAR">-->
-                    <!--</div>-->
-                    <!--<div class="option">-->
-                        <!--Konkretne liczby:-->
-                    <!--</div>-->
-                    <!--<div class="option">-->
-                        <!--<input type="text" id="input-numbers-particular"-->
-                               <!--class="input-wide" placeholder="2,3,5...7">-->
-                    <!--</div>-->
-
                 </div>
 
+
+            </div>
+            <!--PRINT CUSTOM CONTENT-->
+            <div class="basic-field">
+                <div class="basic-field">
+                    <div class="gap-vertical-5"></div>
+                    <div class="option-header">
+                        <span>Drukuj niestandardowo:</span>
+                    </div>
+                    <div class="gap-vertical-2"></div>
+                    <div class="my-text-field">
+                        <input type="text" id="input-text-field">
+                    </div>
+                    <div class="gap-vertical-5"></div>
+                    <div class="gap-vertical-2"></div>
+                    <div class="input-bar">
+                        <div class="option">
+                            Ilość:
+                        </div>
+                        <div class="option">
+                            <input id="input-labels-amount" class="input-std" type="number" value="1">
+                        </div>
+                        <div class="option">
+                            <button id="button-print-custom-content" class="button">
+                                Drukuj
+                            </button>
+                        </div>
+                        <div class="alert">
+                            <div id="alert-text-field"></div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
+
+        <!--TABLE-->
+
+        <div class="gap-vertical-20"></div>
         <div class="table-box">
             <table id="table">
                 <thead class="thead-light">
@@ -182,6 +209,7 @@
             </table>
         </div>
         <div class="gap-vertical-20"></div>
+
         <div>
             <input class="input-std" type="number" id="input-table-size" min="24" max="2400" step="24">
             <button class="button" type="button" id="button-generate-table">Powiększ tabelę</button>

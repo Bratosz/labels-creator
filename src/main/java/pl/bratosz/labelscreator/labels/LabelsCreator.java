@@ -4,7 +4,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import pl.bratosz.labelscreator.labels.format.EditorSpreadSheetType;
 import pl.bratosz.labelscreator.labels.format.labels.LabelsFormat;
 import pl.bratosz.labelscreator.formater.StringFormater;
-import pl.bratosz.labelscreator.labels.zpl.ZPL2LabelsWriter;
+import pl.bratosz.labelscreator.labels.zpl.ZPLWriter;
 import pl.bratosz.labelscreator.model.Employee;
 import pl.bratosz.labelscreator.model.Label;
 
@@ -16,6 +16,8 @@ public class LabelsCreator {
     private LabelsFormat labelsFormat;
     private String plantNumber;
 
+    public LabelsCreator(){}
+
     public LabelsCreator(LabelsFormat labelsFormat, String plantNumber) {
         this.labelsFormat = labelsFormat;
         this.plantNumber = plantNumber;
@@ -25,7 +27,7 @@ public class LabelsCreator {
         this.labelsFormat = labelsFormat;
     }
 
-    public List<Label> create(List<Employee> employees) {
+    public List<Label> generate(List<Employee> employees) {
         return prepareLabels(employees);
     }
 
@@ -96,11 +98,20 @@ public class LabelsCreator {
 
 
     public String createInZPL2(List<Label> labels) {
-        ZPL2LabelsWriter zplLW = ZPL2LabelsWriter.createWithStandardLabelSize();
+        ZPLWriter zplLW = ZPLWriter.create();
         return zplLW.generate(labelsFormat, labels);
     }
 
-    public List<Label> create(int beginNumber, int endNumber, int capacity) {
+    public String generateFromCustomString(String content, int fontSize, int labelsAmount) {
+        String result = "";
+        ZPLWriter writer = ZPLWriter.create();
+        for (int i = 0; i < labelsAmount; i++) {
+            result += writer.generate(content, fontSize);
+        }
+        return result;
+    }
+
+    public List<Label> generate(int beginNumber, int endNumber, int capacity) {
         List<Label> labels = new LinkedList<>();
         switch (labelsFormat) {
             case SINGLE_NUMBER:

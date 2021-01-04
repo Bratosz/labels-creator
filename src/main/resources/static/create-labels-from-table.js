@@ -51,6 +51,58 @@ $("#button-print-numbers-from-range").click(function () {
     }
 });
 
+$("#button-print-custom-content").click(function () {
+    let inputTextField = $('#input-text-field');
+    let inputLabelsAmount = $('#input-labels-amount');
+
+    let alertForTextField = $('#alert-text-field');
+
+    let contentToPrint = inputTextField.val();
+    let labelsAmount = inputLabelsAmount.val();
+
+    if(parametersAreCorrect(contentToPrint, labelsAmount)) {
+       snuffInput(inputTextField);
+       snuffInput(inputLabelsAmount);
+       hideAlert(alertForTextField);
+       generateLabelsWithCustomContentInZPL2(
+           contentToPrint, labelsAmount);
+    } else if(contentIsEmpty(contentToPrint) && labelsAmountIsWrong(labelsAmount)){
+        highlightInput(inputTextField);
+        highlightInput(inputLabelsAmount);
+        displayAlert(alertForTextField, "Coś poszło nie tak ;-)")
+    } else if(contentIsEmpty(contentToPrint)) {
+        highlightInput(inputTextField);
+        displayAlert(alertForTextField, "Pole tekstowe jest puste.");
+    } else if(labelsAmountIsWrong(labelsAmount)) {
+        highlightInput(inputLabelsAmount);
+        displayAlert(alertForTextField, "Podano niewłaściwą ilość naklejek.")
+    }
+
+    function parametersAreCorrect(contentToPrint, labelsAmount) {
+        if(contentIsEmpty(contentToPrint) || labelsAmountIsWrong(labelsAmount)) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    function contentIsEmpty(contentToPrint) {
+        if(contentToPrint == "") {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    function labelsAmountIsWrong(labelsAmount) {
+        if((labelsAmount <= 0) || ((labelsAmount % 1) != 0)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+});
+
 $("#button-change-ip").click(function () {
     let ip = $("#input-ip").val();
     changeIP(ip);
@@ -172,6 +224,19 @@ function generateAndPrintLabelsWithNumbersFromRangeInZPL2(beginNumber, endNumber
             sendLabelsToPrinter(ZPLGeneratedExpression);
             console.log(ZPLGeneratedExpression);
             alert("Etykiety wysłano do drukarki.");
+        }
+    })
+}
+
+function generateLabelsWithCustomContentInZPL2(contentToPrint, labelsAmount) {
+    $.ajax({
+        // url: `http://naklejkomat.herokuapp.com/labels/create_from_custom_content/zpl2/${contentToPrint}/${labelsAmount}`,
+        url: `http://localhost:8080/labels/create_from_custom_content/zpl2/${contentToPrint}/${labelsAmount}`,
+        method: "post",
+        success: function(ZPLGeneratedExpression) {
+            sendLabelsToPrinter(ZPLGeneratedExpression);
+            console.log(ZPLGeneratedExpression);
+            alert("Etykiety wysłano do drukarki");
         }
     })
 }

@@ -29,7 +29,7 @@ public class LabelsService {
         ssl.message();
 
         loadedEmployees = employeeReader.loadEmployees();
-        List<Label> labels = labelsCreator.create(loadedEmployees);
+        List<Label> labels = labelsCreator.generate(loadedEmployees);
         XSSFWorkbook fileToPrint = labelsCreator.generateSpreadSheetFile(labels, editorSpreadSheetType);
 
         return fileStorage.storeFile(fileToPrint);
@@ -39,7 +39,7 @@ public class LabelsService {
         LabelsCreator labelsCreator = new LabelsCreator(labelsFormat);
         ExcelFileStorage fileStorage = new ExcelFileStorage();
 
-        List<Label> labels = labelsCreator.create(employees);
+        List<Label> labels = labelsCreator.generate(employees);
         XSSFWorkbook fileToPrint = labelsCreator.generateSpreadSheetFile(labels, editorSpreadSheetType);
 
         return fileStorage.storeFile(fileToPrint);
@@ -47,17 +47,31 @@ public class LabelsService {
 
     public String createLabelsAsZPL2(LabelsFormat labelsFormat, List<Employee> employees, String plantNumber) {
         LabelsCreator lc = new LabelsCreator(labelsFormat, plantNumber);
-        List<Label> labels = lc.create(employees);
+        List<Label> labels = lc.generate(employees);
         return lc.createInZPL2(labels);
     }
 
     public String createNumericLabelsAsZPL2(
             int beginNumber, int endNubmer, int capacity, LabelsFormat labelsFormat) {
         LabelsCreator lc = new LabelsCreator(labelsFormat);
-        List<Label> labels = lc.create(beginNumber, endNubmer, capacity);
+        List<Label> labels = lc.generate(beginNumber, endNubmer, capacity);
         return lc.createInZPL2(labels);
     }
 
 
+    public String createLabelsFromCustomString(String customString, int labelsAmount) {
+        int contentLength = customString.length();
+        int fontSize = determineFontSize(contentLength);
+        LabelsCreator lc = new LabelsCreator();
+        return lc.generateFromCustomString(customString, fontSize, labelsAmount);
+    }
+
+    private int determineFontSize(int contentLength) {
+        if(contentLength <= 6) {
+            return 120;
+        } else {
+            return 75;
+        }
+    }
 }
 
