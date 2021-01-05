@@ -230,8 +230,8 @@ function generateAndPrintLabelsWithNumbersFromRangeInZPL2(beginNumber, endNumber
 
 function generateLabelsWithCustomContentInZPL2(contentToPrint, labelsAmount) {
     $.ajax({
-        url: `http://naklejkomat.herokuapp.com/labels/create_from_custom_content/zpl2/${contentToPrint}/${labelsAmount}`,
-        // url: `http://localhost:8080/labels/create_from_custom_content/zpl2/${contentToPrint}/${labelsAmount}`,
+        // url: `http://naklejkomat.herokuapp.com/labels/create_from_custom_content/zpl2/${contentToPrint}/${labelsAmount}`,
+        url: `http://localhost:8080/labels/create_from_custom_content/zpl2/${contentToPrint}/${labelsAmount}`,
         method: "post",
         success: function(ZPLGeneratedExpression) {
             sendLabelsToPrinter(ZPLGeneratedExpression);

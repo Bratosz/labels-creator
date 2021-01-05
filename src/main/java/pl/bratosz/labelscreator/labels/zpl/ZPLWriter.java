@@ -74,8 +74,10 @@ public class ZPLWriter {
     }
 
     private String get1stPartOfExpression(String expression) {
-        int stringBeforeFont = expression.lastIndexOf("^A0,") + 1;
-        return beginCenteredContent.substring(0, stringBeforeFont);
+        String fontPrefix = "^A0,";
+        int prefixLength = fontPrefix.length();
+        int indexOfstringBeforeFont = expression.indexOf(fontPrefix) + prefixLength;
+        return beginCenteredContent.substring(0, indexOfstringBeforeFont);
     }
 
     private String addLabelWithBoxNumberOnly(Label l) {
