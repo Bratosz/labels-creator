@@ -60,8 +60,15 @@ public class LabelsService {
 
 
     public String createLabelsFromCustomString(String customString, int labelsAmount) {
-        int contentLength = customString.length();
-        int fontSize = determineFontSize(contentLength);
+        String[] split = customString.split("\\s+");
+        int longestWordLength = 0;
+        for(int i = 0; i < split.length; i++) {
+            int actualLength = split[i].length();
+            if(actualLength >= longestWordLength) {
+                longestWordLength = actualLength;
+            }
+        }
+        int fontSize = determineFontSize(longestWordLength);
         LabelsCreator lc = new LabelsCreator();
         return lc.generateFromCustomString(customString, fontSize, labelsAmount);
     }
@@ -69,8 +76,14 @@ public class LabelsService {
     private int determineFontSize(int contentLength) {
         if(contentLength <= 6) {
             return 120;
-        } else {
+        } else if (contentLength <= 8){
             return 75;
+        } else if (contentLength <= 12) {
+            return 55;
+        } else if (contentLength <= 16) {
+            return 40;
+        } else {
+            return 30;
         }
     }
 }
