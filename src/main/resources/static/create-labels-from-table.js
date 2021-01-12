@@ -42,7 +42,7 @@ $("#button-print-numbers-from-range").click(function () {
         snuffInput(inputBeginNumber);
         snuffInput(inputEndNumber);
         hideAlert(alertNumbersRange);
-        generateAndPrintLabelsWithNumbersFromRangeInZPL2(
+        generateAndPrintLabelsWithNumbersOnlyFromRangeInZPL2(
             beginNumber, endNumber, lockersCapacity, numbersFormat);
     } else {
         highlightInput(inputBeginNumber);
@@ -212,7 +212,7 @@ function generateLabelsInZPL2AndPrint(labelsFormat, employees, plantNumber) {
     });
 };
 
-function generateAndPrintLabelsWithNumbersFromRangeInZPL2(beginNumber, endNumber, capacity, numbersFormat) {
+function generateAndPrintLabelsWithNumbersOnlyFromRangeInZPL2(beginNumber, endNumber, capacity, numbersFormat) {
     if(endNumber === "") {
         endNumber = 0;
     }

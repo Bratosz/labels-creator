@@ -7,6 +7,7 @@ import pl.bratosz.labelscreator.labels.ExcelFileStorage;
 import pl.bratosz.labelscreator.labels.LabelsCreator;
 import pl.bratosz.labelscreator.labels.format.EditorSpreadSheetType;
 import pl.bratosz.labelscreator.labels.format.labels.LabelsFormat;
+import pl.bratosz.labelscreator.labels.zpl.ZPLFontSize;
 import pl.bratosz.labelscreator.model.Employee;
 import pl.bratosz.labelscreator.model.Label;
 import pl.bratosz.labelscreator.notification.SSLMailNotificator;
@@ -61,29 +62,32 @@ public class LabelsService {
 
     public String createLabelsFromCustomString(String customString, int labelsAmount) {
         String[] split = customString.split("\\s+");
-        int longestWordLength = 0;
-        for(int i = 0; i < split.length; i++) {
-            int actualLength = split[i].length();
-            if(actualLength >= longestWordLength) {
-                longestWordLength = actualLength;
+        ZPLFontSize fontSize = null;
+        if ((split.length == 1) && customString.length() <= 4) {
+            fontSize = new ZPLFontSize(270,150);
+        } else {
+            for (int i = 0; i < split.length; i++) {
+                int longestWordLength = 0;
+                int actualLength = split[i].length();
+                if (actualLength >= longestWordLength) longestWordLength = actualLength;
+                fontSize = determineFontSize(longestWordLength);
             }
         }
-        int fontSize = determineFontSize(longestWordLength);
         LabelsCreator lc = new LabelsCreator();
         return lc.generateFromCustomString(customString, fontSize, labelsAmount);
     }
 
-    private int determineFontSize(int contentLength) {
-        if(contentLength <= 6) {
-            return 120;
-        } else if (contentLength <= 8){
-            return 75;
+    private ZPLFontSize determineFontSize(int contentLength) {
+        if (contentLength <= 6) {
+            return new ZPLFontSize(120,120);
+        } else if (contentLength <= 8) {
+            return new ZPLFontSize(75, 75);
         } else if (contentLength <= 12) {
-            return 55;
+            return new ZPLFontSize(55,55);
         } else if (contentLength <= 16) {
-            return 40;
+            return new ZPLFontSize(40,40);
         } else {
-            return 30;
+            return new ZPLFontSize(30,30);
         }
     }
 }

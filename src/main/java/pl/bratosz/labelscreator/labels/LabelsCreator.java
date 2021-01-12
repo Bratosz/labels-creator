@@ -4,6 +4,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import pl.bratosz.labelscreator.labels.format.EditorSpreadSheetType;
 import pl.bratosz.labelscreator.labels.format.labels.LabelsFormat;
 import pl.bratosz.labelscreator.formater.StringFormater;
+import pl.bratosz.labelscreator.labels.zpl.ZPLFontSize;
 import pl.bratosz.labelscreator.labels.zpl.ZPLWriter;
 import pl.bratosz.labelscreator.model.Employee;
 import pl.bratosz.labelscreator.model.Label;
@@ -102,7 +103,7 @@ public class LabelsCreator {
         return zplLW.generate(labelsFormat, labels);
     }
 
-    public String generateFromCustomString(String content, int fontSize, int labelsAmount) {
+    public String generateFromCustomString(String content, ZPLFontSize fontSize, int labelsAmount) {
         String result = "";
         ZPLWriter writer = ZPLWriter.create();
         for (int i = 0; i < labelsAmount; i++) {
