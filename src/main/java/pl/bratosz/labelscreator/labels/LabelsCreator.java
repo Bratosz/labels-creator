@@ -64,12 +64,12 @@ public class LabelsCreator {
                 return createStandardContent(firstName, lastName, lockerNumber, boxNumber);
             }
             case FIRST_NAME_LETTER: {
-                String firstLetterFromName = firstName.substring(0, 1) + ".";
-                return createStandardContent(firstLetterFromName, lastName, lockerNumber, boxNumber);
+                String firstLetterFromFirstName = firstName.substring(0, 1) + ".";
+                return createStandardContent(firstLetterFromFirstName, lastName, lockerNumber, boxNumber);
             }
             case LAST_NAME_LETTER: {
                 String firstLetterFromLastName = lastName.substring(0, 1) + ".";
-                return createStandardContent(firstLetterFromLastName, firstName, lockerNumber, boxNumber);
+                return createStandardContent(firstName, firstLetterFromLastName, lockerNumber, boxNumber);
             }
             case DOUBLE_NUMBER: {
                 return new Label(createFullBoxNumber(lockerNumber, boxNumber), plantNumber);
@@ -82,12 +82,12 @@ public class LabelsCreator {
     }
 
     private Label createStandardContent(
-            String firstName, String secondName, int lockerNumber, int boxNumber) {
+            String firstName, String lastName, int lockerNumber, int boxNumber) {
         String fullBoxNumber = createFullBoxNumber(lockerNumber, boxNumber);
         StringFormater sf = new StringFormater();
         return new Label(
                 sf.capitalizeFirstLetters(firstName),
-                sf.capitalizeFirstLetters(secondName),
+                sf.capitalizeFirstLetters(lastName),
                 fullBoxNumber,
                 plantNumber
         );
