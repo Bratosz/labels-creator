@@ -68,6 +68,7 @@ public class ZPLWriter {
 
     public String generate(String content, ZPLFontSize fontSize) {
         positionCenteredContent = changeFontSize(positionCenteredContent, fontSize);
+        positionCenteredContent = verticalAlign(positionCenteredContent, fontSize);
         String s;
         s = openLabel
                 + positionCenteredContent
@@ -81,16 +82,18 @@ public class ZPLWriter {
         String beforeFont = getExpressionBeforeFont(expression);
         String fontDeclaration = prepareFontDeclaration(fontSize);
         String endExpression = "^FD";
-        expression = beforeFont + fontDeclaration + endExpression;
-        return verticalAlign(expression, fontSize.getHeight());
+        return beforeFont + fontDeclaration + endExpression;
+
     }
 
-    private String verticalAlign(String expression, int fontHeight) {
+    private String verticalAlign(String expression, ZPLFontSize fontSize) {
+
         String beforeVAlign = getExpressionBeforeVAlign(expression);
         String afterVAlign = getExpressionAfterVerticalOrigin(expression);
 
         int actualVerticalOrigin = getVerticalOrigin(expression);
-        String verticalOriginValue = resolveVerticalOrigin(fontHeight, actualVerticalOrigin);
+        String verticalOriginValue = resolveVerticalOrigin(
+                fontSize.getHeight(), fontSize.getRows(), actualVerticalOrigin);
 
         return beforeVAlign + verticalOriginValue + afterVAlign;
 
@@ -112,9 +115,12 @@ public class ZPLWriter {
         return expression.indexOf(vOriginPrefix) + vOriginPrefix.length() + 1;
     }
 
-    private String resolveVerticalOrigin(int desiredFontHeight, int actualVerticalOrigin) {
+    private String resolveVerticalOrigin(int desiredFontHeight, int rows, int actualVerticalOrigin) {
         int actualFontHeight = resolveFontHeight(actualVerticalOrigin);
-        if(desiredFontHeight > actualFontHeight) {
+        desiredFontHeight = desiredFontHeight * rows;
+        if(desiredFontHeight == actualFontHeight) {
+            return String.valueOf(actualVerticalOrigin);
+        }else if(desiredFontHeight > actualFontHeight) {
             int heightDifference = desiredFontHeight - actualFontHeight;
             return alignVerticallyForFontIncrease(heightDifference, actualVerticalOrigin);
         } else {

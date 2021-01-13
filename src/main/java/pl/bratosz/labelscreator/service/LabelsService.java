@@ -64,30 +64,30 @@ public class LabelsService {
         String[] split = customString.split("\\s+");
         ZPLFontSize fontSize = null;
         if ((split.length == 1) && customString.length() <= 4) {
-            fontSize = new ZPLFontSize(270,150);
+            fontSize = new ZPLFontSize(270,150,1 );
         } else {
             for (int i = 0; i < split.length; i++) {
                 int longestWordLength = 0;
                 int actualLength = split[i].length();
                 if (actualLength >= longestWordLength) longestWordLength = actualLength;
-                fontSize = determineFontSize(longestWordLength);
+                fontSize = determineFontSize(longestWordLength, split.length);
             }
         }
         LabelsCreator lc = new LabelsCreator();
         return lc.generateFromCustomString(customString, fontSize, labelsAmount);
     }
 
-    private ZPLFontSize determineFontSize(int contentLength) {
+    private ZPLFontSize determineFontSize(int contentLength, int rows) {
         if (contentLength <= 6) {
-            return new ZPLFontSize(120,120);
+            return new ZPLFontSize(120,120, rows);
         } else if (contentLength <= 8) {
-            return new ZPLFontSize(75, 75);
+            return new ZPLFontSize(75, 75, rows);
         } else if (contentLength <= 12) {
-            return new ZPLFontSize(55,55);
+            return new ZPLFontSize(55,55, rows);
         } else if (contentLength <= 16) {
-            return new ZPLFontSize(40,40);
+            return new ZPLFontSize(40,40, rows);
         } else {
-            return new ZPLFontSize(30,30);
+            return new ZPLFontSize(30,30, rows);
         }
     }
 }
