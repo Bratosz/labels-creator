@@ -104,10 +104,11 @@ public class LabelsCreator {
     }
 
     public String generateFromCustomString(String content, ZPLFontSize fontSize, int labelsAmount) {
-        String result = "";
         ZPLWriter writer = ZPLWriter.create();
+        String result = "";
+        content = writer.generate(content, fontSize);
         for (int i = 0; i < labelsAmount; i++) {
-            result += writer.generate(content, fontSize);
+            result += content;
         }
         return result;
     }
