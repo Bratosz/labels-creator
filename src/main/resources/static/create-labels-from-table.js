@@ -1,6 +1,6 @@
 let tableSize = 96;
 let totalRows = 0;
-let printerIp = "192.168.0.50";
+let printerIp = "192.168.0.67";
 const printerPort = 9100;
 
 displayTable();
