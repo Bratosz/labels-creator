@@ -183,8 +183,8 @@ $("#button-generate-table").click(function () {
 
 function generateSpreadSheetFile(labelsFormat, editorType, employees, plantNumber) {
     $.ajax({
-        // url: `http://localhost:8080/labels/create_from_table/spread_sheet/${labelsFormat}/${editorType}/${plantNumber}`,
-        url: `http://naklejkomat.herokuapp.com/labels/create_from_table/spread_sheet/${labelsFormat}/${editorType}/${plantNumber}`,
+        url: getActualLocation() +
+            `/labels/create_from_table/spread_sheet/${labelsFormat}/${editorType}/${plantNumber}`,
         method: "post",
         data: JSON.stringify(employees),
         contentType: "application/json",
@@ -199,8 +199,8 @@ function generateSpreadSheetFile(labelsFormat, editorType, employees, plantNumbe
 
 function generateLabelsInZPL2AndPrint(labelsFormat, employees, plantNumber) {
     $.ajax({
-        url: `http://naklejkomat.herokuapp.com/labels/create_from_table/zpl2/${labelsFormat}/${plantNumber}`,
-        // url: `http://localhost:8080/labels/create_from_table/zpl2/${labelsFormat}/${plantNumber}`,
+        url: getActualLocation() +
+            `/labels/create_from_table/zpl2/${labelsFormat}/${plantNumber}`,
         method: "post",
         data: JSON.stringify(employees),
         contentType: "application/json",
@@ -217,8 +217,8 @@ function generateAndPrintLabelsWithNumbersOnlyFromRangeInZPL2(beginNumber, endNu
         endNumber = 0;
     }
     $.ajax({
-        url: `http://naklejkomat.herokuapp.com/labels/create_from_range/zpl2/${beginNumber}/${endNumber}/${capacity}/${numbersFormat}`,
-        // url: `http://localhost:8080/labels/create_from_range/zpl2/${beginNumber}/${endNumber}/${capacity}/${numbersFormat}`,
+        url: getActualLocation() +
+            `/labels/create_from_range/zpl2/${beginNumber}/${endNumber}/${capacity}/${numbersFormat}`,
         method: "post",
         success: function (ZPLGeneratedExpression) {
             sendLabelsToPrinter(ZPLGeneratedExpression);
@@ -230,8 +230,8 @@ function generateAndPrintLabelsWithNumbersOnlyFromRangeInZPL2(beginNumber, endNu
 
 function generateLabelsWithCustomContentInZPL2(contentToPrint, labelsAmount) {
     $.ajax({
-        url: `http://naklejkomat.herokuapp.com/labels/create_from_custom_content/zpl2/${contentToPrint}/${labelsAmount}`,
-        // url: `http://localhost:8080/labels/create_from_custom_content/zpl2/${contentToPrint}/${labelsAmount}`,
+        url: getActualLocation() +
+            `/labels/create_from_custom_content/zpl2/${contentToPrint}/${labelsAmount}`,
         method: "post",
         success: function(ZPLGeneratedExpression) {
             sendLabelsToPrinter(ZPLGeneratedExpression);
@@ -240,6 +240,8 @@ function generateLabelsWithCustomContentInZPL2(contentToPrint, labelsAmount) {
         }
     })
 }
+
+
 
 
 function sendLabelsToPrinter(labelsInZPL2) {
@@ -259,13 +261,15 @@ function sendLabelsToPrinter(labelsInZPL2) {
 $(document).ready(function () {
     $('input').on('paste', function (e) {
         let $this = $(this);
+        console.log(e);
         $.each(e.originalEvent.clipboardData.items, function (index, value) {
             if (value.type === 'text/plain') {
                 value.getAsString(function (text) {
                     let x = $this.closest('td').index();
                     let y = $this.closest('tr').index() + 1;
                     text = text.trim('\r\n');
-                    $.each(text.split('\r\n'), function (i2, v2) {
+                    console.log(text.split('\n'));
+                    $.each(text.split('\n'), function (i2, v2) {
                         $.each(v2.split('\t'), function (i3, v3) {
                             let cellNameValue = v3.trim().toUpperCase();
                             if (isItHeaderRow(cellNameValue)) {
