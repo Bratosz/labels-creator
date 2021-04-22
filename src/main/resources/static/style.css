@@ -154,3 +154,7 @@ input::-webkit-inner-spin-button {
     font-weight: 400;
     opacity: 1; /* Firefox */
 }
+
+input[type=number] {
+    -moz-appearance: textfield;
+}

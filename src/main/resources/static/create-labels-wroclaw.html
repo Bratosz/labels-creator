@@ -1,0 +1,232 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Naklejkomat</title>
+    <script src="jquery-3.3.1.min.js"></script>
+    <script src="utils.js"></script>
+    <script src="print-by-usb.js"></script>
+    <script src="create-labels.js" defer></script>
+
+    <link rel="stylesheet" href="style.css" type="text/css"/>
+
+    <link rel="stylesheet"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+          crossorigin="anonymous">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+            integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+            crossorigin="anonymous"></script>
+
+
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+            integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+            crossorigin="anonymous"></script>
+
+</head>
+
+<body>
+
+<div class="container">
+    <div class="row mx-lg-n5">
+        <div class="col-lg-2">
+            <a href="index.html"><img src="images/kls_logo.jpg" class="img-fluid" alt="Responsive image"></a>
+        </div>
+        <div class="col-lg-6"></div>
+        <div class="col py-3 px-lg-2">
+            <h3>Wrocław</h3>
+        </div>
+        <div class="col py-3 px-lg-2">
+            <button type="button" class="btn btn-secondary">Wyloguj</button>
+        </div>
+    </div>
+    <br>
+
+    <!--Nav bar-->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText"
+                aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarText">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="index.html">Strona główna<span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="create-labels-bytom.html">Bytom<span class="sr-only"></span></a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="create-labels-wroclaw.html">Wrocław<span class="sr-only"></span></a>
+                </li>
+            </ul>
+            <span class="navbar-text"></span>
+        </div>
+    </nav>
+
+
+
+    <div>
+        <div>
+            <!--PRINT NUMBERS FROM TABLE-->
+            <div class="basic-field">
+                <div class="gap-vertical-5"></div>
+                <div class="option-header">
+                    <span>Drukuj z tabeli:</span>
+                </div>
+                <div class="gap-vertical-5"></div>
+                <div class="select-option">
+                    <select id="input-labels-format">
+                        <option value="STANDARD">Nazwisko, Imię, Nr szafki</option>
+                        <option value="FIRST_NAME_LETTER">Nazwisko, I., Nr szafki</option>
+                        <option value="LAST_NAME_LETTER">Imię, N. Nr szafki</option>
+                        <option value="DOUBLE_NUMBER">Nr szafki</option>
+                    </select>
+                </div>
+                <div class="gap-vertical-5"></div>
+                <div class="select-radio">
+                    <input type="radio" id="editor-1" name="editor-type"
+                           value="PRINTER" checked>
+                    <label for="editor-1">Naklejkomat</label>
+                    <input type="radio" id="editor-2" name="editor-type" value="EXCEL">
+                    <label for="editor-2">Excel</label>
+                    <input type="radio" id="editor-3" name="editor-type" value="LIBRE_OFFICE">
+                    <label for="editor-3">Calc</label>
+                </div>
+                <div class="gap-vertical-5"></div>
+                <div class="input-bar">
+                    <div class="option">
+                        <input class="input-std"
+                               placeholder="000"
+                               type="number"
+                               id="input-plant-number">
+                    </div>
+                    <div class="option">
+                        <button class="button"
+                                type="button"
+                                id="button-print-from-table">Drukuj
+                        </button>
+                    </div>
+                    <div class="option">
+                        <div id="alert-input-plant-number"></div>
+                    </div>
+                </div>
+            </div>
+            <!--PRINT NUMBERS FROM RANGE-->
+            <div class="basic-field">
+                <div class="gap-vertical-5"></div>
+                <div class="option-header">
+                    <span>Drukuj numery:</span>
+                </div>
+                <div class="select-radio">
+                    <input type="radio" id="number-format-2" name="numbers-format" value="SINGLE_NUMBER" checked>
+                    <label class="label-std" for="number-format-2">Pojedyncze numery</label>
+                    <input type="radio" id="number-format-1" name="numbers-format" value="DOUBLE_NUMBER">
+                    <label class="label-std" for="number-format-1">Szafa/Box</label>
+                </div>
+                <div class="select-radio">
+                    <span>Pojemność szaf: </span>
+                    <input type="radio" id="cap-10" name="locker-capacity" value="10" checked>
+                    <label class="label-std" for="cap-10">10</label>
+                    <input type="radio" id="cap-20" name="locker-capacity" value="20">
+                    <label class="label-std" for="cap-20">20</label>
+                </div>
+                <div class="gap-vertical-5"></div>
+                <div class="gap-vertical-3"></div>
+                <div class="input-bar">
+                    <div class="option">Od:</div>
+                    <div class="option">
+                        <input type="number" id="input-begin-number"
+                               class="input-std">
+                    </div>
+                    <div class="option">Do:</div>
+                    <div class="option">
+                        <input id="input-end-number"
+                               class="input-std" type="number">
+                    </div>
+                    <div class="option">
+                        <button id="button-print-numbers-from-range" class="button">
+                            Drukuj
+                        </button>
+                    </div>
+                    <div class="alert">
+                        <div id="alert-numbers-range"></div>
+                    </div>
+                </div>
+
+
+            </div>
+            <!--PRINT CUSTOM CONTENT-->
+            <div class="basic-field">
+                <div class="basic-field">
+                    <div class="gap-vertical-5"></div>
+                    <div class="option-header">
+                        <span>Drukuj niestandardowo:</span>
+                    </div>
+                    <div class="gap-vertical-2"></div>
+                    <div class="my-text-field">
+                        <input type="text" id="input-text-field">
+                    </div>
+                    <div class="gap-vertical-5"></div>
+                    <div class="gap-vertical-2"></div>
+                    <div class="input-bar">
+                        <div class="option">
+                            Ilość:
+                        </div>
+                        <div class="option">
+                            <input id="input-labels-amount" class="input-std" type="number" value="1">
+                        </div>
+                        <div class="option">
+                            <button id="button-print-custom-content" class="button">
+                                Drukuj
+                            </button>
+                        </div>
+                        <div class="alert">
+                            <div id="alert-text-field"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!--TABLE-->
+
+        <div class="gap-vertical-20"></div>
+        <div class="table-box">
+            <table id="table">
+                <thead class="thead-light">
+                <tr>
+                    <th scope="col">Imię</th>
+                    <th scope="col">Nazwisko</th>
+                    <th scope="col">Szafa</th>
+                    <th scope="col">Box</th>
+                </tr>
+                </thead>
+                <tbody id="table-rows">
+                <tr id="row-template" class="table-row" style="display: none">
+                    <td><input id="cell-first-name" type="text"/></td>
+                    <td><input id="cell-last-name" type="text"/></td>
+                    <td><input id="cell-locker-number" type="text"/></td>
+                    <td><input id="cell-box-number" type="text"/></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="gap-vertical-20"></div>
+
+        <div>
+            <input class="input-std" type="number" id="input-table-size" min="24" max="2400" step="24">
+            <button class="button" type="button" id="button-generate-table">Powiększ tabelę</button>
+        </div>
+    </div>
+
+    <div class="gap-vertical-100"></div>
+    <div class="gap-vertical-100"></div>
+    <div class="gap-vertical-100"></div>
+
+</div>
+
+
+</body>
+</html>
