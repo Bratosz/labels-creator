@@ -10,9 +10,6 @@ function sendLabelsToPrinter(labelsInZPL2) {
             url: `http://` + printerIp + `:` + printerPort,
             method: "post",
             data: labelsInZPL2.toString(),
-            success: function () {
-                alert("Etykiety wysłano do drukarki.");
-            }
         });
     }
 };

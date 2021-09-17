@@ -204,6 +204,7 @@ function generateLabelsInZPL2AndPrint(labelsFormat, employees, plantNumber) {
         success: function (ZPLGeneratedExpression) {
             sendLabelsToPrinter(ZPLGeneratedExpression);
             console.log(ZPLGeneratedExpression);
+            alert("Etykiety wysłano do drukarki.");
         }
     });
 };
@@ -219,6 +220,7 @@ function generateAndPrintLabelsWithNumbersOnlyFromRangeInZPL2(beginNumber, endNu
         success: function (ZPLGeneratedExpression) {
             sendLabelsToPrinter(ZPLGeneratedExpression);
             console.log(ZPLGeneratedExpression);
+            alert("Etykiety wysłano do drukarki");
         }
     })
 }
@@ -231,6 +233,7 @@ function generateLabelsWithCustomContentInZPL2(contentToPrint, labelsAmount) {
         success: function(ZPLGeneratedExpression) {
             sendLabelsToPrinter(ZPLGeneratedExpression);
             console.log(ZPLGeneratedExpression);
+            alert("Etykiety wysłano do drukarki.");
         }
     })
 }
