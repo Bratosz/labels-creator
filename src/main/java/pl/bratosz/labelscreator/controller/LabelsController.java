@@ -36,7 +36,7 @@ public class LabelsController {
         return labelsService.createLabelsFromCustomString(customString, labelsAmount);
     }
 
-    @PostMapping("/create_from_table/zpl2/{labelsFormat}/{plantNumber}")
+    @PostMapping("/create-from-table/zpl2/{labelsFormat}/{plantNumber}")
     public String createLabelsInZPL2(
             @PathVariable LabelsFormat labelsFormat,
             @PathVariable String plantNumber,

@@ -7,5 +7,6 @@ public enum LabelsFormat {
     DOUBLE_NUMBER,
     SINGLE_NUMBER,
     CUSTOM_STRING,
+    FIRST_NAME_AND_LAST_NAME,
 
 }

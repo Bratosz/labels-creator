@@ -53,9 +53,9 @@ public class LabelsService {
     }
 
     public String createNumericLabelsAsZPL2(
-            int beginNumber, int endNubmer, int capacity, LabelsFormat labelsFormat) {
+            int beginNumber, int endNumber, int capacity, LabelsFormat labelsFormat) {
         LabelsCreator lc = new LabelsCreator(labelsFormat);
-        List<Label> labels = lc.generate(beginNumber, endNubmer, capacity);
+        List<Label> labels = lc.generate(beginNumber, endNumber, capacity);
         return lc.createInZPL2(labels);
     }
 

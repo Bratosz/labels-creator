@@ -11,7 +11,9 @@ public class ZPLWriter {
     private String openLabel;
     private String positionFullNameInOneLine;
     private String positionNameAt1stLine;
+    private String positionNameAt1stLineHigher;
     private String positionNameAt2ndLine;
+    private String positionNameAt2ndLineLower;
     private String close;
     private String positionSTDBoxNumber;
     private String positionCenteredContent;
@@ -29,7 +31,9 @@ public class ZPLWriter {
         zplLW.openLabel = "^XA";
         zplLW.positionFullNameInOneLine = "^FS^CI28^FO16,106^FB460,2,0,C^A0,55,55^FD";
         zplLW.positionNameAt1stLine = "^FS^CI28^FO16,96^FB460,1,0,C^A0,55,55^FD";
+        zplLW.positionNameAt1stLineHigher = "^FS^CI28^FO16,60^FB460,1,0,C^A0,55,55^FD";
         zplLW.positionNameAt2ndLine = "^FS^CI28^FO16,144^FB460,1,0,C^A0,55,55^FD";
+        zplLW.positionNameAt2ndLineLower = "^FS^CI28^FO16,200^FB460,1,0,C^A0,55,55^FD";
         zplLW.close = "^FS";
         zplLW.positionSTDBoxNumber = "^CI28^FO16,216^FB448,1,0,R^A0,70,70^FD";
         zplLW.positionCenteredContent = "^FS^CI28^FO16,120^FB470,2,8,C^A0,120,120^FD";
@@ -56,6 +60,11 @@ public class ZPLWriter {
             case FIRST_NAME_LETTER:
                 for (Label l : labels) {
                     labelsToPrint += createLabelWithFirstNameLetter(l);
+                }
+                return labelsToPrint;
+            case FIRST_NAME_AND_LAST_NAME:
+                for (Label l : labels) {
+                    labelsToPrint += createLabelWithFirstNameAndLastNameOnly(l);
                 }
                 return labelsToPrint;
             default:
@@ -203,6 +212,21 @@ public class ZPLWriter {
 
                 + positionPlantNumber
                 + l.getPlantNumber()
+                + close
+
+                + endLabel;
+        return s;
+    }
+
+    private String createLabelWithFirstNameAndLastNameOnly(Label l) {
+        String s;
+        s = openLabel
+                + positionNameAt1stLineHigher
+                + l.getFirstName()
+                + close
+
+                + positionNameAt2ndLineLower
+                + l.getLastName()
                 + close
 
                 + endLabel;

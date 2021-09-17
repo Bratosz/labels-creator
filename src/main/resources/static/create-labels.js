@@ -10,8 +10,8 @@ $("#button-print-from-table").click(function () {
 
     let inputPlantNumber = $("#input-plant-number");
     let alertPlantNumber = $("#alert-input-plant-number");
-    let plantNumber = inputPlantNumber.val();
-    if (isPlantNumberCorrect(plantNumber)) {
+    let plantNumber = getPlantNumber();
+    if (isPlantNumberCorrect(plantNumber, labelsFormat)) {
         snuffInput(inputPlantNumber);
         hideAlert(alertPlantNumber);
         // console.log(employees);
@@ -101,6 +101,15 @@ $("#button-print-custom-content").click(function () {
     }
 });
 
+function getPlantNumber() {
+    let plantNumber = $('#input-plant-number').val();
+    if(plantNumber === "") {
+        return 0;
+    } else {
+        return plantNumber;
+    }
+}
+
 function displayTable() {
     // $("#table-rows > tr:not (#row-template)").remove();
     let $rowTemplate = $("#row-template");
@@ -139,9 +148,11 @@ function displayAlert(alert, content) {
     alert.append(content);
 }
 
-function isPlantNumberCorrect(plantNumber) {
+function isPlantNumberCorrect(plantNumber, labelsFormat) {
     if ((plantNumber > 99)
         && (plantNumber < 1000)) {
+        return true;
+    } else if(labelsFormat == "FIRST_NAME_AND_LAST_NAME"){
         return true;
     } else {
         return false;
@@ -186,7 +197,7 @@ function generateSpreadSheetFile(labelsFormat, editorType, employees, plantNumbe
 function generateLabelsInZPL2AndPrint(labelsFormat, employees, plantNumber) {
     $.ajax({
         url: getActualLocation() +
-            `/labels/create_from_table/zpl2/${labelsFormat}/${plantNumber}`,
+            `/labels/create-from-table/zpl2/${labelsFormat}/${plantNumber}`,
         method: "post",
         data: JSON.stringify(employees),
         contentType: "application/json",
