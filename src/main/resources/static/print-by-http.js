@@ -7,7 +7,7 @@ function sendLabelsToPrinter(labelsInZPL2) {
         alert("Coś poszło nie tak");
     } else {
         $.ajax({
-            url: `http://` + printerIp + `:` + printerPort,
+            url: printerIp + `:` + printerPort,
             method: "post",
             data: labelsInZPL2.toString(),
         });
