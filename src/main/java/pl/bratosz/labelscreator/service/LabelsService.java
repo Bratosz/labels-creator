@@ -6,6 +6,7 @@ import pl.bratosz.labelscreator.labels.ExcelEmployeeReader;
 import pl.bratosz.labelscreator.labels.ExcelFileStorage;
 import pl.bratosz.labelscreator.labels.LabelsCreator;
 import pl.bratosz.labelscreator.labels.format.EditorSpreadSheetType;
+import pl.bratosz.labelscreator.labels.format.LabelsOrientation;
 import pl.bratosz.labelscreator.labels.format.labels.LabelsFormat;
 import pl.bratosz.labelscreator.labels.zpl.ZPLFontSize;
 import pl.bratosz.labelscreator.model.Employee;
@@ -53,10 +54,17 @@ public class LabelsService {
     }
 
     public String createNumericLabelsAsZPL2(
-            int beginNumber, int endNumber, int capacity, LabelsFormat labelsFormat) {
+            int beginNumber,
+            int endNumber,
+            int capacity,
+            LabelsFormat labelsFormat,
+            LabelsOrientation labelsOrientation) {
         LabelsCreator lc = new LabelsCreator(labelsFormat);
-        List<Label> labels = lc.generate(beginNumber, endNumber, capacity);
-        return lc.createInZPL2(labels);
+        List<Label> labels = lc.generate(
+                beginNumber,
+                endNumber,
+                capacity);
+        return lc.createInZPL2(labels, labelsOrientation);
     }
 
 

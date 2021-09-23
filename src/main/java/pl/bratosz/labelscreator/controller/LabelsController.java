@@ -4,6 +4,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import pl.bratosz.labelscreator.labels.format.EditorSpreadSheetType;
+import pl.bratosz.labelscreator.labels.format.LabelsOrientation;
 import pl.bratosz.labelscreator.labels.format.labels.LabelsFormat;
 import pl.bratosz.labelscreator.exception.WrongFileFormatException;
 import pl.bratosz.labelscreator.model.Employee;
@@ -44,15 +45,16 @@ public class LabelsController {
         return labelsService.createLabelsAsZPL2(labelsFormat, employees, plantNumber);
     }
 
-    @PostMapping("/create_from_range/zpl2/" +
-            "{beginNumber}/{endNumber}/{capacity}/{labelsFormat}")
+    @PostMapping("/create-from-range/zpl2" +
+            "/{beginNumber}/{endNumber}/{capacity}/{labelsFormat}/{labelsOrientation}")
     public String createNumericLabelsInZPL2(
             @PathVariable int beginNumber,
             @PathVariable int endNumber,
             @PathVariable int capacity,
-            @PathVariable LabelsFormat labelsFormat) {
+            @PathVariable LabelsFormat labelsFormat,
+            @PathVariable LabelsOrientation labelsOrientation) {
         return labelsService.createNumericLabelsAsZPL2(
-                beginNumber, endNumber, capacity, labelsFormat);
+                beginNumber, endNumber, capacity, labelsFormat, labelsOrientation);
     }
 
 

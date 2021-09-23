@@ -1,5 +1,7 @@
 package pl.bratosz.labelscreator.labels.zpl;
 
+import pl.bratosz.labelscreator.exception.LabelContentException;
+import pl.bratosz.labelscreator.labels.format.LabelsOrientation;
 import pl.bratosz.labelscreator.labels.format.labels.LabelsFormat;
 import pl.bratosz.labelscreator.model.Label;
 
@@ -21,6 +23,8 @@ public class ZPLWriter {
     private String fontSize;
     private String positionPlantNumber;
     private String endLabel;
+    private String verticalOrientation;
+    private String positionForVerticalContentUpTo3Signs;
 
     private ZPLWriter() {
 
@@ -39,17 +43,26 @@ public class ZPLWriter {
         zplLW.positionCenteredContent = "^FS^CI28^FO16,120^FB470,2,8,C^A0,120,120^FD";
         zplLW.positionBIGCenteredContent = "^FS^CI28^FO16,50^FB470,2,8,C^A0,300,150^FD";
         zplLW.positionPlantNumber = "^FO16,290^A0N,28,28,^FD";
+        zplLW.verticalOrientation = "^FWr";
         zplLW.endLabel = "^XZ";
+        zplLW.positionForVerticalContentUpTo3Signs = "^FS^CI28^FO0,30^FB300,1,0,C^A0,400,170^FD";
         return zplLW;
     }
 
-    public String generate(LabelsFormat labelsFormat, List<Label> labels) {
+    public String generate(
+            LabelsFormat labelsFormat,
+            List<Label> labels,
+            LabelsOrientation labelsOrientation) {
         String labelsToPrint = "";
         switch (labelsFormat) {
             case DOUBLE_NUMBER:
             case SINGLE_NUMBER:
                 for (Label l : labels) {
-                    labelsToPrint += createLabelWithBoxNumberOnly(l);
+                    try {
+                        labelsToPrint += createLabelWithBoxNumberOnly(l, labelsOrientation);
+                    } catch (LabelContentException e) {
+                        continue;
+                    }
                 }
                 return labelsToPrint;
             case LAST_NAME_LETTER:
@@ -203,18 +216,33 @@ public class ZPLWriter {
         return expression.substring(beginOfExpression);
     }
 
-    private String createLabelWithBoxNumberOnly(Label l) {
-        String s;
-        s = openLabel
-                + positionBIGCenteredContent
-                + l.getFullBoxNumber()
-                + close
+    private String createLabelWithBoxNumberOnly(
+            Label l, LabelsOrientation labelsOrientation) throws LabelContentException {
+        String s = "";
+        if(labelsOrientation.equals(LabelsOrientation.HORIZONTAL)) {
+            s = openLabel
+                    + positionBIGCenteredContent
+                    + l.getFullBoxNumber()
+                    + close
 
-                + positionPlantNumber
-                + l.getPlantNumber()
-                + close
+                    + positionPlantNumber
+                    + l.getPlantNumber()
+                    + close
 
-                + endLabel;
+                    + endLabel;
+        } else if (labelsOrientation.equals(LabelsOrientation.VERTICAL)) {
+            if(l.getFullBoxNumber().length() <= 3) {
+                s = openLabel
+                        + verticalOrientation
+                        + positionForVerticalContentUpTo3Signs
+                        + l.getFullBoxNumber()
+                        + close
+
+                        + endLabel;
+            } else {
+                throw new LabelContentException("Content length is bigger than 3");
+            }
+        }
         return s;
     }
 

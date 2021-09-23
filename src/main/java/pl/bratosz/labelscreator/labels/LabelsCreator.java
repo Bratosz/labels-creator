@@ -2,6 +2,7 @@ package pl.bratosz.labelscreator.labels;
 
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import pl.bratosz.labelscreator.labels.format.EditorSpreadSheetType;
+import pl.bratosz.labelscreator.labels.format.LabelsOrientation;
 import pl.bratosz.labelscreator.labels.format.labels.LabelsFormat;
 import pl.bratosz.labelscreator.formater.StringFormater;
 import pl.bratosz.labelscreator.labels.zpl.ZPLFontSize;
@@ -97,10 +98,14 @@ public class LabelsCreator {
         return lockerNumber + "/" + boxNumber;
     }
 
-
     public String createInZPL2(List<Label> labels) {
+        LabelsOrientation defaultOrientation = LabelsOrientation.HORIZONTAL;
+        return createInZPL2(labels, defaultOrientation);
+    }
+
+    public String createInZPL2(List<Label> labels, LabelsOrientation labelsOrientation) {
         ZPLWriter zplLW = ZPLWriter.create();
-        return zplLW.generate(labelsFormat, labels);
+        return zplLW.generate(labelsFormat, labels, labelsOrientation);
     }
 
     public String generateFromCustomString(String content, ZPLFontSize fontSize, int labelsAmount) {
@@ -113,7 +118,10 @@ public class LabelsCreator {
         return result;
     }
 
-    public List<Label> generate(int beginNumber, int endNumber, int capacity) {
+    public List<Label> generate(
+            int beginNumber,
+            int endNumber,
+            int capacity) {
         List<Label> labels = new LinkedList<>();
         switch (labelsFormat) {
             case SINGLE_NUMBER:
@@ -142,7 +150,8 @@ public class LabelsCreator {
 
 
     private List<Label> createLabelsWithSingleNumber(
-            Integer beginNumber, int endNumber) {
+            Integer beginNumber,
+            int endNumber) {
         List<Label> labels = new LinkedList<>();
         do {
             Label l = new Label(beginNumber.toString());

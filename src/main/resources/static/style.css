@@ -104,6 +104,10 @@ tr th:nth-child(3)
     height: 3px;
 }
 
+.gap-vertical-16 {
+    height: 16px;
+}
+
 .option {
     display: inline-block;
 }

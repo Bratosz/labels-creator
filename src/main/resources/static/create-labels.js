@@ -33,6 +33,7 @@ $("#button-print-numbers-from-range").click(function () {
 
     let numbersFormat = $('input[name="numbers-format"]:checked').val();
     let lockersCapacity = $('input[name="locker-capacity"]:checked').val();
+    let labelsOrientation = $('input[name="labels-orientation"]:checked').val();
     let beginNumber = inputBeginNumber.val();
     let endNumber = inputEndNumber.val();
 
@@ -41,7 +42,7 @@ $("#button-print-numbers-from-range").click(function () {
         snuffInput(inputEndNumber);
         hideAlert(alertNumbersRange);
         generateAndPrintLabelsWithNumbersOnlyFromRangeInZPL2(
-            beginNumber, endNumber, lockersCapacity, numbersFormat);
+            beginNumber, endNumber, lockersCapacity, numbersFormat, labelsOrientation);
     } else {
         highlightInput(inputBeginNumber);
         highlightInput(inputEndNumber);
@@ -58,26 +59,26 @@ $("#button-print-custom-content").click(function () {
     let contentToPrint = inputTextField.val();
     let labelsAmount = inputLabelsAmount.val();
 
-    if(parametersAreCorrect(contentToPrint, labelsAmount)) {
-       snuffInput(inputTextField);
-       snuffInput(inputLabelsAmount);
-       hideAlert(alertForTextField);
-       generateLabelsWithCustomContentInZPL2(
-           contentToPrint, labelsAmount);
-    } else if(contentIsEmpty(contentToPrint) && labelsAmountIsWrong(labelsAmount)){
+    if (parametersAreCorrect(contentToPrint, labelsAmount)) {
+        snuffInput(inputTextField);
+        snuffInput(inputLabelsAmount);
+        hideAlert(alertForTextField);
+        generateLabelsWithCustomContentInZPL2(
+            contentToPrint, labelsAmount);
+    } else if (contentIsEmpty(contentToPrint) && labelsAmountIsWrong(labelsAmount)) {
         highlightInput(inputTextField);
         highlightInput(inputLabelsAmount);
         displayAlert(alertForTextField, "Coś poszło nie tak ;-)")
-    } else if(contentIsEmpty(contentToPrint)) {
+    } else if (contentIsEmpty(contentToPrint)) {
         highlightInput(inputTextField);
         displayAlert(alertForTextField, "Pole tekstowe jest puste.");
-    } else if(labelsAmountIsWrong(labelsAmount)) {
+    } else if (labelsAmountIsWrong(labelsAmount)) {
         highlightInput(inputLabelsAmount);
         displayAlert(alertForTextField, "Podano niewłaściwą ilość naklejek.")
     }
 
     function parametersAreCorrect(contentToPrint, labelsAmount) {
-        if(contentIsEmpty(contentToPrint) || labelsAmountIsWrong(labelsAmount)) {
+        if (contentIsEmpty(contentToPrint) || labelsAmountIsWrong(labelsAmount)) {
             return false;
         } else {
             return true;
@@ -85,7 +86,7 @@ $("#button-print-custom-content").click(function () {
     }
 
     function contentIsEmpty(contentToPrint) {
-        if(contentToPrint == "") {
+        if (contentToPrint == "") {
             return true;
         } else {
             return false;
@@ -93,7 +94,7 @@ $("#button-print-custom-content").click(function () {
     }
 
     function labelsAmountIsWrong(labelsAmount) {
-        if((labelsAmount <= 0) || ((labelsAmount % 1) != 0)) {
+        if ((labelsAmount <= 0) || ((labelsAmount % 1) != 0)) {
             return true;
         } else {
             return false;
@@ -103,7 +104,7 @@ $("#button-print-custom-content").click(function () {
 
 function getPlantNumber() {
     let plantNumber = $('#input-plant-number').val();
-    if(plantNumber === "") {
+    if (plantNumber === "") {
         return 0;
     } else {
         return plantNumber;
@@ -126,7 +127,7 @@ function displayTable() {
 }
 
 function isPassedNumbersCorrect(beginNumber, endNumber) {
-    if(beginNumber == "") {
+    if (beginNumber == "") {
         return false;
     } else if ((beginNumber >= 0) && (endNumber == "")) {
         return true;
@@ -152,7 +153,7 @@ function isPlantNumberCorrect(plantNumber, labelsFormat) {
     if ((plantNumber > 99)
         && (plantNumber < 1000)) {
         return true;
-    } else if(labelsFormat == "FIRST_NAME_AND_LAST_NAME"){
+    } else if (labelsFormat == "FIRST_NAME_AND_LAST_NAME") {
         return true;
     } else {
         return false;
@@ -209,13 +210,19 @@ function generateLabelsInZPL2AndPrint(labelsFormat, employees, plantNumber) {
     });
 };
 
-function generateAndPrintLabelsWithNumbersOnlyFromRangeInZPL2(beginNumber, endNumber, capacity, numbersFormat) {
-    if(endNumber === "") {
+function generateAndPrintLabelsWithNumbersOnlyFromRangeInZPL2(
+    beginNumber, endNumber, capacity, numbersFormat, labelsOrientation) {
+    if (endNumber === "") {
         endNumber = 0;
     }
     $.ajax({
         url: getActualLocation() +
-            `/labels/create_from_range/zpl2/${beginNumber}/${endNumber}/${capacity}/${numbersFormat}`,
+            `/labels/create-from-range/zpl2` +
+            `/${beginNumber}` +
+            `/${endNumber}` +
+            `/${capacity}` +
+            `/${numbersFormat}` +
+            `/${labelsOrientation}`,
         method: "post",
         success: function (ZPLGeneratedExpression) {
             sendLabelsToPrinter(ZPLGeneratedExpression);
@@ -230,7 +237,7 @@ function generateLabelsWithCustomContentInZPL2(contentToPrint, labelsAmount) {
         url: getActualLocation() +
             `/labels/create_from_custom_content/zpl2/${contentToPrint}/${labelsAmount}`,
         method: "post",
-        success: function(ZPLGeneratedExpression) {
+        success: function (ZPLGeneratedExpression) {
             sendLabelsToPrinter(ZPLGeneratedExpression);
             console.log(ZPLGeneratedExpression);
             alert("Etykiety wysłano do drukarki.");
