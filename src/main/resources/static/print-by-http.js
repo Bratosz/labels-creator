@@ -1,4 +1,4 @@
-let printerIp = "192.168.0.67";
+let printerIp = "192.168.0.86";
 const printerPort = 9100;
 
 function sendLabelsToPrinter(labelsInZPL2) {

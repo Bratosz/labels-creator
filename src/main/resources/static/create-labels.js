@@ -63,7 +63,7 @@ $("#button-print-custom-content").click(function () {
         snuffInput(inputTextField);
         snuffInput(inputLabelsAmount);
         hideAlert(alertForTextField);
-        generateLabelsWithCustomContentInZPL2(
+        generateAndPrintLabelsWithCustomContentInZPL2(
             contentToPrint, labelsAmount);
     } else if (contentIsEmpty(contentToPrint) && labelsAmountIsWrong(labelsAmount)) {
         highlightInput(inputTextField);
@@ -232,10 +232,10 @@ function generateAndPrintLabelsWithNumbersOnlyFromRangeInZPL2(
     })
 }
 
-function generateLabelsWithCustomContentInZPL2(contentToPrint, labelsAmount) {
+function generateAndPrintLabelsWithCustomContentInZPL2(contentToPrint, labelsAmount) {
     $.ajax({
         url: getActualLocation() +
-            `/labels/create_from_custom_content/zpl2/${contentToPrint}/${labelsAmount}`,
+            `/labels/create-from-custom-content/zpl2/${contentToPrint}/${labelsAmount}`,
         method: "post",
         success: function (ZPLGeneratedExpression) {
             sendLabelsToPrinter(ZPLGeneratedExpression);

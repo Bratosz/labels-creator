@@ -30,7 +30,7 @@ public class LabelsController {
         this.s3Services = s3Services;
     }
 
-    @PostMapping("/create_from_custom_content/zpl2/{customString}/{labelsAmount}")
+    @PostMapping("/create-from-custom-content/zpl2/{customString}/{labelsAmount}")
     public String createLabelsFromCustomString(
             @PathVariable String customString,
             @PathVariable int labelsAmount) {
