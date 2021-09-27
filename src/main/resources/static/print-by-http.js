@@ -1,4 +1,4 @@
-let printerIp = "192.168.0.86";
+let printerIp = "192.168.0.96";
 const printerPort = 9100;
 let labelsToPrint = "";
 
