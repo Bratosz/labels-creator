@@ -2,8 +2,9 @@ let tableSize = 96;
 let totalRows = 0;
 
 window.onload=function(){
+    console.log(window.location.protocol);
     $(function(){
-        if(window.location.protocol==="https:")
+        if(window.location.protocol==="https")
             window.location.protocol="http";
     });
 }
