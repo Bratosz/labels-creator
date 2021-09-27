@@ -1,5 +1,6 @@
 let printerIp = "192.168.0.86";
 const printerPort = 9100;
+let labelsToPrint = "";
 
 function sendLabelsToPrinter(labelsInZPL2) {
     console.log("wysłano");

@@ -1,7 +1,15 @@
 let tableSize = 96;
 let totalRows = 0;
 
+window.onload=function(){
+    $(function(){
+        if(window.location.protocol==="https:")
+            window.location.protocol="http";
+    });
+}
+
 displayTable();
+
 
 $("#button-print-from-table").click(function () {
     let labelsFormat = $("#input-labels-format").val();
