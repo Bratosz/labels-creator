@@ -23,7 +23,6 @@ public class ZPLWriter {
     private String fontSize;
     private String positionPlantNumber;
     private String endLabel;
-    private String verticalOrientation;
     private String positionForVerticalContentUpTo3Signs;
 
     private ZPLWriter() {
@@ -33,19 +32,18 @@ public class ZPLWriter {
     public static ZPLWriter create() {
         ZPLWriter zplLW = new ZPLWriter();
         zplLW.openLabel = "^XA";
-        zplLW.positionFullNameInOneLine = "^FS^CI28^FO16,106^FB460,2,0,C^A0,55,55^FD";
-        zplLW.positionNameAt1stLine = "^FS^CI28^FO16,96^FB460,1,0,C^A0,55,55^FD";
-        zplLW.positionNameAt1stLineHigher = "^FS^CI28^FO16,60^FB460,1,0,C^A0,55,55^FD";
-        zplLW.positionNameAt2ndLine = "^FS^CI28^FO16,144^FB460,1,0,C^A0,55,55^FD";
-        zplLW.positionNameAt2ndLineLower = "^FS^CI28^FO16,200^FB460,1,0,C^A0,55,55^FD";
+        zplLW.positionFullNameInOneLine = "^FS^CI28^FO16,106^FB460,2,0,C^A0N,55,55^FD";
+        zplLW.positionNameAt1stLine = "^FS^CI28^FO16,96^FB460,1,0,C^A0N,55,55^FD";
+        zplLW.positionNameAt1stLineHigher = "^FS^CI28^FO16,60^FB460,1,0,C^A0N,55,55^FD";
+        zplLW.positionNameAt2ndLine = "^FS^CI28^FO16,144^FB460,1,0,C^A0N,55,55^FD";
+        zplLW.positionNameAt2ndLineLower = "^FS^CI28^FO16,200^FB460,1,0,C^A0N,55,55^FD";
         zplLW.close = "^FS";
-        zplLW.positionSTDBoxNumber = "^CI28^FO16,216^FB448,1,0,R^A0,70,70^FD";
-        zplLW.positionCenteredContent = "^FS^CI28^FO16,120^FB470,2,8,C^A0,120,120^FD";
-        zplLW.positionBIGCenteredContent = "^FS^CI28^FO16,50^FB470,2,8,C^A0,300,150^FD";
+        zplLW.positionSTDBoxNumber = "^CI28^FO16,216^FB448,1,0,R^A0N,70,70^FD";
+        zplLW.positionCenteredContent = "^FS^CI28^FO16,120^FB470,2,8,C^A0N,120,120^FD";
+        zplLW.positionBIGCenteredContent = "^FS^CI28^FO16,50^FB470,2,8,C^A0N,300,150^FD";
         zplLW.positionPlantNumber = "^FO16,290^A0N,28,28,^FD";
-        zplLW.verticalOrientation = "^FWr";
         zplLW.endLabel = "^XZ";
-        zplLW.positionForVerticalContentUpTo3Signs = "^FS^CI28^FO0,30^FB300,1,0,C^A0,400,170^FD";
+        zplLW.positionForVerticalContentUpTo3Signs = "^FS^CI28^FO0,30^FB300,1,0,C^A0R,400,170^FD";
         return zplLW;
     }
 
@@ -202,7 +200,7 @@ public class ZPLWriter {
     }
 
     private String getExpressionBeforeFont(String expression) {
-        String fontPrefix = "^A0,";
+        String fontPrefix = "^A0N,";
         return getExpressionWithSuffix(expression, fontPrefix);
     }
 
@@ -233,7 +231,6 @@ public class ZPLWriter {
         } else if (labelsOrientation.equals(LabelsOrientation.VERTICAL)) {
             if(l.getFullBoxNumber().length() <= 3) {
                 s = openLabel
-                        + verticalOrientation
                         + positionForVerticalContentUpTo3Signs
                         + l.getFullBoxNumber()
                         + close
