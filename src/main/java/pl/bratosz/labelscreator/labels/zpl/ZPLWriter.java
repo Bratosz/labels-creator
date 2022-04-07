@@ -22,8 +22,10 @@ public class ZPLWriter {
     private String positionBIGCenteredContent;
     private String fontSize;
     private String positionPlantNumber;
+    private String positionOrdinalNumber;
     private String endLabel;
     private String positionForVerticalContentUpTo3Signs;
+    private String positionMEDIUMCenteredContent;
 
     private ZPLWriter() {
 
@@ -41,7 +43,9 @@ public class ZPLWriter {
         zplLW.positionSTDBoxNumber = "^CI28^FO16,216^FB448,1,0,R^A0N,70,70^FD";
         zplLW.positionCenteredContent = "^FS^CI28^FO16,120^FB470,2,8,C^A0N,120,120^FD";
         zplLW.positionBIGCenteredContent = "^FS^CI28^FO16,50^FB470,2,8,C^A0N,300,150^FD";
+        zplLW.positionMEDIUMCenteredContent = "^FS^CI28^FO16,50^FB470,2,8,C^A0N,240,110^FD";
         zplLW.positionPlantNumber = "^FO16,290^A0N,28,28,^FD";
+        zplLW.positionOrdinalNumber = "^FO16,240^A0N,90,80,^FD";
         zplLW.endLabel = "^XZ";
         zplLW.positionForVerticalContentUpTo3Signs = "^FS^CI28^FO0,30^FB300,1,0,C^A0R,400,170^FD";
         return zplLW;
@@ -58,6 +62,15 @@ public class ZPLWriter {
                 for (Label l : labels) {
                     try {
                         labelsToPrint += createLabelWithBoxNumberOnly(l, labelsOrientation);
+                    } catch (LabelContentException e) {
+                        continue;
+                    }
+                }
+                return labelsToPrint;
+            case DOUBLE_NUMBER_WITH_ORDINAL_NUMBER_IN_CORNER:
+                for(Label l : labels) {
+                    try {
+                        labelsToPrint += createLabelWithBoxNumberOnlyAndOrdinalNumberInCorner(l, labelsOrientation);
                     } catch (LabelContentException e) {
                         continue;
                     }
@@ -85,6 +98,8 @@ public class ZPLWriter {
                 return labelsToPrint;
         }
     }
+
+
 
     public String generate(String content, ZPLFontSize fontSize) {
         positionCenteredContent = changeFontSize(positionCenteredContent, fontSize);
@@ -138,9 +153,9 @@ public class ZPLWriter {
     private String resolveVerticalOrigin(int desiredFontHeight, int rows, int actualVerticalOrigin) {
         int actualFontHeight = resolveFontHeight(actualVerticalOrigin);
         desiredFontHeight = desiredFontHeight * rows;
-        if(desiredFontHeight == actualFontHeight) {
+        if (desiredFontHeight == actualFontHeight) {
             return String.valueOf(actualVerticalOrigin);
-        }else if(desiredFontHeight > actualFontHeight) {
+        } else if (desiredFontHeight > actualFontHeight) {
             int heightDifference = desiredFontHeight - actualFontHeight;
             return alignVerticallyForFontIncrease(heightDifference, actualVerticalOrigin);
         } else {
@@ -150,7 +165,7 @@ public class ZPLWriter {
     }
 
     private String alignVerticallyForFontDecrease(int heightDifference, int actualVerticalOrigin) {
-        return Math.round(actualVerticalOrigin + (heightDifference /2.5)) + "";
+        return Math.round(actualVerticalOrigin + (heightDifference / 2.5)) + "";
     }
 
     private String alignVerticallyForFontIncrease(int heightDifference, int actualVerticalOrigin) {
@@ -170,11 +185,11 @@ public class ZPLWriter {
     }
 
     private int calculateBiggerFont(int vDifference) {
-        return  Math.round((float)(DEFAULT_FONT_HEIGHT + (vDifference * 2.5)));
+        return Math.round((float) (DEFAULT_FONT_HEIGHT + (vDifference * 2.5)));
     }
 
     private int calculateLowerFont(int vDifference) {
-        return Math.round((float)(DEFAULT_FONT_HEIGHT - (vDifference * 2.5)));
+        return Math.round((float) (DEFAULT_FONT_HEIGHT - (vDifference * 2.5)));
     }
 
     private boolean fontIsBiggerThanDefault(int actualVerticalOrigin) {
@@ -214,10 +229,30 @@ public class ZPLWriter {
         return expression.substring(beginOfExpression);
     }
 
+    private String createLabelWithBoxNumberOnlyAndOrdinalNumberInCorner(
+            Label l, LabelsOrientation labelsOrientation) throws LabelContentException {
+        String s;
+        if (labelsOrientation.equals(LabelsOrientation.HORIZONTAL)) {
+            s = openLabel
+                    + positionMEDIUMCenteredContent
+                    + l.getFullBoxNumber()
+                    + close
+
+                    + positionOrdinalNumber
+                    + l.getPlantNumber()
+                    + close
+
+                    + endLabel;
+        } else {
+            throw new LabelContentException("Format pionowy nie jest obsługiwany");
+        }
+        return s;
+    }
+
     private String createLabelWithBoxNumberOnly(
             Label l, LabelsOrientation labelsOrientation) throws LabelContentException {
         String s = "";
-        if(labelsOrientation.equals(LabelsOrientation.HORIZONTAL)) {
+        if (labelsOrientation.equals(LabelsOrientation.HORIZONTAL)) {
             s = openLabel
                     + positionBIGCenteredContent
                     + l.getFullBoxNumber()
@@ -229,7 +264,7 @@ public class ZPLWriter {
 
                     + endLabel;
         } else if (labelsOrientation.equals(LabelsOrientation.VERTICAL)) {
-            if(l.getFullBoxNumber().length() <= 3) {
+            if (l.getFullBoxNumber().length() <= 3) {
                 s = openLabel
                         + positionForVerticalContentUpTo3Signs
                         + l.getFullBoxNumber()

@@ -59,7 +59,7 @@ public class LabelsService {
             int capacity,
             LabelsFormat labelsFormat,
             LabelsOrientation labelsOrientation) {
-        LabelsCreator lc = new LabelsCreator(labelsFormat);
+        LabelsCreator lc = new LabelsCreator(LabelsFormat.DOUBLE_NUMBER_WITH_ORDINAL_NUMBER_IN_CORNER);
         List<Label> labels = lc.generate(
                 beginNumber,
                 endNumber,

@@ -119,16 +119,21 @@ public class LabelsCreator {
     }
 
     public List<Label> generate(
-            int beginNumber,
-            int endNumber,
+            int beginLockerNumber,
+            int lastLockerNumber,
             int capacity) {
         List<Label> labels = new LinkedList<>();
         switch (labelsFormat) {
             case SINGLE_NUMBER:
-                return createLabelsWithSingleNumber(beginNumber, endNumber);
+                return createLabelsWithSingleNumber(beginLockerNumber, lastLockerNumber);
             case DOUBLE_NUMBER:
                 return createLabelsWithDoubleNumber(
-                        beginNumber, endNumber, capacity);
+                        beginLockerNumber, lastLockerNumber, capacity);
+            case DOUBLE_NUMBER_WITH_ORDINAL_NUMBER_IN_CORNER:
+                return createLabelsWithDoubleNumberAndOrdinalNumberInCorner(
+                        beginLockerNumber,
+                        lastLockerNumber,
+                        capacity);
             default:
                 return labels;
         }
@@ -148,6 +153,32 @@ public class LabelsCreator {
         return labels;
     }
 
+    private List<Label> createLabelsWithDoubleNumberAndOrdinalNumberInCorner(
+            int lockerNumber,
+            int lastLockerNumber,
+            int capacity) {
+        List<Label> labels = new LinkedList<>();
+        do {
+            for (int i = 1; i <= capacity; i++) {
+                String fullBoxNumber = lockerNumber + "/" + i;
+                String ordinalNumber = getOrdinalNumber(lockerNumber, i, capacity);
+                labels.add(new Label(fullBoxNumber, ordinalNumber));
+            }
+            lockerNumber++;
+        } while (lockerNumber <= lastLockerNumber);
+        return labels;
+    }
+
+    private String getOrdinalNumber(int lockerNumber, int i, int capacity) {
+        int ordinalNumber = (lockerNumber - 1) * capacity + i;
+        if(ordinalNumber < 10) {
+            return "  " + ordinalNumber;
+        } else if (ordinalNumber < 100) {
+            return " " + ordinalNumber;
+        } else {
+            return String.valueOf(ordinalNumber);
+        }
+    }
 
     private List<Label> createLabelsWithSingleNumber(
             Integer beginNumber,
