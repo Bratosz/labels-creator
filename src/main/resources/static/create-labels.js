@@ -51,6 +51,36 @@ $("#button-print-numbers-from-range").click(function () {
     }
 });
 
+$("#button-print-locker-with-custom-boxes-range").click(function () {
+    let inputLockerNumber = $('#input-locker-number');
+    let inputStartingBoxNumber = $('#input-starting-box-number');
+    let inputEndBoxNumber = $('#input-end-box-number');
+    let alertArea = $('#alert-for-cbr');
+
+    let lockerNumber = inputLockerNumber.val();
+    let startingBoxNumber = inputStartingBoxNumber.val();
+    let endBoxNumber = inputEndBoxNumber.val();
+    let labelsOrientation = $('input[name="labels-orientation-for-cbr"]:checked').val();
+
+    if(labelsOrientation == "VERTICAL") {
+        alert("Pionowy format tych etykiet nie jest aktywny.");
+    } else if (isPassedNumbersCorrect(startingBoxNumber, endBoxNumber) &&
+        lockerNumber != "") {
+        snuffInput(inputLockerNumber);
+        snuffInput(inputStartingBoxNumber);
+        snuffInput(inputEndBoxNumber);
+        generateAndPrintLabelsWithLockerWithCustomBoxesRangeInZPL2(
+            lockerNumber, startingBoxNumber, endBoxNumber, labelsOrientation);
+    } else {
+        highlightInput(inputLockerNumber);
+        highlightInput(inputStartingBoxNumber);
+        highlightInput(inputEndBoxNumber);
+        displayAlert(alertArea, "Niewłaściwe numery szaf.");
+    }
+
+
+});
+
 $("#button-print-custom-content").click(function () {
     let inputTextField = $('#input-text-field');
     let inputLabelsAmount = $('#input-labels-amount');
@@ -225,6 +255,25 @@ function generateAndPrintLabelsWithNumbersOnlyFromRangeInZPL2(
             `/${numbersFormat}` +
             `/${labelsOrientation}`,
         method: "post",
+        success: function (ZPLGeneratedExpression) {
+            sendLabelsToPrinter(ZPLGeneratedExpression);
+            console.log(ZPLGeneratedExpression);
+            alert("Etykiety wysłano do drukarki");
+        }
+    })
+}
+
+function generateAndPrintLabelsWithLockerWithCustomBoxesRangeInZPL2(
+    lockerNumber, startingBoxNumber, endBoxNumber, labelsOrientation) {
+    if(endBoxNumber == "") endBoxNumber = 0;
+    $.ajax({
+        url: getActualLocation() +
+            `/labels/create-with-custom-boxes-range/zpl2` +
+            `/${lockerNumber}` +
+            `/${startingBoxNumber}` +
+            `/${endBoxNumber}` +
+            `/${labelsOrientation}`,
+        method: 'post',
         success: function (ZPLGeneratedExpression) {
             sendLabelsToPrinter(ZPLGeneratedExpression);
             console.log(ZPLGeneratedExpression);

@@ -67,6 +67,19 @@ public class LabelsService {
         return lc.createInZPL2(labels, labelsOrientation);
     }
 
+    public String createNumericLabelsWithCustomBoxesRangeAsZPL2(
+            int lockerNumber,
+            int startingBoxNumber,
+            int endBoxNumber,
+            LabelsOrientation labelsOrientation) {
+        LabelsCreator lc = new LabelsCreator(LabelsFormat.DOUBLE_NUMBER);
+        List<Label> labels = lc.generateWithCustomBoxesRange(
+                lockerNumber,
+                startingBoxNumber,
+                endBoxNumber);
+        return lc.createInZPL2(labels, labelsOrientation);
+    }
+
 
     public String createLabelsFromCustomString(String customString, int labelsAmount) {
         String[] split = customString.split("\\s+");
@@ -98,5 +111,7 @@ public class LabelsService {
             return new ZPLFontSize(30,30, rows);
         }
     }
+
+
 }
 

@@ -165,7 +165,7 @@
                 </div>
             </div>
 
-            <!--PRINT LOCKER WITH CUSTOM BOXES-->
+            <!--PRINT LOCKER WITH CUSTOM BOXES RANGE-->
             <div class="basic-field">
                 <div class="gap-vertical-5"></div>
                 <div class="option-header">
@@ -176,7 +176,7 @@
                 <div class="select-radio">
                     <span>Numer szafy:</span>
                     <div class="option">
-                        <input class="input-std" type="number" id="input-locker-number">
+                        <input id="input-locker-number" class="input-std" type="number" >
                     </div>
                 </div>
                 <div class="gap-vertical-5"></div>
@@ -185,16 +185,18 @@
                 <div class="gap-vertical-3"></div>
                 <div class="select-radio">
                     <span>Orientacja: </span>
-                    <input type="radio" id="orientation-horizontal-for-locker-with-custom-boxes" name="labels-orientation" value="HORIZONTAL" checked>
+                    <input id="orientation-horizontal-for-cbr" type="radio"  name="labels-orientation-for-cbr"
+                           value="HORIZONTAL" checked>
                     <label class="label-std" for="orientation-horizontal">Pozioma</label>
-                    <input type="radio" id="orientation-vertical-for-locker-with-custom-boxes" name="labels-orientation" value="VERTICAL">
+                    <input id="orientation-vertical-for-cbr"type="radio" name="labels-orientation-for-cbr"
+                           value="VERTICAL">
                     <label class="label-std" for="orientation-vertical">Pionowa</label>
                 </div>
                 <div class="input-bar" style="margin-top: 16px;">
                     <span>Boxy</span>
                     <div class="option">od:</div>
                     <div class="option">
-                        <input type="number" id="input-begin-box-number"
+                        <input id="input-starting-box-number" type="number"
                                class="input-std">
                     </div>
                     <div class="option">do:</div>
@@ -203,12 +205,12 @@
                                class="input-std" type="number">
                     </div>
                     <div class="option">
-                        <button id="button-print-locker-with-boxes-from-range" class="button">
+                        <button id="button-print-locker-with-custom-boxes-range" class="button">
                             Drukuj
                         </button>
                     </div>
                     <div class="alert">
-                        <div id="alert-boxes-range"></div>
+                        <div id="alert-for-cbr"></div>
                     </div>
                 </div>
             </div>

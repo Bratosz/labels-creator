@@ -57,6 +57,16 @@ public class LabelsController {
                 beginNumber, endNumber, capacity, labelsFormat, labelsOrientation);
     }
 
+    @PostMapping("/create-with-custom-boxes-range/zpl2/{lockerNumber}/{startingBoxNumber}/{endBoxNumber}/{labelsOrientation}")
+    public String createWithCustomBoxesRangeInZPL2(
+            @PathVariable int lockerNumber,
+            @PathVariable int startingBoxNumber,
+            @PathVariable int endBoxNumber,
+            @PathVariable LabelsOrientation labelsOrientation) {
+        return labelsService.createNumericLabelsWithCustomBoxesRangeAsZPL2(
+                lockerNumber, startingBoxNumber, endBoxNumber, labelsOrientation);
+    }
+
 
     @PostMapping("/create_from_table/spread_sheet/{labelsFormat}/{editorSpreadSheetType}/{plantNumber}")
     public UploadFileResponse createSpreadSheet(

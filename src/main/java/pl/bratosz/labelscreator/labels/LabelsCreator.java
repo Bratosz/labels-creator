@@ -18,7 +18,8 @@ public class LabelsCreator {
     private LabelsFormat labelsFormat;
     private String plantNumber;
 
-    public LabelsCreator(){}
+    public LabelsCreator() {
+    }
 
     public LabelsCreator(LabelsFormat labelsFormat, String plantNumber) {
         this.labelsFormat = labelsFormat;
@@ -139,6 +140,20 @@ public class LabelsCreator {
         }
     }
 
+    public List<Label> generateWithCustomBoxesRange(
+            int lockerNumber,
+            int startingBoxNumber,
+            int endBoxNumber) {
+        List<Label> labels = new LinkedList<>();
+        for (int i = startingBoxNumber; i <= endBoxNumber; i++) {
+            String fullBoxNumber = lockerNumber + "/" + i;
+            Label l = new Label(fullBoxNumber);
+            labels.add(l);
+        }
+        return labels;
+    }
+
+
     private List<Label> createLabelsWithDoubleNumber(
             int beginNumber, int endNumber, int capacity) {
         List<Label> labels = new LinkedList<>();
@@ -171,7 +186,7 @@ public class LabelsCreator {
 
     private String getOrdinalNumber(int lockerNumber, int i, int capacity) {
         int ordinalNumber = (lockerNumber - 1) * capacity + i;
-        if(ordinalNumber < 10) {
+        if (ordinalNumber < 10) {
             return "  " + ordinalNumber;
         } else if (ordinalNumber < 100) {
             return " " + ordinalNumber;
@@ -191,4 +206,6 @@ public class LabelsCreator {
         } while (beginNumber <= endNumber);
         return labels;
     }
+
+
 }
