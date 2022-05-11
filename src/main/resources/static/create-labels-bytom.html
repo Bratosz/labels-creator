@@ -28,7 +28,7 @@
 
 <body>
 
-<div class="container">
+<div class="my-container">
     <div class="row mx-lg-n5">
         <div class="col-lg-2">
             <a href="index.html"><img src="images/kls_logo.jpg" class="img-fluid" alt="Responsive image"></a>
@@ -163,9 +163,56 @@
                         <div id="alert-numbers-range"></div>
                     </div>
                 </div>
-
-
             </div>
+
+            <!--PRINT LOCKER WITH CUSTOM BOXES-->
+            <div class="basic-field">
+                <div class="gap-vertical-5"></div>
+                <div class="option-header">
+                    <span>Drukuj szafę z boxami:</span>
+                </div>
+                <div class="gap-vertical-5"></div>
+                <div class="gap-vertical-3"></div>
+                <div class="select-radio">
+                    <span>Numer szafy:</span>
+                    <div class="option">
+                        <input class="input-std" type="number" id="input-locker-number">
+                    </div>
+                </div>
+                <div class="gap-vertical-5"></div>
+                <div class="gap-vertical-5"></div>
+                <div class="gap-vertical-3"></div>
+                <div class="gap-vertical-3"></div>
+                <div class="select-radio">
+                    <span>Orientacja: </span>
+                    <input type="radio" id="orientation-horizontal-for-locker-with-custom-boxes" name="labels-orientation" value="HORIZONTAL" checked>
+                    <label class="label-std" for="orientation-horizontal">Pozioma</label>
+                    <input type="radio" id="orientation-vertical-for-locker-with-custom-boxes" name="labels-orientation" value="VERTICAL">
+                    <label class="label-std" for="orientation-vertical">Pionowa</label>
+                </div>
+                <div class="input-bar" style="margin-top: 16px;">
+                    <span>Boxy</span>
+                    <div class="option">od:</div>
+                    <div class="option">
+                        <input type="number" id="input-begin-box-number"
+                               class="input-std">
+                    </div>
+                    <div class="option">do:</div>
+                    <div class="option">
+                        <input id="input-end-box-number"
+                               class="input-std" type="number">
+                    </div>
+                    <div class="option">
+                        <button id="button-print-locker-with-boxes-from-range" class="button">
+                            Drukuj
+                        </button>
+                    </div>
+                    <div class="alert">
+                        <div id="alert-boxes-range"></div>
+                    </div>
+                </div>
+            </div>
+
             <!--PRINT CUSTOM CONTENT-->
             <div class="basic-field">
                 <div class="basic-field">
