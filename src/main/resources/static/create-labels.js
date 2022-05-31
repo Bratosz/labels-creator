@@ -347,6 +347,7 @@ function getEmployees() {
         $this = $(this);
         if (isRowFilled($this)) {
             let firstName = $this.find("#cell-first-name").val();
+            console.log("empty");
             let lastName = $this.find("#cell-last-name").val();
             let lockerNumber = $this.find("#cell-locker-number").val();
             let boxNumber = $this.find("#cell-box-number").val();
@@ -365,8 +366,11 @@ function getEmployees() {
 };
 
 function isRowFilled(row) {
-    let firstCell = row.find("#cell-first-name").val();
-    if (firstCell.length >= 1) {
+    let firstName = row.find("#cell-first-name").val();
+    let lastName = row.find("#cell-last-name").val();
+    let locker = row.find("#cell-locker-number").val();
+    let box = row.find("#cell-box-number").val();
+    if (firstName.length >= 1 || lastName.length >= 1 || locker >= 1 || box >= 1) {
         return true;
     } else {
         return false;

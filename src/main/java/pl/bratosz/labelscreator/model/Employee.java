@@ -3,11 +3,11 @@ package pl.bratosz.labelscreator.model;
 public class Employee {
     private String firstName;
     private String lastName;
-    private int lockerNumber;
-    private int boxNumber;
+    private String lockerNumber;
+    private String boxNumber;
 
     public Employee(
-            String firstName, String lastName, int lockerNumber, int boxNumber) {
+            String firstName, String lastName, String lockerNumber, String boxNumber) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.lockerNumber = lockerNumber;
@@ -22,11 +22,11 @@ public class Employee {
         return lastName;
     }
 
-    public int getLockerNumber() {
-        return lockerNumber;
+    public String getBoxNumber() {
+        return boxNumber;
     }
 
-    public int getBoxNumber() {
-        return boxNumber;
+    public String getLockerNumber() {
+        return lockerNumber;
     }
 }

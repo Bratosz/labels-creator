@@ -49,8 +49,8 @@ public class ExcelEmployeeReader {
         return new Employee(
                 row.getCell(firstNameIndex).getStringCellValue(),
                 row.getCell(lastNameIndex).getStringCellValue(),
-                (int) row.getCell(lockerNumberIndex).getNumericCellValue(),
-                (int) row.getCell(boxNumberIndex).getNumericCellValue());
+                row.getCell(lockerNumberIndex).getStringCellValue(),
+                row.getCell(boxNumberIndex).getStringCellValue());
     }
 
     private boolean isRowEmpty(Row row) {

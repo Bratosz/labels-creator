@@ -42,7 +42,7 @@ public class ZPLWriter {
         zplLW.close = "^FS";
         zplLW.positionSTDBoxNumber = "^CI28^FO16,216^FB448,1,0,R^A0N,70,70^FD";
         zplLW.positionCenteredContent = "^FS^CI28^FO16,120^FB470,2,8,C^A0N,120,120^FD";
-        zplLW.positionBIGCenteredContent = "^FS^CI28^FO16,50^FB470,2,8,C^A0N,300,150^FD";
+        zplLW.positionBIGCenteredContent = "^FS^CI28^FO16,50^FB470,2,8,C^A0N,300,115^FD";
         zplLW.positionMEDIUMCenteredContent = "^FS^CI28^FO16,50^FB490,2,8,C^A0N,240,110^FD";
         zplLW.positionPlantNumber = "^FO16,290^A0N,28,28,^FD";
         zplLW.positionOrdinalNumber = "^FO16,240^A0N,90,80,^FD";

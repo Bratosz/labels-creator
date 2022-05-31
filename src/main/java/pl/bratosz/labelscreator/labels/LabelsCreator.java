@@ -51,8 +51,8 @@ public class LabelsCreator {
     private Label createLabel(Employee employee) {
         String firstName = employee.getFirstName();
         String lastName = employee.getLastName();
-        int lockerNumber = employee.getLockerNumber();
-        int boxNumber = employee.getBoxNumber();
+        String lockerNumber = employee.getLockerNumber();
+        String boxNumber = employee.getBoxNumber();
         return formatContent(
                 firstName, lastName, lockerNumber, boxNumber);
 
@@ -60,11 +60,8 @@ public class LabelsCreator {
     }
 
     private Label formatContent(
-            String firstName, String lastName, int lockerNumber, int boxNumber) {
+            String firstName, String lastName, String lockerNumber, String boxNumber) {
         switch (labelsFormat) {
-            case STANDARD: {
-                return createStandardContent(firstName, lastName, lockerNumber, boxNumber);
-            }
             case FIRST_NAME_LETTER: {
                 String firstLetterFromFirstName = firstName.substring(0, 1) + ".";
                 return createStandardContent(firstLetterFromFirstName, lastName, lockerNumber, boxNumber);
@@ -74,8 +71,11 @@ public class LabelsCreator {
                 return createStandardContent(firstName, firstLetterFromLastName, lockerNumber, boxNumber);
             }
             case DOUBLE_NUMBER: {
+                lockerNumber = addFirstNameAsPrefix(firstName, lockerNumber);
+                lockerNumber = addLastNameAsSuffix(lastName, lockerNumber);
                 return new Label(createFullBoxNumber(lockerNumber, boxNumber), plantNumber);
             }
+            case STANDARD:
             default: {
                 return createStandardContent(firstName, lastName, lockerNumber, boxNumber);
             }
@@ -83,8 +83,16 @@ public class LabelsCreator {
 
     }
 
+    private String addLastNameAsSuffix(String lastName, String lockerNumber) {
+        return lockerNumber + lastName;
+    }
+
+    private String addFirstNameAsPrefix(String firstName, String lockerNumber) {
+        return firstName + lockerNumber;
+    }
+
     private Label createStandardContent(
-            String firstName, String lastName, int lockerNumber, int boxNumber) {
+            String firstName, String lastName, String lockerNumber, String boxNumber) {
         String fullBoxNumber = createFullBoxNumber(lockerNumber, boxNumber);
         StringFormater sf = new StringFormater();
         return new Label(
@@ -95,7 +103,7 @@ public class LabelsCreator {
         );
     }
 
-    private String createFullBoxNumber(int lockerNumber, int boxNumber) {
+    private String createFullBoxNumber(String lockerNumber, String boxNumber) {
         return lockerNumber + "/" + boxNumber;
     }
 
