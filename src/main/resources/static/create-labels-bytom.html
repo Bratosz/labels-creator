@@ -171,18 +171,12 @@
                 <div class="option-header">
                     <span>Drukuj szafę z boxami:</span>
                 </div>
-                <div class="gap-vertical-5"></div>
-                <div class="gap-vertical-3"></div>
                 <div class="select-radio">
                     <span>Numer szafy:</span>
                     <div class="option">
                         <input id="input-locker-number" class="input-std" type="number" >
                     </div>
                 </div>
-                <div class="gap-vertical-5"></div>
-                <div class="gap-vertical-5"></div>
-                <div class="gap-vertical-3"></div>
-                <div class="gap-vertical-3"></div>
                 <div class="select-radio">
                     <span>Orientacja: </span>
                     <input id="orientation-horizontal-for-cbr" type="radio"  name="labels-orientation-for-cbr"
@@ -192,7 +186,15 @@
                            value="VERTICAL">
                     <label class="label-std" for="orientation-vertical">Pionowa</label>
                 </div>
-                <div class="input-bar" style="margin-top: 16px;">
+                <div>
+                    <select id="select-corner-content-type" style="width: 175px">
+                        <option value="NONE">Zawartość narożnika</option>
+                        <option value="PLANT_NUMBER">Numer zakładu</option>
+                        <option value="LOCKER_AND_BOX">Szafa/Box - podaj pojemność szafy</option>
+                    </select>
+                    <input id="input-corner-content" class="input-std" type="number">
+                </div>
+                <div class="input-bar" style="margin-top: 7px">
                     <span>Boxy</span>
                     <div class="option">od:</div>
                     <div class="option">
