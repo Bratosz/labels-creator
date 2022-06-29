@@ -3,6 +3,7 @@ package pl.bratosz.labelscreator.controller;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import pl.bratosz.labelscreator.labels.format.CornerContentType;
 import pl.bratosz.labelscreator.labels.format.EditorSpreadSheetType;
 import pl.bratosz.labelscreator.labels.format.LabelsOrientation;
 import pl.bratosz.labelscreator.labels.format.labels.LabelsFormat;
@@ -57,14 +58,17 @@ public class LabelsController {
                 beginNumber, endNumber, capacity, labelsFormat, labelsOrientation);
     }
 
-    @PostMapping("/create-with-custom-boxes-range/zpl2/{lockerNumber}/{startingBoxNumber}/{endBoxNumber}/{labelsOrientation}")
+    @PostMapping("/create-with-custom-boxes-range-and-custom-corner-content/zpl2" +
+            "/{lockerNumber}/{startingBoxNumber}/{endBoxNumber}/{labelsOrientation}/{cornerContentType}/{cornerContent}")
     public String createWithCustomBoxesRangeInZPL2(
             @PathVariable int lockerNumber,
             @PathVariable int startingBoxNumber,
             @PathVariable int endBoxNumber,
-            @PathVariable LabelsOrientation labelsOrientation) {
+            @PathVariable LabelsOrientation labelsOrientation,
+            @PathVariable CornerContentType cornerContentType,
+            @PathVariable int cornerContent) {
         return labelsService.createNumericLabelsWithCustomBoxesRangeAsZPL2(
-                lockerNumber, startingBoxNumber, endBoxNumber, labelsOrientation);
+                lockerNumber, startingBoxNumber, endBoxNumber, labelsOrientation, cornerContentType, cornerContent);
     }
 
 

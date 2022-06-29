@@ -239,7 +239,7 @@ public class ZPLWriter {
                     + close
 
                     + positionOrdinalNumber
-                    + l.getPlantNumber()
+                    + l.getCornerContent()
                     + close
 
                     + endLabel;
@@ -259,7 +259,7 @@ public class ZPLWriter {
                     + close
 
                     + positionPlantNumber
-                    + l.getPlantNumber()
+                    + l.getCornerContent()
                     + close
 
                     + endLabel;
@@ -305,7 +305,7 @@ public class ZPLWriter {
                 + close
 
                 + positionPlantNumber
-                + l.getPlantNumber()
+                + l.getCornerContent()
                 + close
 
                 + endLabel;
@@ -324,7 +324,7 @@ public class ZPLWriter {
                 + close
 
                 + positionPlantNumber
-                + l.getPlantNumber()
+                + l.getCornerContent()
                 + close
 
                 + endLabel;
@@ -348,7 +348,7 @@ public class ZPLWriter {
                 + close
 
                 + positionPlantNumber
-                + l.getPlantNumber()
+                + l.getCornerContent()
                 + close
 
                 + endLabel;

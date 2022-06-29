@@ -4,26 +4,26 @@ public class Label {
     String firstName;
     String lastName;
     String fullBoxNumber;
-    String plantNumber;
+    String cornerContent;
     public Label(
-            String firstName, String lastName, String fullBoxNumber, String plantNumber) {
+            String firstName, String lastName, String fullBoxNumber, String cornerContent) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.fullBoxNumber = fullBoxNumber;
-        this.plantNumber = plantNumber;
+        this.cornerContent = cornerContent;
     }
 
-    public Label(String fullBoxNumber, String plantNumber) {
+    public Label(String fullBoxNumber, String cornerContent) {
         firstName = "";
         lastName = "";
         this.fullBoxNumber = fullBoxNumber;
-        this.plantNumber = plantNumber;
+        this.cornerContent = cornerContent;
     }
 
     public Label(String fullBoxNumber) {
         firstName = "";
         lastName = "";
-        plantNumber = "";
+        cornerContent = "";
         this.fullBoxNumber = fullBoxNumber;
     }
 
@@ -39,5 +39,5 @@ public class Label {
         return fullBoxNumber;
     }
 
-    public String getPlantNumber() { return plantNumber; }
+    public String getCornerContent() { return cornerContent; }
 }

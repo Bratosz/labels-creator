@@ -1,6 +1,7 @@
 package pl.bratosz.labelscreator.labels;
 
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import pl.bratosz.labelscreator.labels.format.CornerContentType;
 import pl.bratosz.labelscreator.labels.format.EditorSpreadSheetType;
 import pl.bratosz.labelscreator.labels.format.LabelsOrientation;
 import pl.bratosz.labelscreator.labels.format.labels.LabelsFormat;
@@ -148,14 +149,21 @@ public class LabelsCreator {
         }
     }
 
-    public List<Label> generateWithCustomBoxesRange(
+    public List<Label> generateWithCustomBoxesRangeAndCustomCornerContent(
             int lockerNumber,
             int startingBoxNumber,
-            int endBoxNumber) {
+            int endBoxNumber,
+            CornerContentType cornerContentType,
+            int cornerContentData) {
         List<Label> labels = new LinkedList<>();
         for (int i = startingBoxNumber; i <= endBoxNumber; i++) {
+            String cornerContent;
+            if(cornerContentType.equals(CornerContentType.LOCKER_AND_BOX))
+                cornerContent = CornerContentGenerator.generateForLockerAndBox(cornerContentData, i);
+            else
+                cornerContent = String.valueOf(cornerContentData);
             String fullBoxNumber = lockerNumber + "/" + i;
-            Label l = new Label(fullBoxNumber);
+            Label l = new Label(fullBoxNumber, cornerContent);
             labels.add(l);
         }
         return labels;

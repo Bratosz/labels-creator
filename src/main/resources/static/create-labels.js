@@ -55,6 +55,7 @@ $("#button-print-locker-with-custom-boxes-range").click(function () {
     let inputLockerNumber = $('#input-locker-number');
     let inputStartingBoxNumber = $('#input-starting-box-number');
     let inputEndBoxNumber = $('#input-end-box-number');
+    let inputCornerContent = $('#input-corner-content');
     let alertArea = $('#alert-for-cbr');
 
     let lockerNumber = inputLockerNumber.val();
@@ -62,23 +63,28 @@ $("#button-print-locker-with-custom-boxes-range").click(function () {
     let endBoxNumber = inputEndBoxNumber.val();
     let labelsOrientation = $('input[name="labels-orientation-for-cbr"]:checked').val();
 
+    let cornerContentType = $('#select-corner-content-type').val();
+    let cornerContent = inputCornerContent.val();
+
     if(labelsOrientation == "VERTICAL") {
         alert("Pionowy format tych etykiet nie jest aktywny.");
+    } else if(cornerContentType == "NONE") {
+        alert("Musisz wybrać typ zawartości narożnika.");
     } else if (isPassedNumbersCorrect(startingBoxNumber, endBoxNumber) &&
-        lockerNumber != "") {
+        lockerNumber != "" && !isEmpty(cornerContent)) {
         snuffInput(inputLockerNumber);
         snuffInput(inputStartingBoxNumber);
         snuffInput(inputEndBoxNumber);
-        generateAndPrintLabelsWithLockerWithCustomBoxesRangeInZPL2(
-            lockerNumber, startingBoxNumber, endBoxNumber, labelsOrientation);
+        snuffInput(inputCornerContent);
+        generateAndPrintLabelsWithLockerWithCustomBoxesRangeAndCustomCornerContentInZPL2(
+            lockerNumber, startingBoxNumber, endBoxNumber, labelsOrientation, cornerContentType, cornerContent);
     } else {
         highlightInput(inputLockerNumber);
         highlightInput(inputStartingBoxNumber);
         highlightInput(inputEndBoxNumber);
+        highlightInput(inputCornerContent);
         displayAlert(alertArea, "Niewłaściwe numery szaf.");
     }
-
-
 });
 
 $("#button-print-custom-content").click(function () {
@@ -160,9 +166,9 @@ function displayTable() {
 function isPassedNumbersCorrect(beginNumber, endNumber) {
     if (beginNumber == "") {
         return false;
-    } else if ((beginNumber >= 0) && (endNumber == "")) {
+    } else if ((parseInt(beginNumber) >= 0) && (endNumber == "")) {
         return true;
-    } else if (beginNumber <= endNumber) {
+    } else if (parseInt(beginNumber)<= parseInt(endNumber)) {
         return true;
     } else {
         return false;
@@ -263,16 +269,18 @@ function generateAndPrintLabelsWithNumbersOnlyFromRangeInZPL2(
     })
 }
 
-function generateAndPrintLabelsWithLockerWithCustomBoxesRangeInZPL2(
-    lockerNumber, startingBoxNumber, endBoxNumber, labelsOrientation) {
+function generateAndPrintLabelsWithLockerWithCustomBoxesRangeAndCustomCornerContentInZPL2(
+    lockerNumber, startingBoxNumber, endBoxNumber, labelsOrientation, cornerContentType, cornerContent) {
     if(endBoxNumber == "") endBoxNumber = 0;
     $.ajax({
         url: getActualLocation() +
-            `/labels/create-with-custom-boxes-range/zpl2` +
+            `/labels/create-with-custom-boxes-range-and-custom-corner-content/zpl2` +
             `/${lockerNumber}` +
             `/${startingBoxNumber}` +
             `/${endBoxNumber}` +
-            `/${labelsOrientation}`,
+            `/${labelsOrientation}` +
+            `/${cornerContentType}` +
+            `/${cornerContent}`,
         method: 'post',
         success: function (ZPLGeneratedExpression) {
             sendLabelsToPrinter(ZPLGeneratedExpression);

@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import pl.bratosz.labelscreator.labels.ExcelEmployeeReader;
 import pl.bratosz.labelscreator.labels.ExcelFileStorage;
 import pl.bratosz.labelscreator.labels.LabelsCreator;
+import pl.bratosz.labelscreator.labels.format.CornerContentType;
 import pl.bratosz.labelscreator.labels.format.EditorSpreadSheetType;
 import pl.bratosz.labelscreator.labels.format.LabelsOrientation;
 import pl.bratosz.labelscreator.labels.format.labels.LabelsFormat;
@@ -71,12 +72,16 @@ public class LabelsService {
             int lockerNumber,
             int startingBoxNumber,
             int endBoxNumber,
-            LabelsOrientation labelsOrientation) {
-        LabelsCreator lc = new LabelsCreator(LabelsFormat.DOUBLE_NUMBER);
-        List<Label> labels = lc.generateWithCustomBoxesRange(
+            LabelsOrientation labelsOrientation,
+            CornerContentType cornerContentType,
+            int cornerContent) {
+        LabelsCreator lc = new LabelsCreator(LabelsFormat.DOUBLE_NUMBER_WITH_ORDINAL_NUMBER_IN_CORNER);
+        List<Label> labels = lc.generateWithCustomBoxesRangeAndCustomCornerContent(
                 lockerNumber,
                 startingBoxNumber,
-                endBoxNumber);
+                endBoxNumber,
+                cornerContentType,
+                cornerContent);
         return lc.createInZPL2(labels, labelsOrientation);
     }
 
