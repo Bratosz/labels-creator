@@ -32,6 +32,7 @@ $("#button-print-numbers-from-range").click(function () {
     let inputEndNumber = $('#input-end-number');
     let alertNumbersRange = $('#alert-numbers-range');
 
+    let labelSize = $('input[name="label-size"]:checked').val();
     let numbersFormat = $('input[name="numbers-format"]:checked').val();
     let lockersCapacity = $('input[name="locker-capacity"]:checked').val();
     let labelsOrientation = $('input[name="labels-orientation"]:checked').val();
@@ -43,7 +44,8 @@ $("#button-print-numbers-from-range").click(function () {
         snuffInput(inputEndNumber);
         hideAlert(alertNumbersRange);
         generateAndPrintLabelsWithNumbersOnlyFromRangeInZPL2(
-            beginNumber, endNumber, lockersCapacity, numbersFormat, labelsOrientation);
+            beginNumber, endNumber, lockersCapacity, numbersFormat, labelsOrientation,
+            labelSize);
     } else {
         highlightInput(inputBeginNumber);
         highlightInput(inputEndNumber);
@@ -248,7 +250,7 @@ function generateLabelsInZPL2AndPrint(labelsFormat, employees, plantNumber) {
 };
 
 function generateAndPrintLabelsWithNumbersOnlyFromRangeInZPL2(
-    beginNumber, endNumber, capacity, numbersFormat, labelsOrientation) {
+    beginNumber, endNumber, capacity, numbersFormat, labelsOrientation, labelSize) {
     if (endNumber === "") {
         endNumber = 0;
     }
@@ -259,7 +261,8 @@ function generateAndPrintLabelsWithNumbersOnlyFromRangeInZPL2(
             `/${endNumber}` +
             `/${capacity}` +
             `/${numbersFormat}` +
-            `/${labelsOrientation}`,
+            `/${labelsOrientation}` +
+            `/${labelSize}`,
         method: "post",
         success: function (ZPLGeneratedExpression) {
             sendLabelsToPrinter(ZPLGeneratedExpression);

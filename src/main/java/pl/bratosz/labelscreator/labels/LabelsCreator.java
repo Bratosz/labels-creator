@@ -4,6 +4,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import pl.bratosz.labelscreator.labels.format.CornerContentType;
 import pl.bratosz.labelscreator.labels.format.EditorSpreadSheetType;
 import pl.bratosz.labelscreator.labels.format.LabelsOrientation;
+import pl.bratosz.labelscreator.labels.format.labels.LabelSize;
 import pl.bratosz.labelscreator.labels.format.labels.LabelsFormat;
 import pl.bratosz.labelscreator.formater.StringFormater;
 import pl.bratosz.labelscreator.labels.zpl.ZPLFontSize;
@@ -18,17 +19,27 @@ public class LabelsCreator {
 
     private LabelsFormat labelsFormat;
     private String plantNumber;
+    private final LabelSize labelSize;
 
     public LabelsCreator() {
+        labelSize = LabelSize.SIZE_60X40;
     }
 
     public LabelsCreator(LabelsFormat labelsFormat, String plantNumber) {
         this.labelsFormat = labelsFormat;
         this.plantNumber = plantNumber;
+        this.labelSize = LabelSize.SIZE_60X40;
+    }
+
+    public LabelsCreator(LabelsFormat labelsFormat, LabelSize labelSize) {
+        this.labelsFormat = labelsFormat;
+        this.plantNumber = "";
+        this.labelSize = labelSize;
     }
 
     public LabelsCreator(LabelsFormat labelsFormat) {
         this.labelsFormat = labelsFormat;
+        this.labelSize = LabelSize.SIZE_60X40;
     }
 
     public List<Label> generate(List<Employee> employees) {
@@ -115,7 +126,7 @@ public class LabelsCreator {
 
     public String createInZPL2(List<Label> labels, LabelsOrientation labelsOrientation) {
         ZPLWriter zplLW = ZPLWriter.create();
-        return zplLW.generate(labelsFormat, labels, labelsOrientation);
+        return zplLW.generate(labelsFormat, labels, labelsOrientation, labelSize);
     }
 
     public String generateFromCustomString(String content, ZPLFontSize fontSize, int labelsAmount) {

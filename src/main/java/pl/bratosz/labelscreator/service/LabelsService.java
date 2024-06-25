@@ -8,6 +8,7 @@ import pl.bratosz.labelscreator.labels.LabelsCreator;
 import pl.bratosz.labelscreator.labels.format.CornerContentType;
 import pl.bratosz.labelscreator.labels.format.EditorSpreadSheetType;
 import pl.bratosz.labelscreator.labels.format.LabelsOrientation;
+import pl.bratosz.labelscreator.labels.format.labels.LabelSize;
 import pl.bratosz.labelscreator.labels.format.labels.LabelsFormat;
 import pl.bratosz.labelscreator.labels.zpl.ZPLFontSize;
 import pl.bratosz.labelscreator.model.Employee;
@@ -59,8 +60,8 @@ public class LabelsService {
             int endNumber,
             int capacity,
             LabelsFormat labelsFormat,
-            LabelsOrientation labelsOrientation) {
-        LabelsCreator lc = new LabelsCreator(LabelsFormat.DOUBLE_NUMBER_WITH_ORDINAL_NUMBER_IN_CORNER);
+            LabelsOrientation labelsOrientation, LabelSize labelSize) {
+        LabelsCreator lc = new LabelsCreator(labelsFormat, labelSize);
         List<Label> labels = lc.generate(
                 beginNumber,
                 endNumber,

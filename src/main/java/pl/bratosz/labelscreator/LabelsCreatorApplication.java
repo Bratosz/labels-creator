@@ -14,7 +14,7 @@ public class LabelsCreatorApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(LabelsCreatorApplication.class, args);
-        SSLMailNotificator ssl = new SSLMailNotificator();
-        ssl.message();
+//        SSLMailNotificator ssl = new SSLMailNotificator();
+//        ssl.message();
     }
 }

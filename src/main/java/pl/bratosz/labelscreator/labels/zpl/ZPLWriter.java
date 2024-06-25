@@ -2,6 +2,7 @@ package pl.bratosz.labelscreator.labels.zpl;
 
 import pl.bratosz.labelscreator.exception.LabelContentException;
 import pl.bratosz.labelscreator.labels.format.LabelsOrientation;
+import pl.bratosz.labelscreator.labels.format.labels.LabelSize;
 import pl.bratosz.labelscreator.labels.format.labels.LabelsFormat;
 import pl.bratosz.labelscreator.model.Label;
 
@@ -19,7 +20,8 @@ public class ZPLWriter {
     private String close;
     private String positionSTDBoxNumber;
     private String positionCenteredContent;
-    private String positionBIGCenteredContent;
+    private String positionBIGCenteredContent60x40;
+    private String positionBIGCenteredContent40x20;
     private String fontSize;
     private String positionPlantNumber;
     private String positionOrdinalNumber;
@@ -42,7 +44,8 @@ public class ZPLWriter {
         zplLW.close = "^FS";
         zplLW.positionSTDBoxNumber = "^CI28^FO16,216^FB448,1,0,R^A0N,70,70^FD";
         zplLW.positionCenteredContent = "^FS^CI28^FO16,120^FB470,2,8,C^A0N,120,120^FD";
-        zplLW.positionBIGCenteredContent = "^FS^CI28^FO16,50^FB470,2,8,C^A0N,300,115^FD";
+        zplLW.positionBIGCenteredContent60x40 = "^FS^CI28^FO16,50^FB470,2,8,C^A0N,300,115^FD";
+        zplLW.positionBIGCenteredContent40x20 = "^FS^CI28^FO60,25^FB235,2,8,C^A0N,150,58^FD";
         zplLW.positionMEDIUMCenteredContent = "^FS^CI28^FO16,50^FB490,2,8,C^A0N,240,110^FD";
         zplLW.positionPlantNumber = "^FO16,290^A0N,28,28,^FD";
         zplLW.positionOrdinalNumber = "^FO16,240^A0N,90,80,^FD";
@@ -54,17 +57,16 @@ public class ZPLWriter {
     public String generate(
             LabelsFormat labelsFormat,
             List<Label> labels,
-            LabelsOrientation labelsOrientation) {
+            LabelsOrientation labelsOrientation,
+            LabelSize labelSize) {
         String labelsToPrint = "";
         switch (labelsFormat) {
             case DOUBLE_NUMBER:
             case SINGLE_NUMBER:
                 for (Label l : labels) {
                     try {
-                        labelsToPrint += createLabelWithBoxNumberOnly(l, labelsOrientation);
-                    } catch (LabelContentException e) {
-                        continue;
-                    }
+                        labelsToPrint += createLabelWithBoxNumberOnly(l, labelsOrientation, labelSize);
+                    } catch (LabelContentException e) {}
                 }
                 return labelsToPrint;
             case DOUBLE_NUMBER_WITH_ORDINAL_NUMBER_IN_CORNER:
@@ -250,11 +252,12 @@ public class ZPLWriter {
     }
 
     private String createLabelWithBoxNumberOnly(
-            Label l, LabelsOrientation labelsOrientation) throws LabelContentException {
+            Label l, LabelsOrientation labelsOrientation, LabelSize labelSize) throws LabelContentException {
         String s = "";
+        String mainContentPosition = getMainContentPosition(labelSize);
         if (labelsOrientation.equals(LabelsOrientation.HORIZONTAL)) {
             s = openLabel
-                    + positionBIGCenteredContent
+                    + mainContentPosition
                     + l.getFullBoxNumber()
                     + close
 
@@ -276,6 +279,16 @@ public class ZPLWriter {
             }
         }
         return s;
+    }
+
+    private String getMainContentPosition(LabelSize labelSize) {
+        switch (labelSize) {
+            case SIZE_40X20:
+                return positionBIGCenteredContent40x20;
+            case SIZE_60X40:
+            default:
+                return positionBIGCenteredContent60x40;
+        }
     }
 
     private String createLabelWithFirstNameAndLastNameOnly(Label l) {

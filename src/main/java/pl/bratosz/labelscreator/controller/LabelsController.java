@@ -6,6 +6,7 @@ import org.springframework.web.multipart.MultipartFile;
 import pl.bratosz.labelscreator.labels.format.CornerContentType;
 import pl.bratosz.labelscreator.labels.format.EditorSpreadSheetType;
 import pl.bratosz.labelscreator.labels.format.LabelsOrientation;
+import pl.bratosz.labelscreator.labels.format.labels.LabelSize;
 import pl.bratosz.labelscreator.labels.format.labels.LabelsFormat;
 import pl.bratosz.labelscreator.exception.WrongFileFormatException;
 import pl.bratosz.labelscreator.model.Employee;
@@ -47,15 +48,16 @@ public class LabelsController {
     }
 
     @PostMapping("/create-from-range/zpl2" +
-            "/{beginNumber}/{endNumber}/{capacity}/{labelsFormat}/{labelsOrientation}")
+            "/{beginNumber}/{endNumber}/{capacity}/{labelsFormat}/{labelsOrientation}/{labelSize}")
     public String createNumericLabelsInZPL2(
             @PathVariable int beginNumber,
             @PathVariable int endNumber,
             @PathVariable int capacity,
             @PathVariable LabelsFormat labelsFormat,
-            @PathVariable LabelsOrientation labelsOrientation) {
+            @PathVariable LabelsOrientation labelsOrientation,
+            @PathVariable LabelSize labelSize) {
         return labelsService.createNumericLabelsAsZPL2(
-                beginNumber, endNumber, capacity, labelsFormat, labelsOrientation);
+                beginNumber, endNumber, capacity, labelsFormat, labelsOrientation, labelSize);
     }
 
     @PostMapping("/create-with-custom-boxes-range-and-custom-corner-content/zpl2" +
