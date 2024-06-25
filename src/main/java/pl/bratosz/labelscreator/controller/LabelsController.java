@@ -61,16 +61,17 @@ public class LabelsController {
     }
 
     @PostMapping("/create-with-custom-boxes-range-and-custom-corner-content/zpl2" +
-            "/{lockerNumber}/{startingBoxNumber}/{endBoxNumber}/{labelsOrientation}/{cornerContentType}/{cornerContent}")
+            "/{lockerNumber}/{startingBoxNumber}/{endBoxNumber}/{labelsOrientation}/{cornerContentType}/{cornerContent}/{labelSize}")
     public String createWithCustomBoxesRangeInZPL2(
             @PathVariable int lockerNumber,
             @PathVariable int startingBoxNumber,
             @PathVariable int endBoxNumber,
             @PathVariable LabelsOrientation labelsOrientation,
             @PathVariable CornerContentType cornerContentType,
-            @PathVariable int cornerContent) {
+            @PathVariable int cornerContent,
+            @PathVariable LabelSize labelSize) {
         return labelsService.createNumericLabelsWithCustomBoxesRangeAsZPL2(
-                lockerNumber, startingBoxNumber, endBoxNumber, labelsOrientation, cornerContentType, cornerContent);
+                lockerNumber, startingBoxNumber, endBoxNumber, labelsOrientation, cornerContentType, cornerContent, labelSize);
     }
 
 

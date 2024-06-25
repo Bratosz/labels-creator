@@ -75,8 +75,9 @@ public class LabelsService {
             int endBoxNumber,
             LabelsOrientation labelsOrientation,
             CornerContentType cornerContentType,
-            int cornerContent) {
-        LabelsCreator lc = new LabelsCreator(LabelsFormat.DOUBLE_NUMBER_WITH_ORDINAL_NUMBER_IN_CORNER);
+            int cornerContent,
+            LabelSize labelSize) {
+        LabelsCreator lc = new LabelsCreator(LabelsFormat.DOUBLE_NUMBER_WITH_ORDINAL_NUMBER_IN_CORNER, labelSize);
         List<Label> labels = lc.generateWithCustomBoxesRangeAndCustomCornerContent(
                 lockerNumber,
                 startingBoxNumber,

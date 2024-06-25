@@ -72,7 +72,7 @@ public class ZPLWriter {
             case DOUBLE_NUMBER_WITH_ORDINAL_NUMBER_IN_CORNER:
                 for(Label l : labels) {
                     try {
-                        labelsToPrint += createLabelWithBoxNumberOnlyAndOrdinalNumberInCorner(l, labelsOrientation);
+                        labelsToPrint += createLabelWithBoxNumberOnlyAndOrdinalNumberInCorner(l, labelsOrientation, labelSize);
                     } catch (LabelContentException e) {
                         continue;
                     }
@@ -232,19 +232,30 @@ public class ZPLWriter {
     }
 
     private String createLabelWithBoxNumberOnlyAndOrdinalNumberInCorner(
-            Label l, LabelsOrientation labelsOrientation) throws LabelContentException {
+            Label l, LabelsOrientation labelsOrientation, LabelSize labelSize) throws LabelContentException {
         String s;
         if (labelsOrientation.equals(LabelsOrientation.HORIZONTAL)) {
-            s = openLabel
-                    + positionMEDIUMCenteredContent
-                    + l.getFullBoxNumber()
-                    + close
+            if (labelSize.equals(LabelSize.SIZE_60X40)) {
+                s = openLabel
+                        + positionMEDIUMCenteredContent
+                        + l.getFullBoxNumber()
+                        + close
 
-                    + positionOrdinalNumber
-                    + l.getCornerContent()
-                    + close
+                        + positionOrdinalNumber
+                        + l.getCornerContent()
+                        + close
 
-                    + endLabel;
+                        + endLabel;
+            } else if (labelSize.equals(LabelSize.SIZE_40X20)) {
+                s = openLabel
+                        + positionBIGCenteredContent40x20
+                        + l.getFullBoxNumber()
+                        + close
+
+                        + endLabel;
+            } else {
+                throw new LabelContentException("Format pionowy nie jest obsługiwany");
+            }
         } else {
             throw new LabelContentException("Format pionowy nie jest obsługiwany");
         }

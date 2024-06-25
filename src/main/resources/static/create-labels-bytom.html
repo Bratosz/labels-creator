@@ -128,7 +128,6 @@
                     <span>Drukuj numery:</span>
                 </div>
                 <div class="select-radio">
-<!--                    <span>Format:</span>-->
                     <input type="radio" id="label-size-1" name="label-size" value="SIZE_60X40" checked>
                     <label class="label-std" for="label-size-1">60mm x 40mm</label>
                     <input type="radio" id="label-size-2" name="label-size" value="SIZE_40X20">
@@ -184,8 +183,12 @@
                 <div class="option-header">
                     <span>Drukuj szafę z boxami:</span>
                 </div>
-
-                <div class="gap-vertical-8"></div>
+                <div class="select-radio">
+                    <input type="radio" id="label-size-for-cbr-1" name="label-size-for-cbr" value="SIZE_60X40" checked>
+                    <label class="label-std" for="label-size-for-cbr-1">60mm x 40mm</label>
+                    <input type="radio" id="label-size-for-cbr-2" name="label-size-for-cbr" value="SIZE_40X20">
+                    <label class="label-std" for="label-size-for-cbr-2">40mm x 20mm</label>
+                </div>
                 <div class="select-radio">
                     <span>Numer szafy:</span>
                     <div class="option">
@@ -193,7 +196,6 @@
                     </div>
                 </div>
 
-                <div class="gap-vertical-9"></div>
                 <div class="select-radio">
                     <span>Orientacja: </span>
                     <input id="orientation-horizontal-for-cbr" type="radio"  name="labels-orientation-for-cbr"
@@ -204,7 +206,6 @@
                     <label class="label-std" for="orientation-vertical">Pionowa</label>
                 </div>
 
-                <div class="gap-vertical-9"></div>
                 <div>
                     <select id="select-corner-content-type" style="width: 175px">
                         <option value="NONE">Zawartość narożnika</option>
@@ -214,7 +215,6 @@
                     <input id="input-corner-content" class="input-std" type="number">
                 </div>
 
-                <div class="gap-vertical-9"></div>
                 <div class="input-bar" style="margin-top: 7px">
                     <span>Boxy</span>
                     <div class="option">od:</div>

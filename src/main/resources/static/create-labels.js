@@ -64,6 +64,7 @@ $("#button-print-locker-with-custom-boxes-range").click(function () {
     let startingBoxNumber = inputStartingBoxNumber.val();
     let endBoxNumber = inputEndBoxNumber.val();
     let labelsOrientation = $('input[name="labels-orientation-for-cbr"]:checked').val();
+    let labelSize = $('input[name="label-size-for-cbr"]:checked').val();
 
     let cornerContentType = $('#select-corner-content-type').val();
     let cornerContent = inputCornerContent.val();
@@ -79,7 +80,13 @@ $("#button-print-locker-with-custom-boxes-range").click(function () {
         snuffInput(inputEndBoxNumber);
         snuffInput(inputCornerContent);
         generateAndPrintLabelsWithLockerWithCustomBoxesRangeAndCustomCornerContentInZPL2(
-            lockerNumber, startingBoxNumber, endBoxNumber, labelsOrientation, cornerContentType, cornerContent);
+            lockerNumber,
+            startingBoxNumber,
+            endBoxNumber,
+            labelsOrientation,
+            cornerContentType,
+            cornerContent,
+            labelSize);
     } else {
         highlightInput(inputLockerNumber);
         highlightInput(inputStartingBoxNumber);
@@ -273,7 +280,7 @@ function generateAndPrintLabelsWithNumbersOnlyFromRangeInZPL2(
 }
 
 function generateAndPrintLabelsWithLockerWithCustomBoxesRangeAndCustomCornerContentInZPL2(
-    lockerNumber, startingBoxNumber, endBoxNumber, labelsOrientation, cornerContentType, cornerContent) {
+    lockerNumber, startingBoxNumber, endBoxNumber, labelsOrientation, cornerContentType, cornerContent, labelSize){
     if(endBoxNumber == "") endBoxNumber = 0;
     $.ajax({
         url: getActualLocation() +
@@ -283,7 +290,8 @@ function generateAndPrintLabelsWithLockerWithCustomBoxesRangeAndCustomCornerCont
             `/${endBoxNumber}` +
             `/${labelsOrientation}` +
             `/${cornerContentType}` +
-            `/${cornerContent}`,
+            `/${cornerContent}` +
+            `/${labelSize}`,
         method: 'post',
         success: function (ZPLGeneratedExpression) {
             sendLabelsToPrinter(ZPLGeneratedExpression);
