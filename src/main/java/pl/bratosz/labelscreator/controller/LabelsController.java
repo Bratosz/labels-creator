@@ -10,6 +10,7 @@ import pl.bratosz.labelscreator.labels.format.labels.LabelSize;
 import pl.bratosz.labelscreator.labels.format.labels.LabelsFormat;
 import pl.bratosz.labelscreator.exception.WrongFileFormatException;
 import pl.bratosz.labelscreator.model.Employee;
+import pl.bratosz.labelscreator.model.Label189;
 import pl.bratosz.labelscreator.payload.UploadFileResponse;
 import pl.bratosz.labelscreator.s3.S3Services;
 import pl.bratosz.labelscreator.service.LabelsService;
@@ -30,6 +31,12 @@ public class LabelsController {
         this.labelsService = labelsService;
         this.fileController = fileController;
         this.s3Services = s3Services;
+    }
+
+    @PostMapping("/create-for-189/zpl2")
+    public String createLabelsFor189(
+            @RequestBody Label189 label189) {
+        return labelsService.createLabelsFor189(label189);
     }
 
     @PostMapping("/create-from-custom-content/zpl2/{customString}/{labelsAmount}")
@@ -73,7 +80,6 @@ public class LabelsController {
         return labelsService.createNumericLabelsWithCustomBoxesRangeAsZPL2(
                 lockerNumber, startingBoxNumber, endBoxNumber, labelsOrientation, cornerContentType, cornerContent, labelSize);
     }
-
 
     @PostMapping("/create_from_table/spread_sheet/{labelsFormat}/{editorSpreadSheetType}/{plantNumber}")
     public UploadFileResponse createSpreadSheet(

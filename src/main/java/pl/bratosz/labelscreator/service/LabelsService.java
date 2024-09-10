@@ -13,6 +13,7 @@ import pl.bratosz.labelscreator.labels.format.labels.LabelsFormat;
 import pl.bratosz.labelscreator.labels.zpl.ZPLFontSize;
 import pl.bratosz.labelscreator.model.Employee;
 import pl.bratosz.labelscreator.model.Label;
+import pl.bratosz.labelscreator.model.Label189;
 import pl.bratosz.labelscreator.notification.SSLMailNotificator;
 import pl.bratosz.labelscreator.payload.UploadFileResponse;
 
@@ -86,6 +87,12 @@ public class LabelsService {
                 cornerContent);
         return lc.createInZPL2(labels, labelsOrientation);
     }
+
+    public String createLabelsFor189(Label189 label189) {
+        LabelsCreator lc = new LabelsCreator(LabelsFormat.FOR_189_PLANT);
+        return lc.createInZPL2(label189);
+    }
+
 
 
     public String createLabelsFromCustomString(String customString, int labelsAmount) {

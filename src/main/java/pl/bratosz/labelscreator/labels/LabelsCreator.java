@@ -11,6 +11,7 @@ import pl.bratosz.labelscreator.labels.zpl.ZPLFontSize;
 import pl.bratosz.labelscreator.labels.zpl.ZPLWriter;
 import pl.bratosz.labelscreator.model.Employee;
 import pl.bratosz.labelscreator.model.Label;
+import pl.bratosz.labelscreator.model.Label189;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -67,8 +68,6 @@ public class LabelsCreator {
         String boxNumber = employee.getBoxNumber();
         return formatContent(
                 firstName, lastName, lockerNumber, boxNumber);
-
-
     }
 
     private Label formatContent(
@@ -92,7 +91,6 @@ public class LabelsCreator {
                 return createStandardContent(firstName, lastName, lockerNumber, boxNumber);
             }
         }
-
     }
 
     private String addLastNameAsSuffix(String lastName, String lockerNumber) {
@@ -127,6 +125,11 @@ public class LabelsCreator {
     public String createInZPL2(List<Label> labels, LabelsOrientation labelsOrientation) {
         ZPLWriter zplLW = ZPLWriter.create();
         return zplLW.generate(labelsFormat, labels, labelsOrientation, labelSize);
+    }
+
+    public String createInZPL2(Label189 label) {
+        ZPLWriter zplLW = ZPLWriter.create();
+        return zplLW.generate(label);
     }
 
     public String generateFromCustomString(String content, ZPLFontSize fontSize, int labelsAmount) {
@@ -233,6 +236,4 @@ public class LabelsCreator {
         } while (beginNumber <= endNumber);
         return labels;
     }
-
-
 }

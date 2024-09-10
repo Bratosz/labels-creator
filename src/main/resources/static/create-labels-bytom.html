@@ -63,7 +63,6 @@
     </nav>
 
 
-
     <div>
         <div>
             <!--PRINT NUMBERS FROM TABLE-->
@@ -150,7 +149,8 @@
                 <div class="gap-vertical-3"></div>
                 <div class="select-radio">
                     <span>Orientacja: </span>
-                    <input type="radio" id="orientation-horizontal" name="labels-orientation" value="HORIZONTAL" checked>
+                    <input type="radio" id="orientation-horizontal" name="labels-orientation" value="HORIZONTAL"
+                           checked>
                     <label class="label-std" for="orientation-horizontal">Pozioma</label>
                     <input type="radio" id="orientation-vertical" name="labels-orientation" value="VERTICAL">
                     <label class="label-std" for="orientation-vertical">Pionowa</label>
@@ -192,16 +192,16 @@
                 <div class="select-radio">
                     <span>Numer szafy:</span>
                     <div class="option">
-                        <input id="input-locker-number" class="input-std" type="number" >
+                        <input id="input-locker-number" class="input-std" type="number">
                     </div>
                 </div>
 
                 <div class="select-radio">
                     <span>Orientacja: </span>
-                    <input id="orientation-horizontal-for-cbr" type="radio"  name="labels-orientation-for-cbr"
+                    <input id="orientation-horizontal-for-cbr" type="radio" name="labels-orientation-for-cbr"
                            value="HORIZONTAL" checked>
                     <label class="label-std" for="orientation-horizontal">Pozioma</label>
-                    <input id="orientation-vertical-for-cbr"type="radio" name="labels-orientation-for-cbr"
+                    <input id="orientation-vertical-for-cbr" type="radio" name="labels-orientation-for-cbr"
                            value="VERTICAL">
                     <label class="label-std" for="orientation-vertical">Pionowa</label>
                 </div>
@@ -227,7 +227,7 @@
                         <input id="input-end-box-number"
                                class="input-std" type="number">
                     </div>
-<!--                    <div class="gap-vertical-5"></div>-->
+                    <!--                    <div class="gap-vertical-5"></div>-->
                     <div class="option">
                         <button id="button-print-locker-with-custom-boxes-range" class="button">
                             Drukuj
@@ -237,7 +237,40 @@
                         <div id="alert-for-cbr"></div>
                     </div>
                 </div>
+            </div>
 
+            <!--PRINT 189-->
+            <div class="basic-field">
+                <div class="basic-field">
+                    <div class="gap-vertical-5"></div>
+
+                    <div class="option-header">
+                        <span>Drukuj dla 189:</span>
+                    </div>
+
+                    <div class="gap-vertical-5"></div>
+
+                    <div class="vertical-align">
+                        <div class="horizontal-align" style="margin-top: 5px">
+                            <input id="text-input-189-top-left" type="text" style="width: 40%; margin-right: 1px" placeholder="0000">
+                            <input id="text-input-189-top-right" type="text" style="width: 40%; text-align: right" placeholder="W-1/1">
+                        </div>
+                    </div>
+                    <div class="gap-vertical-5"></div>
+                    <input id="text-input-189-middle" type="text" style="width: 82%; text-align: center" placeholder="Nazwisko Imię">
+                    <div class="gap-vertical-5"></div>
+                    <input id="text-input-189-bottom" type="text" style="width: 82%; text-align: center" placeholder="1111/001">
+                </div>
+
+                <div class="gap-vertical-10"></div>
+
+                <div class="input-bar" style="margin-top: 5px">
+                    <div class="option">
+                        <button id="button-print-for-189" class="button">
+                            Drukuj
+                        </button>
+                    </div>
+                </div>
             </div>
 
             <!--PRINT CUSTOM CONTENT-->

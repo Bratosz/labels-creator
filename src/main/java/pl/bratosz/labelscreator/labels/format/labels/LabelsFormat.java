@@ -9,5 +9,6 @@ public enum LabelsFormat {
     SINGLE_NUMBER,
     CUSTOM_STRING,
     FIRST_NAME_AND_LAST_NAME,
-
+    FOR_189_PLANT,
+    ;
 }

@@ -5,6 +5,7 @@ import pl.bratosz.labelscreator.labels.format.LabelsOrientation;
 import pl.bratosz.labelscreator.labels.format.labels.LabelSize;
 import pl.bratosz.labelscreator.labels.format.labels.LabelsFormat;
 import pl.bratosz.labelscreator.model.Label;
+import pl.bratosz.labelscreator.model.Label189;
 
 import java.util.List;
 
@@ -28,6 +29,10 @@ public class ZPLWriter {
     private String endLabel;
     private String positionForVerticalContentUpTo3Signs;
     private String positionMEDIUMCenteredContent;
+    private String positionTopLeftContent;
+    private String positionTopRightContent;
+    private String positionCenteredBottomContent;
+    private String positionCenteredContentFor189;
 
     private ZPLWriter() {
 
@@ -51,6 +56,13 @@ public class ZPLWriter {
         zplLW.positionOrdinalNumber = "^FO16,240^A0N,90,80,^FD";
         zplLW.endLabel = "^XZ";
         zplLW.positionForVerticalContentUpTo3Signs = "^FS^CI28^FO0,30^FB300,1,0,C^A0R,400,170^FD";
+
+        //189
+        zplLW.positionTopLeftContent = "^FS^CI28^FO16,16^FB230,1,0,L^A0N,55,55^FD";
+        zplLW.positionTopRightContent = "^FS^CI28^FO225,16^FB230,1,0,R^A0N,55,55^FD";
+        zplLW.positionCenteredContentFor189 = "^FS^CI28^FO16,130^FB470,2,8,C^A0N,70,40^FD";
+        zplLW.positionCenteredBottomContent = "^FS^CI28^FO16,250^FB460,1,0,C^A0N,50,50^FD";
+
         return zplLW;
     }
 
@@ -66,11 +78,12 @@ public class ZPLWriter {
                 for (Label l : labels) {
                     try {
                         labelsToPrint += createLabelWithBoxNumberOnly(l, labelsOrientation, labelSize);
-                    } catch (LabelContentException e) {}
+                    } catch (LabelContentException e) {
+                    }
                 }
                 return labelsToPrint;
             case DOUBLE_NUMBER_WITH_ORDINAL_NUMBER_IN_CORNER:
-                for(Label l : labels) {
+                for (Label l : labels) {
                     try {
                         labelsToPrint += createLabelWithBoxNumberOnlyAndOrdinalNumberInCorner(l, labelsOrientation, labelSize);
                     } catch (LabelContentException e) {
@@ -101,6 +114,35 @@ public class ZPLWriter {
         }
     }
 
+    public String generate(Label189 label189) {
+        String middleText = label189.getMiddle();
+
+        if (middleText.length() > 20) {
+            positionCenteredContentFor189 = changeFontSize(positionCenteredContentFor189, new ZPLFontSize(30, 30, 1));
+        }
+
+        String s;
+        s = openLabel +
+
+                positionTopLeftContent +
+                label189.getTopLeft() +
+                close +
+
+                positionTopRightContent +
+                label189.getTopRight() +
+                close +
+
+                positionCenteredContentFor189 +
+                label189.getMiddle() +
+                close +
+
+                positionCenteredBottomContent +
+                label189.getBottom() +
+                close +
+
+                endLabel;
+        return s;
+    }
 
 
     public String generate(String content, ZPLFontSize fontSize) {

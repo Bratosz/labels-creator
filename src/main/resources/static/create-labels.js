@@ -96,6 +96,28 @@ $("#button-print-locker-with-custom-boxes-range").click(function () {
     }
 });
 
+$("#button-print-for-189").click(function () {
+    const topLeft = $('#text-input-189-top-left')
+    const topRight = $('#text-input-189-top-right')
+    const middle = $('#text-input-189-middle')
+    const bottom = $('#text-input-189-bottom')
+
+    const topLeftVal = topLeft.val()
+    const topRightVal = topRight.val()
+    const middleVal = middle.val()
+    const bottomVal = bottom.val()
+
+    const label189 = {
+        topLeft: topLeftVal,
+        topRight: topRightVal,
+        middle: middleVal,
+        bottom: bottomVal
+    }
+
+    generateAndPrintLabelsFor189Plant(label189);
+
+})
+
 $("#button-print-custom-content").click(function () {
     let inputTextField = $('#input-text-field');
     let inputLabelsAmount = $('#input-labels-amount');
@@ -111,11 +133,11 @@ $("#button-print-custom-content").click(function () {
         hideAlert(alertForTextField);
         generateAndPrintLabelsWithCustomContentInZPL2(
             contentToPrint, labelsAmount);
-    } else if (contentIsEmpty(contentToPrint) && labelsAmountIsWrong(labelsAmount)) {
+    } else if (textInputIsEmpty(contentToPrint) && labelsAmountIsWrong(labelsAmount)) {
         highlightInput(inputTextField);
         highlightInput(inputLabelsAmount);
         displayAlert(alertForTextField, "Coś poszło nie tak ;-)")
-    } else if (contentIsEmpty(contentToPrint)) {
+    } else if (textInputIsEmpty(contentToPrint)) {
         highlightInput(inputTextField);
         displayAlert(alertForTextField, "Pole tekstowe jest puste.");
     } else if (labelsAmountIsWrong(labelsAmount)) {
@@ -124,14 +146,14 @@ $("#button-print-custom-content").click(function () {
     }
 
     function parametersAreCorrect(contentToPrint, labelsAmount) {
-        if (contentIsEmpty(contentToPrint) || labelsAmountIsWrong(labelsAmount)) {
+        if (textInputIsEmpty(contentToPrint) || labelsAmountIsWrong(labelsAmount)) {
             return false;
         } else {
             return true;
         }
     }
 
-    function contentIsEmpty(contentToPrint) {
+    function textInputIsEmpty(contentToPrint) {
         if (contentToPrint == "") {
             return true;
         } else {
@@ -293,6 +315,21 @@ function generateAndPrintLabelsWithLockerWithCustomBoxesRangeAndCustomCornerCont
             `/${cornerContent}` +
             `/${labelSize}`,
         method: 'post',
+        success: function (ZPLGeneratedExpression) {
+            sendLabelsToPrinter(ZPLGeneratedExpression);
+            console.log(ZPLGeneratedExpression);
+            alert("Etykiety wysłano do drukarki");
+        }
+    })
+}
+
+function generateAndPrintLabelsFor189Plant(label189) {
+    $.ajax({
+        url: getActualLocation() +
+            `/labels/create-for-189/zpl2`,
+        method: 'post',
+        data: JSON.stringify(label189),
+        contentType: "application/json",
         success: function (ZPLGeneratedExpression) {
             sendLabelsToPrinter(ZPLGeneratedExpression);
             console.log(ZPLGeneratedExpression);
