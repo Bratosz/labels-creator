@@ -127,6 +127,11 @@ public class LabelsCreator {
         return zplLW.generate(labelsFormat, labels, labelsOrientation, labelSize);
     }
 
+    public String createInZPL2For189Format(List<Label189> labels) {
+        ZPLWriter zplLW = ZPLWriter.create();
+        return zplLW.generate189(labels);
+    }
+
     public String createInZPL2(Label189 label) {
         ZPLWriter zplLW = ZPLWriter.create();
         return zplLW.generate(label);

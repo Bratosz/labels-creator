@@ -52,7 +52,16 @@ tr th:nth-child(3)
     width: 270px;
     display: inline-block;
     margin-left: 0px;
-    margin-right: 20px;
+    margin-right: 0px;
+    vertical-align: top;
+}
+
+.basic-field-thin {
+    height: 150px;
+    width: 195px;
+    display: inline-block;
+    margin-left: 0px;
+    margin-right: 0px;
     vertical-align: top;
 }
 

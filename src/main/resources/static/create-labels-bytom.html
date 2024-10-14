@@ -274,8 +274,8 @@
             </div>
 
             <!--PRINT CUSTOM CONTENT-->
-            <div class="basic-field">
-                <div class="basic-field">
+            <div class="basic-field-thin">
+                <div class="basic-field-thin">
                     <div class="gap-vertical-5"></div>
                     <div class="option-header">
                         <span>Drukuj niestandardowo:</span>
@@ -308,7 +308,48 @@
                     </div>
                 </div>
             </div>
-        </div>
+
+            <!--PRINT FROM FILE-->
+            <div class="basic-field-thin">
+                <div class="basic-field-thin">
+                    <div class="gap-vertical-5"></div>
+                    <div class="option-header">
+                        <span>Drukuj z pliku excel:</span>
+                    </div>
+                    <div class="gap-vertical-5"></div>
+                    <div class="gap-vertical-5"></div>
+                    <div class="gap-vertical-5"></div>
+                    <div>
+                        <select id="input-labels-format-from-file" style="width: 100%">
+                            <option value="FOR_189_PLANT">Zakład 189</option>
+                        </select>
+                    </div>
+                    <div class="gap-vertical-5"></div>
+                    <div>
+                        <button id="button-download-template" class="button" style="width: 100%">Pobierz szablon</button>
+                    </div>
+                    <div class="gap-vertical-5"></div>
+                    <div class="gap-vertical-5"></div>
+                    <div class="option" >
+                        <input type="file" id="input-excel-file" accept=".xlsx, .xls" style="font-size: 13px">
+                    </div>
+
+                    <div class="gap-vertical-3"></div>
+                    <div class="gap-vertical-3"></div>
+
+                    <div class="gap-vertical-20"></div>
+                    <div class="input-bar">
+                        <div class="option">
+                            <button id="button-print-from-file" class="button">
+                                Drukuj
+                            </button>
+                        </div>
+                        <div class="alert">
+                            <div id="alert-text-field-print-from-file"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
         <!--TABLE-->
 

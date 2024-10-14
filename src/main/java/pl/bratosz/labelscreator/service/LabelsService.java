@@ -88,13 +88,6 @@ public class LabelsService {
         return lc.createInZPL2(labels, labelsOrientation);
     }
 
-    public String createLabelsFor189(Label189 label189) {
-        LabelsCreator lc = new LabelsCreator(LabelsFormat.FOR_189_PLANT);
-        return lc.createInZPL2(label189);
-    }
-
-
-
     public String createLabelsFromCustomString(String customString, int labelsAmount) {
         String[] split = customString.split("\\s+");
         ZPLFontSize fontSize = null;
@@ -126,6 +119,20 @@ public class LabelsService {
         }
     }
 
+    public String createLabelsFor189(Label189 label189) {
+        LabelsCreator lc = new LabelsCreator(LabelsFormat.FOR_189_PLANT);
+        return lc.createInZPL2(label189);
+    }
 
+
+    public String createLabelsFromExcelFile(XSSFWorkbook workbook, LabelsFormat labelsFormat) {
+        if (labelsFormat.equals(LabelsFormat.FOR_189_PLANT)) {
+            List<Label189> labels = Label189Creator.get(workbook);
+            LabelsCreator lc = new LabelsCreator(LabelsFormat.FOR_189_PLANT);
+            return lc.createInZPL2For189Format(labels);
+        } else {
+            return "Nieobsługiwany format naklejek";
+        }
+    }
 }
 

@@ -114,6 +114,14 @@ public class ZPLWriter {
         }
     }
 
+    public String generate189(List<Label189> labels) {
+        String labelsToPrint = "";
+        for (Label189 l : labels) {
+            labelsToPrint += generate(l);
+        }
+        return labelsToPrint;
+    }
+
     public String generate(Label189 label189) {
         String middleText = label189.getMiddle();
 
@@ -143,7 +151,6 @@ public class ZPLWriter {
                 endLabel;
         return s;
     }
-
 
     public String generate(String content, ZPLFontSize fontSize) {
         positionCenteredContent = changeFontSize(positionCenteredContent, fontSize);

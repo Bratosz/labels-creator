@@ -115,8 +115,28 @@ $("#button-print-for-189").click(function () {
     }
 
     generateAndPrintLabelsFor189Plant(label189);
-
 })
+
+$("#button-download-template").click(function () {
+    const templateName = getSelectedTemplateName()
+        window.location.href = '/excel-templates/'+ templateName + '.xlsx';
+})
+
+$("#button-print-from-file").click(function () {
+    const labelsFormat = $('#input-labels-format-from-file').val()
+    const file = $('#input-excel-file')[0].files[0]
+
+    generateAndPrintLabelsFromFile(labelsFormat, file)
+})
+
+const getSelectedTemplateName = () => {
+    const selectedTemplateVal = $("#input-labels-format-from-file").val();
+    if (selectedTemplateVal === 'FOR_189_PLANT') {
+        return '189-szablon'
+    } else {
+        console.error("Nie wybrano szablonu")
+    }
+}
 
 $("#button-print-custom-content").click(function () {
     let inputTextField = $('#input-text-field');
@@ -330,6 +350,24 @@ function generateAndPrintLabelsFor189Plant(label189) {
         method: 'post',
         data: JSON.stringify(label189),
         contentType: "application/json",
+        success: function (ZPLGeneratedExpression) {
+            sendLabelsToPrinter(ZPLGeneratedExpression);
+            console.log(ZPLGeneratedExpression);
+            alert("Etykiety wysłano do drukarki");
+        }
+    })
+}
+
+function generateAndPrintLabelsFromFile(labelsFormat, file) {
+    const formData = new FormData()
+    formData.append('file', file)
+    $.ajax({
+        url: getActualLocation() +
+            `/labels/create-from-file/zpl2/${labelsFormat}`,
+        method: 'post',
+        data: formData,
+        contentType: false,
+        processData: false,
         success: function (ZPLGeneratedExpression) {
             sendLabelsToPrinter(ZPLGeneratedExpression);
             console.log(ZPLGeneratedExpression);

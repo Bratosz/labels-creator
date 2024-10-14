@@ -90,6 +90,14 @@ public class LabelsController {
         return labelsService.createSpreadSheet(employees, labelsFormat, editorSpreadSheetType);
     }
 
+    @PostMapping("/create-from-file/zpl2/{labelsFormat}")
+    public String createLabelsFromExcelFile(
+            @PathVariable LabelsFormat labelsFormat,
+            @RequestParam("file") MultipartFile file) throws IOException {
+        XSSFWorkbook workbook = extractWorkbookFromFile(file);
+        return labelsService.createLabelsFromExcelFile(workbook, labelsFormat);
+    }
+
     private XSSFWorkbook extractWorkbookFromFile(MultipartFile file) throws IOException {
         if (isFileFormatCorrect(file) && file.getSize() > 0) {
             return getXSSFWorkbook(file);
@@ -105,7 +113,6 @@ public class LabelsController {
             throw new WrongFileFormatException(getFileExtension(file));
         }
     }
-
 
     private boolean isFileFormatCorrect(MultipartFile file) {
         String fileName = file.getOriginalFilename();
