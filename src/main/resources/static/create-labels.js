@@ -239,7 +239,7 @@ function displayAlert(alert, content) {
 
 function isPlantNumberCorrect(plantNumber, labelsFormat) {
     if ((plantNumber > 99)
-        && (plantNumber < 1000)) {
+        && (plantNumber < 10000)) {
         return true;
     } else if (labelsFormat == "FIRST_NAME_AND_LAST_NAME") {
         return true;
